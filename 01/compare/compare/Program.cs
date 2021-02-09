@@ -24,8 +24,8 @@ namespace compare
 
             string firstFileName = args[0] + ".txt";
             string secondFileName = args[1] + ".txt";
-            List<String> firstFile = File.ReadAllLines( firstFileName, Encoding.UTF8 ).ToList();
-            List<String> secondFile = File.ReadAllLines( secondFileName, Encoding.UTF8 ).ToList();
+            List<String> firstFile = File.ReadAllLines( firstFileName ).ToList();
+            List<String> secondFile = File.ReadAllLines( secondFileName ).ToList();
             int countLines = firstFile.Count;
 
             if ( countLines > secondFile.Count )
