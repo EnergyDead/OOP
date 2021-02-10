@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace findtext
 {
@@ -14,8 +13,8 @@ namespace findtext
             }
             
             string fileName = args[0] + ".txt";
-            string textToSearch = args[ 1 ];
-            string[] fileContent = File.ReadAllLines( fileName ).ToArray();
+            string textToSearch = args[1];
+            string[] fileContent = File.ReadAllLines( fileName );
 
             if ( !string.Join( "\n", fileContent ).Contains( textToSearch ) ) 
             { 
