@@ -9,21 +9,29 @@ namespace copyfile
         {
             if ( args.Length != 2 )
             {
+                Console.WriteLine( "Invalid arguments count" );
+                Console.WriteLine( "Uasge: copyfile.exe <input file name> <output file name>" );
+
                 return 1;
             }
+            string pathToWorkDirectory = Directory.GetCurrentDirectory();
+            string pathToProgram = Directory.GetParent( pathToWorkDirectory ).Parent.Parent.FullName;
 
-            string inpFileName = args[0] + ".txt";
-            string outFileName = args[1] + ".txt";
+            string inputFilePath = Path.Combine( pathToProgram, args[0] );
+            string outputFilePath = Path.Combine( pathToProgram,  args[1] );
 
-            try
+            if ( inputFilePath != outputFilePath )
             {
-                File.Copy( Path.Combine( inpFileName ), Path.Combine( outFileName ) );
-            }
-            catch ( Exception error )
-            {
-                Console.WriteLine( error.Message );
-                
-                return 1;
+                try
+                {
+                    File.Copy(Path.Combine(inputFilePath), Path.Combine(outputFilePath), true);
+                }
+                catch ( Exception error )
+                {
+                    Console.WriteLine(error.Message);
+
+                    return 1;
+                }
             }
 
             return 0;

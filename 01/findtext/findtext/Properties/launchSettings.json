@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "findtext": {
+      "commandName": "Project",
+      "commandLineArgs": "NonEmpty.txt \"project\""
+    }
+  }
+}
