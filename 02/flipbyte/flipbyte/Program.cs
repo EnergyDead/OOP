@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace flipbyte
 {
@@ -8,14 +9,13 @@ namespace flipbyte
     {
         static int Main( string[] args )
         {
-            args = new[] { "6" };
             try
             {
                 IsCorrectArgument( args[0] );
             } 
             catch ( Exception error )
             {
-                Console.WriteLine( error );
+                Console.WriteLine( error.Message );
 
                 return 1;
             }
@@ -28,6 +28,8 @@ namespace flipbyte
             bit.CopyTo(result, 0);
 
             Console.WriteLine( result[0] );
+            File.WriteAllText( args[1], result[0].ToString() );
+
             return 0;
         }
 
