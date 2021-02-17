@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "multmatrix": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\rusva\\solutions\\oop\\oop\\03\\multmatrix\\multmatrix\\First.txt\" \"C:\\Users\\rusva\\solutions\\oop\\oop\\03\\multmatrix\\multmatrix\\Second.txt\""
+    }
+  }
+}
