@@ -9,9 +9,10 @@ namespace flipbyte
     {
         static int Main( string[] args )
         {
+            int number;
             try
             {
-                IsCorrectArgument( args[0] );
+                number = IsCorrectArgument( args[0] );
             } 
             catch ( Exception error )
             {
@@ -20,12 +21,11 @@ namespace flipbyte
                 return 1;
             }
 
-            int number = Convert.ToInt32( args[0] );
-            byte[] bytArray = BitConverter.GetBytes(number);
+            byte[] bytArray = BitConverter.GetBytes( number );
             BitArray bit = new BitArray( bytArray );
             int[] result = new int[1];
-            ReversBit(bit);
-            bit.CopyTo(result, 0);
+            ReversBit( bit );
+            bit.CopyTo( result, 0 );
 
             Console.WriteLine( result[0] );
             File.WriteAllText( args[1], result[0].ToString() );
@@ -33,13 +33,15 @@ namespace flipbyte
             return 0;
         }
 
-        static void IsCorrectArgument( string args )
+        static int IsCorrectArgument( string args )
         {
             int number = Convert.ToInt32( args );
             if ( ( 255 < number ) || ( number < 0 )  ) 
             {
                 throw new Exception( "Argument is not in 0..255" );
             }
+
+            return number;
         }
 
         static BitArray ReversBit( BitArray number )
