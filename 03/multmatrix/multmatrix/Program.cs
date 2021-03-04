@@ -21,12 +21,25 @@ namespace multmatrix
             string secondTerm = File.ReadAllText( args[1] );
 
             //read matrix in input file
-            double[][] firstMatrix = MatrixCreate( firstTerm );
-            double[][] secondMatrix = MatrixCreate( secondTerm );
+            double[][] firstMatrix;
+            double[][] secondMatrix;
+            try
+            {
+                firstMatrix = ReadMatrix( firstTerm );
+                secondMatrix = ReadMatrix( secondTerm );
+            }
+            catch ( Exception error )
+            {
+                Console.WriteLine( error.Message );
+                
+                return 1;
+            }
 
             double[][] resultMatrix = new double[3][];
-            for (int i = 0; i < 3; ++i)
+            for ( int i = 0; i < 3; ++i )
+            {
                 resultMatrix[i] = new double[3];
+            }
 
             Parallel.For(0, firstMatrix.Length, i =>
             {
@@ -39,33 +52,41 @@ namespace multmatrix
                 }
             });
 
-            Console.WriteLine( MatrixAsString(resultMatrix) );
+            Console.WriteLine( MatrixAsString( resultMatrix ) );
 
             return 0;
         }
 
-        static double[][] MatrixCreate( string matrix )
+        static double[][] ReadMatrix( string matrix )
         {
             double[][] resultMatrix = new double[3][];
             int i = 0;
+            while ( matrix.Contains( "  " ) )
+            {
+                matrix = matrix.Replace( "  ", " " );
+            }
             foreach ( string row in matrix.Trim().Split( '\n' ) )
             {
-                resultMatrix[i] = row.Split( ' ' ).Select( col => Convert.ToDouble( col.Trim() ) ).ToArray();
+                resultMatrix[i] = row.Trim().Split( ' ' ).Select( Convert.ToDouble ).ToArray();
                 i++;
             }
+
             return resultMatrix;
         }
 
-        static string MatrixAsString(double[][] matrix)
+        static string MatrixAsString( double[][] matrix )
         {
-            string s = "";
-            for (int i = 0; i < matrix.Length; ++i)
+            string result = String.Empty;
+            for ( int i = 0; i < matrix.Length; ++i )
             {
-                for (int j = 0; j < matrix[i].Length; ++j)
-                    s += matrix[i][j].ToString("F3").PadLeft(8) + " ";
-                s += Environment.NewLine;
+                for ( int j = 0; j < matrix[ i ].Length; ++j )
+                {
+                    result += matrix[i][j].ToString("F3").PadLeft(8) + " ";
+                }
+                result += Environment.NewLine;
             }
-            return s;
+
+            return result;
         }
     }
 }
