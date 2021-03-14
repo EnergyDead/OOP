@@ -1,7 +1,8 @@
 {
   "profiles": {
     "flipbyte": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "123"
     }
   }
 }
