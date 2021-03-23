@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "copyfile": {
-      "commandName": "Project",
-      "commandLineArgs": "input.txt output.txt",
-      "sqlDebugging": true
-    }
-  }
-}
