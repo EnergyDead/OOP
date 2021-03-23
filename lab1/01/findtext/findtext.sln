@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "findtext", "findtext\findtext.csproj", "{858B3FBC-091A-4F0D-9A37-C25CDC68C0DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{858B3FBC-091A-4F0D-9A37-C25CDC68C0DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858B3FBC-091A-4F0D-9A37-C25CDC68C0DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858B3FBC-091A-4F0D-9A37-C25CDC68C0DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858B3FBC-091A-4F0D-9A37-C25CDC68C0DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D454AAA6-81C3-4566-83C1-6AA69F518B08}
+	EndGlobalSection
+EndGlobal
