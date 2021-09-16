@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+п»їusing Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MySimpleCar.Tests
 {
@@ -6,11 +6,14 @@ namespace MySimpleCar.Tests
     public class CarTest
     {
         [TestMethod]
-        public void CreateCar()
+        public void InfoAboutCar()
         {
             Car car = new();
 
-            Assert.AreEqual( "Двигатель выключен. Направление - стоит. Скорость: 0. Передача: stay", car.Info() );
+            Assert.AreEqual( "РІС‹РєР»СЋС‡РµРЅ", car.GetEngingInfo() );
+            Assert.AreEqual( "0", car.GetSpeed() );
+            Assert.AreEqual( "stay", car.GetGrear() );
+            Assert.AreEqual( "СЃС‚РѕРёС‚", car.DirectionOfTravel() );
         }
 
         [TestMethod]
@@ -20,16 +23,16 @@ namespace MySimpleCar.Tests
 
             car.EndingOff();
 
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(-1) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(0) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(1) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(2) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(3) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(4) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(5) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(-1) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(0) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(1) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(2) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(3) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(4) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(5) );
             
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(-12) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear(12) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(-12) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear(12) );
         }
 
         [TestMethod]
@@ -39,16 +42,16 @@ namespace MySimpleCar.Tests
 
             car.EndingOn();
 
-            Assert.AreEqual( "успешно", car.SetGear( -1 ) );
-            Assert.AreEqual( "успешно", car.SetGear( 0 ) );
-            Assert.AreEqual( "успешно", car.SetGear( 1 ) );
-            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 2 ) );
-            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 3 ) );
-            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 4 ) );
-            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 5 ) );
+            Assert.AreEqual( "ГіГ±ГЇГҐГёГ­Г®", car.SetGear( -1 ) );
+            Assert.AreEqual( "ГіГ±ГЇГҐГёГ­Г®", car.SetGear( 0 ) );
+            Assert.AreEqual( "ГіГ±ГЇГҐГёГ­Г®", car.SetGear( 1 ) );
+            Assert.AreEqual( "Г±ГЄГ®Г°Г®Г±ГІГј Г ГўГІГ® Г­ГҐ Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ", car.SetGear( 2 ) );
+            Assert.AreEqual( "Г±ГЄГ®Г°Г®Г±ГІГј Г ГўГІГ® Г­ГҐ Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ", car.SetGear( 3 ) );
+            Assert.AreEqual( "Г±ГЄГ®Г°Г®Г±ГІГј Г ГўГІГ® Г­ГҐ Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ", car.SetGear( 4 ) );
+            Assert.AreEqual( "Г±ГЄГ®Г°Г®Г±ГІГј Г ГўГІГ® Г­ГҐ Гў Г¤ГЁГ ГЇГ Г§Г®Г­ГҐ", car.SetGear( 5 ) );
 
-            Assert.AreEqual( "Двигатель не включен", car.SetGear( -12 ) );
-            Assert.AreEqual( "Двигатель не включен", car.SetGear( 12 ) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear( -12 ) );
+            Assert.AreEqual( "Г„ГўГЁГЈГ ГІГҐГ«Гј Г­ГҐ ГўГЄГ«ГѕГ·ГҐГ­", car.SetGear( 12 ) );
 
         }
     }

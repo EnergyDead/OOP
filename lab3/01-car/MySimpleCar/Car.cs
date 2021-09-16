@@ -21,10 +21,22 @@ namespace MySimpleCar
             SetTransmission();
         }
 
-        public string Info()
+        public string GetEngingInfo()
         {
-            return "Двигатель " + GetEngingInfo() + ". Направление - " + DirectionOfTravel() + ". Скорость: "  + GetSpeed() + ". Передача: " + GetGrear();
+            return _isEnging ? "включен" : "выключен";
         }
+
+        public string GetSpeed()
+        {
+            return _speed.ToString();
+        }
+
+        public string GetGrear()
+        {
+            return _gear.ToString();
+        }
+
+
 
         public bool EndingOn()
         {
@@ -114,7 +126,7 @@ namespace MySimpleCar
             return newSpeed + " за пределами";
         }
 
-        private string DirectionOfTravel()
+        public string DirectionOfTravel()
         {
             if ( _speed == 0 )
             {
@@ -127,21 +139,6 @@ namespace MySimpleCar
             }
 
             return "вперед";
-        }
-
-        private string GetEngingInfo()
-        {
-            return _isEnging ? "включен" : "выключен";
-        }
-
-        private string GetSpeed()
-        {
-            return _speed.ToString();
-        }
-
-        private string GetGrear()
-        {
-            return _gear.ToString();
         }
 
         private struct Transmission
