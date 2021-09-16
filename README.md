@@ -1,2 +1,4 @@
 # oop
-laboratory work solutions
+laboratory work solutions 
+***
+описание внури лабораторных
