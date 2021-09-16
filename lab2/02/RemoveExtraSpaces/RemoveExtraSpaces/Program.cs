@@ -8,7 +8,6 @@ namespace RemoveExtraSpaces
         {
             string arg = args[ 0 ].Trim();
             Console.WriteLine( RemoveExtraSpaces( arg ) );
-
             return 0;
         }
 
