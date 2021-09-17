@@ -12,8 +12,8 @@ namespace MySimpleCar.Tests
 
             Assert.AreEqual( "выключен", car.GetEngingInfo() );
             Assert.AreEqual( "0", car.GetSpeed() );
-            Assert.AreEqual( "stay", car.GetGrear() );
-            Assert.AreEqual( "стоит", car.DirectionOfTravel() );
+            Assert.AreEqual( Gear.stay, car.GetGrear() );
+            Assert.AreEqual( Direction.stay, car.DirectionOfTravel() );
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace MySimpleCar.Tests
             car.SetSpeed( 10 );
 
             Assert.AreEqual( "10", car.GetSpeed() );
-            Assert.AreEqual( "first", car.GetGrear() );
+            Assert.AreEqual( Gear.first, car.GetGrear() );
 
             Assert.AreEqual( "скорость больше 0", car.EndingOff() );
             Assert.AreEqual( "включен", car.GetEngingInfo() );
@@ -115,35 +115,35 @@ namespace MySimpleCar.Tests
             car.SetGear( 1 );
             car.SetSpeed( 30 );
 
-            Assert.AreEqual( "first", car.GetGrear() );
+            Assert.AreEqual( Gear.first, car.GetGrear() );
             Assert.AreEqual( "30", car.GetSpeed() );
 
             car.SetGear( 2 );
             car.SetSpeed( 50 );
-            Assert.AreEqual( "second", car.GetGrear() );
+            Assert.AreEqual( Gear.second, car.GetGrear() );
             Assert.AreEqual( "50", car.GetSpeed() );
 
             car.SetGear( 3 );
             car.SetSpeed( 60 );
-            Assert.AreEqual( "therth", car.GetGrear() );
+            Assert.AreEqual( Gear.therth, car.GetGrear() );
             Assert.AreEqual( "60", car.GetSpeed() ); car.SetGear( 3 );
 
             car.SetGear( 4 );
             car.SetSpeed( 90 );
-            Assert.AreEqual( "forth", car.GetGrear() );
+            Assert.AreEqual( Gear.forth, car.GetGrear() );
             Assert.AreEqual( "90", car.GetSpeed() );
             
             car.SetGear( 5 );
             car.SetSpeed( 150 );
-            Assert.AreEqual( "fisth", car.GetGrear() );
+            Assert.AreEqual( Gear.fisth, car.GetGrear() );
             Assert.AreEqual( "150", car.GetSpeed() );
 
             car.SetGear( 0 );
-            Assert.AreEqual( "stay", car.GetGrear() );
+            Assert.AreEqual( Gear.stay, car.GetGrear() );
 
             car.SetSpeed( 50 );
             car.SetGear( 5 );
-            Assert.AreEqual( "fisth", car.GetGrear() );
+            Assert.AreEqual( Gear.fisth, car.GetGrear() );
             Assert.AreEqual( "50", car.GetSpeed() );
         }
 
@@ -156,23 +156,23 @@ namespace MySimpleCar.Tests
             car.SetGear( -1 );
             car.SetSpeed( 20 );
 
-            Assert.AreEqual( "back", car.GetGrear() );
+            Assert.AreEqual( Gear.back, car.GetGrear() );
             Assert.AreEqual( "20", car.GetSpeed() );
 
             car.SetSpeed( 0 );
-            Assert.AreEqual( "ошибка, с задней передачи можно переключить только на нейтральную", car.SetGear( 1 ) );
+            Assert.AreEqual( "успешно", car.SetGear( 1 ) );
 
             car.SetGear( 0 );
             car.SetGear( 1 );
-            Assert.AreEqual( "ошибка, задную передачу можно можно включить только с нейтральной", car.SetGear( -1 ) );
+            Assert.AreEqual( "успешно", car.SetGear( -1 ) );
 
-            car.SetSpeed( 30 );
-            car.SetGear( 3 );
-            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( -1 ) );
+            Assert.AreEqual( "30 за пределами", car.SetSpeed( 30 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 3 ) );
+            Assert.AreEqual( "успешно", car.SetGear( -1 ) );
 
-            car.SetGear( 2 );
-            car.SetSpeed( 20 );
-            Assert.AreEqual( "ошибка, задную передачу можно можно включить только с нейтральной", car.SetGear( -1 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 2 ) );
+            Assert.AreEqual( "", car.SetSpeed( 20 ) );
+            Assert.AreEqual( "ошибка, с задней передачи можно переключить на 1 только при 0 скорости", car.SetGear( -1 ) );
         }
     }
 }

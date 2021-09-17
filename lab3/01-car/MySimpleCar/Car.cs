@@ -11,14 +11,14 @@ namespace MySimpleCar
         private bool _isEnging;
         private int _speed;
         private Gear _gear;
-        private List<Transmission> _transmissions = new();
+        private Direction _direction;
 
         public Car()
         {
-            _isEnging = false;
-            _speed = 0;
-            _gear = Gear.stay;
-            SetTransmission();
+            EndingOff();
+            SetSpeed( 0 );
+            SetGear( 0 );
+            SetDireaction();
         }
 
         public string GetEngingInfo()
@@ -31,12 +31,15 @@ namespace MySimpleCar
             return _speed.ToString();
         }
 
-        public string GetGrear()
+        public Gear GetGrear()
         {
-            return _gear.ToString();
+            return _gear;
         }
 
-
+        public Direction GetDirection()
+        {
+            return _direction;
+        }
 
         public bool EndingOn()
         {
@@ -82,47 +85,34 @@ namespace MySimpleCar
                 _ => Gear.fail,
             };
 
-            var transmissions = _transmissions.Select( t => t ).Where( t => t._gear == gear );
-
-            if ( transmissions.Count() != 1 )
+            if ( gear == Gear.fail )
             {
                 return "авто не имеет такую скорость";
             }
+            var border = GetBorder( gear );
 
-            var transmission = transmissions.First();
-
-            if ( _speed < transmission._downBorder || _speed > transmission._upBorder )
+            if ( _speed < border._downBorder || _speed > border._upBorder )
             {
                 return "скорость авто не в диапазоне";
             }
 
-            if ( GetGrear() == Gear.back.ToString() && transmission._gear != Gear.stay )
+            if ( GetGrear() == Gear.back && gear != Gear.first && GetDirection() != Direction.stay )
             {
-                return "ошибка, с задней передачи можно переключить только на нейтральную";
+                return "ошибка, с задней передачи можно переключить на 1 только при 0 скорости";
             }
 
-            if ( transmission._gear == Gear.back && GetGrear() != Gear.stay.ToString() )
+            if ( gear == Gear.back && GetDirection() == Direction.back )
             {
-                return "ошибка, задную передачу можно можно включить только с нейтральной";
+                return "ошибка, задную передачу можно можно включить только с 0 скоростью";
             }
 
+            if ( GetDirection() == Direction.back && gear == Gear.first )
+            {
+                return "нельзя установить 1 скорость, пока машина движется назад";
+            }
             _gear = gear;
 
             return "успешно";
-
-
-        }
-
-
-        private Transmission error( Gear gear )
-        {
-            var transmissions = _transmissions.Select( t => t ).Where( t => t._gear == gear );
-
-            if ( transmissions.Count() != 1 )
-            {
-            }
-
-            return transmissions.First();
         }
 
         public string SetSpeed( int newSpeed )
@@ -132,17 +122,18 @@ namespace MySimpleCar
                 return "двигатель не запущен";
             }
 
-            if ( GetGrear() == Gear.stay.ToString() && Convert.ToInt32( GetSpeed() ) < newSpeed )
+            if ( GetGrear() == Gear.stay && Convert.ToInt32( GetSpeed() ) < newSpeed )
             {
 
                 return "нейтральная передача";
             }
 
-            var checkBorder = _transmissions.Select( t => t ).Where( t => t._gear == _gear ).First();
+            var checkBorder = GetBorder( GetGrear() );
 
             if ( newSpeed >= checkBorder._downBorder && newSpeed <= checkBorder._upBorder )
             {
                 _speed = newSpeed;
+                SetDireaction();
 
                 return String.Empty;
             }
@@ -150,47 +141,60 @@ namespace MySimpleCar
             return newSpeed + " за пределами";
         }
 
-        public string DirectionOfTravel()
+        private void SetDireaction()
         {
-            if ( _speed == 0 )
+            if ( GetSpeed() == 0.ToString() )
             {
-                return "стоит";
+                _direction = Direction.stay;
             }
-
-            if ( _gear == Gear.back )
+            else if ( GetGrear() == Gear.back )
             {
-                return "назад";
+                _direction = Direction.back;
             }
-
-            return "вперед";
+            else
+            {
+                _direction = Direction.forward;
+            }
         }
 
-        private struct Transmission
+        public Direction DirectionOfTravel()
         {
-            public Gear _gear { get; set; }
+            return _direction;
+        }
+
+        private Border GetBorder( Gear gear )
+        {
+            return gear switch
+            {
+                Gear.back => SetBorder( 0, 20 ),
+                Gear.stay => SetBorder( 0, 150 ),
+                Gear.first => SetBorder( 0, 30 ),
+                Gear.second => SetBorder( 20, 50 ),
+                Gear.therth => SetBorder( 30, 60 ),
+                Gear.forth => SetBorder( 40, 90 ),
+                Gear.fisth => SetBorder( 50, 150 ),
+                _ => SetBorder( 0, 0 ),
+            };
+        }
+
+        private Border SetBorder(int down, int up )
+        {
+            return new Border { _downBorder = down, _upBorder = up };
+        }
+
+        private struct Border
+        {
             public int _upBorder { get; set; }
             public int _downBorder { get; set; }
-
-            public Transmission( Gear gear, int downBorder, int upBorder )
-            {
-                _gear = gear;
-                _downBorder = downBorder;
-                _upBorder = upBorder;
-            }
-        }
-
-        private void SetTransmission()
-        {
-            _transmissions.Add( new Transmission( Gear.back, 0, 20 ) );
-            _transmissions.Add( new Transmission( Gear.stay, 0, 150 ) );
-            _transmissions.Add( new Transmission( Gear.first, 0, 30 ) );
-            _transmissions.Add( new Transmission( Gear.second, 20, 50 ) );
-            _transmissions.Add( new Transmission( Gear.therth, 30, 60 ) );
-            _transmissions.Add( new Transmission( Gear.forth, 40, 90 ) );
-            _transmissions.Add( new Transmission( Gear.fisth, 50, 150 ) );
         }
     }
 
+    public enum Direction
+    {
+        stay,
+        back,
+        forward
+    }
     public enum Gear
     {
         back = -1,
