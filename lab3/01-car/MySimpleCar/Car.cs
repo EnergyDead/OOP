@@ -57,7 +57,9 @@ namespace MySimpleCar
                 return "передача не является нейтральной";
             }
 
-            return String.Empty;
+            _isEnging = false;
+
+            return "успешно";
         }
 
         public string SetGear( int newGear )
@@ -68,44 +70,59 @@ namespace MySimpleCar
                 return "Двигатель не включен";
             }
 
-            Gear gear = Gear.fail;
-            switch ( newGear )
+            Gear gear = newGear switch
             {
-                case -1:
-                    gear = Gear.back;
-                    break;
-                case 0:
-                    gear = Gear.stay;
-                    break;
-                case 1:
-                    gear = Gear.first;
-                    break;
-                case 2:
-                    gear = Gear.second;
-                    break;
-                case 3:
-                    gear = Gear.therth;
-                    break;
-                case 4:
-                    gear = Gear.forth;
-                    break;
-                case 5:
-                    gear = Gear.fisth;
-                    break;
-                default:
-                    break;
+                -1 => Gear.back,
+                0 => Gear.stay,
+                1 => Gear.first,
+                2 => Gear.second,
+                3 => Gear.therth,
+                4 => Gear.forth,
+                5 => Gear.fisth,
+                _ => Gear.fail,
+            };
+
+            var transmissions = _transmissions.Select( t => t ).Where( t => t._gear == gear );
+
+            if ( transmissions.Count() != 1 )
+            {
+                return "авто не имеет такую скорость";
             }
 
-            Transmission transmission = _transmissions.Select( t => t).Where( t => t._gear == gear).First();
+            var transmission = transmissions.First();
 
-            if ( _speed >= transmission._downBorder && _speed <= transmission._upBorder ) 
+            if ( _speed < transmission._downBorder || _speed > transmission._upBorder )
             {
-                _gear = gear;
-
-                return "успешно";
+                return "скорость авто не в диапазоне";
             }
 
-            return "скорость авто не в диапазоне";
+            if ( GetGrear() == Gear.back.ToString() && transmission._gear != Gear.stay )
+            {
+                return "ошибка, с задней передачи можно переключить только на нейтральную";
+            }
+
+            if ( transmission._gear == Gear.back && GetGrear() != Gear.stay.ToString() )
+            {
+                return "ошибка, задную передачу можно можно включить только с нейтральной";
+            }
+
+            _gear = gear;
+
+            return "успешно";
+
+
+        }
+
+
+        private Transmission error( Gear gear )
+        {
+            var transmissions = _transmissions.Select( t => t ).Where( t => t._gear == gear );
+
+            if ( transmissions.Count() != 1 )
+            {
+            }
+
+            return transmissions.First();
         }
 
         public string SetSpeed( int newSpeed )
@@ -114,9 +131,16 @@ namespace MySimpleCar
             {
                 return "двигатель не запущен";
             }
+
+            if ( GetGrear() == Gear.stay.ToString() && Convert.ToInt32( GetSpeed() ) < newSpeed )
+            {
+
+                return "нейтральная передача";
+            }
+
             var checkBorder = _transmissions.Select( t => t ).Where( t => t._gear == _gear ).First();
 
-            if ( newSpeed > checkBorder._downBorder || newSpeed < checkBorder._upBorder )
+            if ( newSpeed >= checkBorder._downBorder && newSpeed <= checkBorder._upBorder )
             {
                 _speed = newSpeed;
 

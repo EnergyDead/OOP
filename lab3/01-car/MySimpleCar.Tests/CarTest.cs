@@ -23,36 +23,156 @@ namespace MySimpleCar.Tests
 
             car.EndingOff();
 
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(-1) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(0) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(1) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(2) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(3) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(4) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(5) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(-1) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(0) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(1) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(2) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(3) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(4) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(5) );
             
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(-12) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear(12) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(-12) );
+            Assert.AreEqual( "Двигатель не включен", car.SetGear(12) );
         }
 
         [TestMethod]
-        public void StepGearInOnEnging()
+        public void StepGearInOnEngingCar()
         {
             Car car = new();
 
             car.EndingOn();
 
-            Assert.AreEqual( "óñïåøíî", car.SetGear( -1 ) );
-            Assert.AreEqual( "óñïåøíî", car.SetGear( 0 ) );
-            Assert.AreEqual( "óñïåøíî", car.SetGear( 1 ) );
-            Assert.AreEqual( "ñêîðîñòü àâòî íå â äèàïàçîíå", car.SetGear( 2 ) );
-            Assert.AreEqual( "ñêîðîñòü àâòî íå â äèàïàçîíå", car.SetGear( 3 ) );
-            Assert.AreEqual( "ñêîðîñòü àâòî íå â äèàïàçîíå", car.SetGear( 4 ) );
-            Assert.AreEqual( "ñêîðîñòü àâòî íå â äèàïàçîíå", car.SetGear( 5 ) );
+            Assert.AreEqual( "успешно", car.SetGear( -1 ) );
+            Assert.AreEqual( "успешно", car.SetGear( 0 ) );
+            Assert.AreEqual( "успешно", car.SetGear( 1 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 2 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 3 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 4 ) );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 5 ) );
 
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear( -12 ) );
-            Assert.AreEqual( "Äâèãàòåëü íå âêëþ÷åí", car.SetGear( 12 ) );
+            Assert.AreEqual( "авто не имеет такую скорость", car.SetGear( -12 ) );
+            Assert.AreEqual( "авто не имеет такую скорость", car.SetGear( 12 ) );
+        }
 
+        [TestMethod]
+        public void SetSpeedCar()
+        {
+            Car car = new();
+
+            Assert.AreEqual( "двигатель не запущен", car.SetSpeed( 10 ) );
+            Assert.AreEqual( "0", car.GetSpeed() );
+
+            car.EndingOn();
+            Assert.AreEqual( "нейтральная передача", car.SetSpeed( 10 ) );
+            Assert.AreEqual( "0", car.GetSpeed() );
+
+            Assert.AreEqual( "-10 за пределами", car.SetSpeed( -10 ) );
+            Assert.AreEqual( "0", car.GetSpeed() );
+
+            car.SetGear( 1 );
+            Assert.AreEqual( "", car.SetSpeed( 1 ) );
+            Assert.AreEqual( "", car.SetSpeed( 10 ) );
+            Assert.AreEqual( "", car.SetSpeed( 5 ) );
+            Assert.AreEqual( "", car.SetSpeed( 0 ) );
+            Assert.AreEqual( "", car.SetSpeed( 30 ) );
+
+            car.SetGear( 0 );
+            Assert.AreEqual( "", car.SetSpeed( 29 ) );
+            Assert.AreEqual( "", car.SetSpeed( 0 ) );
+            Assert.AreEqual( "-10 за пределами", car.SetSpeed( -10 ) );
+        }
+
+        [TestMethod]
+        public void OffEndingCar()
+        {
+            Car car = new();
+
+            car.EndingOn();
+            car.SetGear( 1 );
+            car.SetSpeed( 10 );
+
+            Assert.AreEqual( "10", car.GetSpeed() );
+            Assert.AreEqual( "first", car.GetGrear() );
+
+            Assert.AreEqual( "скорость больше 0", car.EndingOff() );
+            Assert.AreEqual( "включен", car.GetEngingInfo() );
+
+            car.SetSpeed( 0 );
+            Assert.AreEqual( "передача не является нейтральной", car.EndingOff() );
+            Assert.AreEqual( "включен", car.GetEngingInfo() );
+
+            car.SetGear( 0 );
+            Assert.AreEqual( "успешно", car.EndingOff() );
+            Assert.AreEqual( "выключен", car.GetEngingInfo() );
+        }
+
+        [TestMethod]
+        public void AllGearCar()
+        {
+            Car car = new();
+
+            car.EndingOn();
+            car.SetGear( 1 );
+            car.SetSpeed( 30 );
+
+            Assert.AreEqual( "first", car.GetGrear() );
+            Assert.AreEqual( "30", car.GetSpeed() );
+
+            car.SetGear( 2 );
+            car.SetSpeed( 50 );
+            Assert.AreEqual( "second", car.GetGrear() );
+            Assert.AreEqual( "50", car.GetSpeed() );
+
+            car.SetGear( 3 );
+            car.SetSpeed( 60 );
+            Assert.AreEqual( "therth", car.GetGrear() );
+            Assert.AreEqual( "60", car.GetSpeed() ); car.SetGear( 3 );
+
+            car.SetGear( 4 );
+            car.SetSpeed( 90 );
+            Assert.AreEqual( "forth", car.GetGrear() );
+            Assert.AreEqual( "90", car.GetSpeed() );
+            
+            car.SetGear( 5 );
+            car.SetSpeed( 150 );
+            Assert.AreEqual( "fisth", car.GetGrear() );
+            Assert.AreEqual( "150", car.GetSpeed() );
+
+            car.SetGear( 0 );
+            Assert.AreEqual( "stay", car.GetGrear() );
+
+            car.SetSpeed( 50 );
+            car.SetGear( 5 );
+            Assert.AreEqual( "fisth", car.GetGrear() );
+            Assert.AreEqual( "50", car.GetSpeed() );
+        }
+
+        [TestMethod]
+        public void BackDrive()
+        {
+            Car car = new();
+
+            car.EndingOn();
+            car.SetGear( -1 );
+            car.SetSpeed( 20 );
+
+            Assert.AreEqual( "back", car.GetGrear() );
+            Assert.AreEqual( "20", car.GetSpeed() );
+
+            car.SetSpeed( 0 );
+            Assert.AreEqual( "ошибка, с задней передачи можно переключить только на нейтральную", car.SetGear( 1 ) );
+
+            car.SetGear( 0 );
+            car.SetGear( 1 );
+            Assert.AreEqual( "ошибка, задную передачу можно можно включить только с нейтральной", car.SetGear( -1 ) );
+
+            car.SetSpeed( 30 );
+            car.SetGear( 3 );
+            Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( -1 ) );
+
+            car.SetGear( 2 );
+            car.SetSpeed( 20 );
+            Assert.AreEqual( "ошибка, задную передачу можно можно включить только с нейтральной", car.SetGear( -1 ) );
         }
     }
 }
