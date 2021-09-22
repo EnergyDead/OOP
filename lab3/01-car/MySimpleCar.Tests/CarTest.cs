@@ -6,10 +6,38 @@ namespace MySimpleCar.Tests
     public class CarTest
     {
         [TestMethod]
-        public void InfoAboutCar()
+        public void EndingOnCar()
         {
+            // Arrange
             Car car = new();
 
+            // Act
+            Assert.IsTrue( car.EndingOn() );
+
+            // Assert
+            Assert.AreEqual( "включен", car.GetEngingInfo() );
+        }
+
+        [TestMethod]
+        public void EndingOffCar()
+        {
+            // Arrange
+            Car car = new();
+
+            // Act
+            Assert.AreEqual( "успешно", car.EndingOff() );
+
+            // Assert
+            Assert.AreEqual( "выключен", car.GetEngingInfo() );
+        }
+
+        [TestMethod]
+        public void InfoAboutCar()
+        {
+            // Arrange
+            Car car = new();
+
+            // Assert
             Assert.AreEqual( "выключен", car.GetEngingInfo() );
             Assert.AreEqual( "0", car.GetSpeed() );
             Assert.AreEqual( Gear.stay, car.GetGrear() );
@@ -19,10 +47,13 @@ namespace MySimpleCar.Tests
         [TestMethod]
         public void StepGearInOffEngingCar()
         {
+            // Arrange
             Car car = new();
 
+            // Act
             car.EndingOff();
 
+            // Assert
             Assert.AreEqual( "Двигатель не включен", car.SetGear(-1) );
             Assert.AreEqual( "Двигатель не включен", car.SetGear(0) );
             Assert.AreEqual( "Двигатель не включен", car.SetGear(1) );
@@ -38,13 +69,16 @@ namespace MySimpleCar.Tests
         [TestMethod]
         public void StepGearInOnEngingCar()
         {
+            // Arrange
             Car car = new();
 
+            // Act
             car.EndingOn();
 
             Assert.AreEqual( "успешно", car.SetGear( -1 ) );
             Assert.AreEqual( "успешно", car.SetGear( 0 ) );
             Assert.AreEqual( "успешно", car.SetGear( 1 ) );
+            Assert.AreEqual( "успешно", car.SetGear( -1 ) );
             Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 2 ) );
             Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 3 ) );
             Assert.AreEqual( "скорость авто не в диапазоне", car.SetGear( 4 ) );
@@ -57,6 +91,7 @@ namespace MySimpleCar.Tests
         [TestMethod]
         public void SetSpeedCar()
         {
+            // Arrange
             Car car = new();
 
             Assert.AreEqual( "двигатель не запущен", car.SetSpeed( 10 ) );
@@ -70,21 +105,22 @@ namespace MySimpleCar.Tests
             Assert.AreEqual( "0", car.GetSpeed() );
 
             car.SetGear( 1 );
-            Assert.AreEqual( "", car.SetSpeed( 1 ) );
-            Assert.AreEqual( "", car.SetSpeed( 10 ) );
-            Assert.AreEqual( "", car.SetSpeed( 5 ) );
-            Assert.AreEqual( "", car.SetSpeed( 0 ) );
-            Assert.AreEqual( "", car.SetSpeed( 30 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 1 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 10 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 5 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 0 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 30 ) );
 
             car.SetGear( 0 );
-            Assert.AreEqual( "", car.SetSpeed( 29 ) );
-            Assert.AreEqual( "", car.SetSpeed( 0 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 29 ) );
+            Assert.AreEqual( string.Empty, car.SetSpeed( 0 ) );
             Assert.AreEqual( "-10 за пределами", car.SetSpeed( -10 ) );
         }
 
         [TestMethod]
         public void OffEndingCar()
         {
+            // Arrange
             Car car = new();
 
             car.EndingOn();
@@ -109,6 +145,7 @@ namespace MySimpleCar.Tests
         [TestMethod]
         public void AllGearCar()
         {
+            // Arrange
             Car car = new();
 
             car.EndingOn();
@@ -150,6 +187,7 @@ namespace MySimpleCar.Tests
         [TestMethod]
         public void BackDrive()
         {
+            // Arrange
             Car car = new();
 
             car.EndingOn();
