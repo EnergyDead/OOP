@@ -22,9 +22,9 @@ namespace MySimpleCar
             return _isEnging ? "включен" : "выключен";
         }
 
-        public string GetSpeed()
+        public int GetSpeed()
         {
-            return _speed.ToString();
+            return _speed;
         }
 
         public Gear GetGrear()
@@ -32,7 +32,7 @@ namespace MySimpleCar
             return _gear;
         }
 
-        public Direction GetDirection()
+        public Direction DriveDirection()
         {
             return _direction;
         }
@@ -61,15 +61,14 @@ namespace MySimpleCar
             return "успешно";
         }
 
-        public string SetGear( int newGear )
+        public string SetGear( int gear )
         {
-
             if ( !_isEnging )
             {
                 return "Двигатель не включен";
             }
 
-            Gear gear = newGear switch
+            Gear newGear = gear switch
             {
                 -1 => Gear.back,
                 0 => Gear.stay,
@@ -81,32 +80,33 @@ namespace MySimpleCar
                 _ => Gear.fail,
             };
 
-            if ( gear == Gear.fail )
+            if ( newGear == Gear.fail )
             {
                 return "авто не имеет такую скорость";
             }
-            var border = GetBorder( gear );
 
-            if ( _speed < border._downBorder || _speed > border._upBorder )
+            var border = GetBorder( newGear );
+
+            if ( GetSpeed() < border.downBorder || GetSpeed() > border.upBorder )
             {
                 return "скорость авто не в диапазоне";
             }
 
-            if ( GetGrear() == Gear.back && gear != Gear.first && GetDirection() != Direction.stay )
+            if ( GetGrear() == Gear.back && newGear == Gear.first && DriveDirection() != Direction.stay )
             {
                 return "ошибка, с задней передачи можно переключить на 1 только при 0 скорости";
             }
 
-            if ( gear == Gear.back && GetDirection() == Direction.back )
+            if ( newGear == Gear.back && GetSpeed() != 0 )
             {
                 return "ошибка, задную передачу можно можно включить только с 0 скоростью";
             }
 
-            if ( GetDirection() == Direction.back && gear == Gear.first )
+            if ( newGear == Gear.first && DriveDirection() == Direction.back )
             {
                 return "нельзя установить 1 скорость, пока машина движется назад";
             }
-            _gear = gear;
+            _gear = newGear;
 
             return "успешно";
         }
@@ -118,28 +118,28 @@ namespace MySimpleCar
                 return "двигатель не запущен";
             }
 
-            if ( GetGrear() == Gear.stay && Convert.ToInt32( GetSpeed() ) < newSpeed )
+            if ( GetGrear() == Gear.stay && GetSpeed() < newSpeed )
             {
 
                 return "нейтральная передача";
             }
 
-            var checkBorder = GetBorder( GetGrear() );
+            var border = GetBorder( GetGrear() );
 
-            if ( newSpeed >= checkBorder._downBorder && newSpeed <= checkBorder._upBorder )
+            if ( newSpeed < border.downBorder || newSpeed > border.upBorder )
             {
-                _speed = newSpeed;
-                SetDireaction();
-
-                return String.Empty;
+                return newSpeed + " за пределами";
             }
 
-            return newSpeed + " за пределами";
+            _speed = newSpeed;
+            SetDireaction();
+
+            return "успешно";
         }
 
         private void SetDireaction()
         {
-            if ( GetSpeed() == 0.ToString() )
+            if ( GetSpeed() == 0 )
             {
                 _direction = Direction.stay;
             }
@@ -151,11 +151,6 @@ namespace MySimpleCar
             {
                 _direction = Direction.forward;
             }
-        }
-
-        public Direction DirectionOfTravel()
-        {
-            return _direction;
         }
 
         private Border GetBorder( Gear gear )
@@ -175,13 +170,13 @@ namespace MySimpleCar
 
         private Border SetBorder(int down, int up )
         {
-            return new Border { _downBorder = down, _upBorder = up };
+            return new Border { downBorder = down, upBorder = up };
         }
 
         private struct Border
         {
-            public int _upBorder { get; set; }
-            public int _downBorder { get; set; }
+            public int upBorder { get; set; }
+            public int downBorder { get; set; }
         }
     }
 
