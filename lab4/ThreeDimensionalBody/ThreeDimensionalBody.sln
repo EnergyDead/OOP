@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeDimensionalBody", "ThreeDimensionalBody.csproj", "{01F4CC17-6F5F-4E07-9187-D6321B48DDEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeDimensionalBodyTests", "..\ThreeDimensionalBodyTests\ThreeDimensionalBodyTests.csproj", "{1F0A6EBA-9554-48B6-BA0A-5168A019DD47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01F4CC17-6F5F-4E07-9187-D6321B48DDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F4CC17-6F5F-4E07-9187-D6321B48DDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F4CC17-6F5F-4E07-9187-D6321B48DDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F4CC17-6F5F-4E07-9187-D6321B48DDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F0A6EBA-9554-48B6-BA0A-5168A019DD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F0A6EBA-9554-48B6-BA0A-5168A019DD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F0A6EBA-9554-48B6-BA0A-5168A019DD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F0A6EBA-9554-48B6-BA0A-5168A019DD47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C10BB8C-E3AF-495A-BB09-1353C9D7EF81}
+	EndGlobalSection
+EndGlobal
