@@ -7,7 +7,7 @@ namespace ThreeDimensionalBody.figures
     public class Sphere : Body
     {
         private double _radius;
-        public Sphere( double density, double radius )
+        public Sphere(  double radius, double density )
         {
             SetRadius( radius );
             SetDensity( density );

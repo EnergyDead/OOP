@@ -15,20 +15,22 @@ namespace ThreeDimensionalBody.figures
             return _density;
         }
 
-        protected void SetDensity( double value )
-        {
-            _density = value;
-        }
-
-
         public double GetVolume()
         {
             return _volume;
         }
 
-        protected virtual void SetVolume()
+        public override string ToString()
         {
+            return $"Пустое тело\nМасса: {GetMass()}\nОбъем: {GetVolume()}\nПлотность: {GetDensity()}";
         }
+
+        protected void SetDensity( double value )
+        {
+            _density = value;
+        }
+
+        protected virtual void SetVolume() { }
 
         public double GetMass()
         {
@@ -38,11 +40,6 @@ namespace ThreeDimensionalBody.figures
         protected virtual void SetMass()
         {
             _mass = GetVolume() * GetDensity();
-        }
-
-        public override string ToString()
-        {
-            return $"Пустое тело\nМасса: {GetMass()}\nОбъем: {GetVolume()}\nПлотность: {GetDensity()}";
         }
     }
 }
