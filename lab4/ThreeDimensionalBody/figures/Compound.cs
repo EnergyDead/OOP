@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ThreeDimensionalBody.figures
 {
@@ -14,8 +14,28 @@ namespace ThreeDimensionalBody.figures
         public bool AddChildBody( Body body )
         {
             _bodies.Add( body );
-            
+
             return true;
+        }
+
+        public override double GetDensity()
+        {
+            return _bodies.Select( b => b.GetDensity() ).Sum() / _bodies.Count;
+        }
+
+        public override double GetMass()
+        {
+            return _bodies.Select( b => b.GetMass() ).Sum();
+        }
+
+        public override double GetVolume()
+        {
+            return _bodies.Select( b => b.GetVolume() ).Sum();
+        }
+
+        public override string ToString()
+        {
+            return String.Join( " ", _bodies.Select( b => b.ToString() ) );
         }
     }
 }

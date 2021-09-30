@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ThreeDimensionalBody.figures
+﻿namespace ThreeDimensionalBody.figures
 {
     public class Parallelepiped : SolidBody
     {
@@ -15,7 +11,6 @@ namespace ThreeDimensionalBody.figures
             SetWidth( width );
             SetDepth( depth );
             SetHeight( height );
-            SetVolume();
         }
 
         public double GetDepth()
@@ -33,14 +28,14 @@ namespace ThreeDimensionalBody.figures
             return _width;
         }
 
+        public override double GetVolume()
+        {
+            return GetWidth() * GetHeigth() * GetDepth();
+        }
+
         public override string ToString()
         {
             return $"Паралеллепипед\nМасса: {GetMass()}\nОбъем: {GetVolume()}\nПлотность: {GetDensity()}";
-        }
-
-        protected override void SetVolume()
-        {
-            _volume = GetWidth() * GetHeigth() * GetDepth();
         }
 
         private void SetHeight( double height )

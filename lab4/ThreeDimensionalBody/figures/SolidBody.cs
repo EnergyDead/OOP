@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ThreeDimensionalBody.figures
+﻿namespace ThreeDimensionalBody.figures
 {
     public class SolidBody : Body
     {

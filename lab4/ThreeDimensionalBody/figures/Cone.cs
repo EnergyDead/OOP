@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ThreeDimensionalBody.figures
 {
@@ -13,7 +11,6 @@ namespace ThreeDimensionalBody.figures
         {
             SetRadius( radius );
             SetHeight( height );
-            SetVolume();
         }
 
         public double GetBaseRadius()
@@ -26,14 +23,14 @@ namespace ThreeDimensionalBody.figures
             return _height;
         }
 
+        public override double GetVolume()
+        {
+            return Math.PI * Math.Pow( GetBaseRadius(), 2 ) * GetHeight() / 3;
+        }
+
         public override string ToString()
         {
             return $"Конус\nМасса: {GetMass()}\nОбъем: {GetVolume()}\nПлотность: {GetDensity()}";
-        }
-
-        protected override void SetVolume()
-        {
-            _volume = Math.PI * Math.Pow( GetBaseRadius(), 2 ) * GetHeight() / 3;
         }
 
         private void SetHeight( double height )
