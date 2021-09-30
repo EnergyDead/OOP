@@ -4,20 +4,18 @@ using System.Text;
 
 namespace ThreeDimensionalBody.figures
 {
-    public class Parallelepiped : Body
+    public class Parallelepiped : SolidBody
     {
         private double _width;
         private double _heigth;
         private double _depth;
 
-        public Parallelepiped( double width, double height, double depth, double density )
+        public Parallelepiped( double width, double height, double depth, double density ) : base( density )
         {
             SetWidth( width );
-            SetDensity( density );
             SetDepth( depth );
             SetHeight( height );
             SetVolume();
-            SetMass();
         }
 
         public double GetDepth()

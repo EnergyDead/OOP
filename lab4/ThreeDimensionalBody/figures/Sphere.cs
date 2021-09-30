@@ -4,15 +4,13 @@ using System.Text;
 
 namespace ThreeDimensionalBody.figures
 {
-    public class Sphere : Body
+    public class Sphere : SolidBody
     {
         private double _radius;
-        public Sphere(  double radius, double density )
+        public Sphere( double radius, double density ) : base ( density )
         {
             SetRadius( radius );
-            SetDensity( density );
             SetVolume();
-            SetMass();
         }
 
         public double GetRadius()

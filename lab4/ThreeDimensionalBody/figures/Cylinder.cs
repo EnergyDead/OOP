@@ -2,18 +2,16 @@
 
 namespace ThreeDimensionalBody.figures
 {
-    public class Cylinder : Body
+    public class Cylinder : SolidBody
     {
         private double _height;
         private double _radius;
 
-        public Cylinder( double height, double radius, double density )
+        public Cylinder( double height, double radius, double density ) : base( density )
         {
             SetRadius( radius );
-            SetDensity( density );
             SetHeight( height );
             SetVolume();
-            SetMass();
         }
 
         public double GetBaseRadius()

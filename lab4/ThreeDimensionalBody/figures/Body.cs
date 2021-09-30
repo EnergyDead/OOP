@@ -7,39 +7,25 @@ namespace ThreeDimensionalBody.figures
     public class Body
     {
         protected double _density;
-        protected double _mass;
         protected double _volume;
 
-        public double GetDensity()
+        public virtual double GetDensity()
         {
-            return _density;
+            throw new NotImplementedException();
         }
 
-        public double GetVolume()
+        public virtual double GetVolume()
         {
             return _volume;
         }
-
-        public override string ToString()
+        public virtual double GetMass()
         {
-            return $"Пустое тело\nМасса: {GetMass()}\nОбъем: {GetVolume()}\nПлотность: {GetDensity()}";
+            throw new NotImplementedException();
         }
 
-        protected void SetDensity( double value )
+        protected virtual void SetVolume()
         {
-            _density = value;
-        }
-
-        protected virtual void SetVolume() { }
-
-        public double GetMass()
-        {
-            return _mass;
-        }
-
-        protected virtual void SetMass()
-        {
-            _mass = GetVolume() * GetDensity();
+            throw new NotImplementedException();
         }
     }
 }
