@@ -35,7 +35,7 @@ namespace ThreeDimensionalBody.figures
 
         public override string ToString()
         {
-            return String.Join( " ", _bodies.Select( b => b.ToString() ) );
+            return $"Составное тело включающее {_bodies.Count} элементов.\n{String.Join( "\n", _bodies.Select( b => b.ToString() ) )}";
         }
     }
 }
