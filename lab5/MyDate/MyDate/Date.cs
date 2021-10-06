@@ -17,7 +17,11 @@ namespace MyDate
 
         public Date( int day = 0 )
         {
-            throw new NotImplementedException();
+            _day = MIN_DAY;
+            _month = (Month)MIN_MONTH;
+            _year = MIN_YEAR;
+
+            AddDays( day );
         }
 
         public Date( int day, Month month, int year )
@@ -71,20 +75,39 @@ namespace MyDate
             return _isValid;
         }
 
+        public static Date operator +( Date ob, int days )
+        {
+            Date result = new Date( ob._day, ob._month, ob._year );
+            result.AddDays( days );
+
+            return result;
+        }
+
+        public void AddDays( int days )
+        {
+            _day += days;
+            int dayInCurrentMonth;
+            while ( _day > ( dayInCurrentMonth = DayInMonth( _month ) ) )
+            {
+                _day -= dayInCurrentMonth;
+
+                if ( (int)++_month > 12 )
+                {
+                    _month = Month.JANUARY;
+
+                    _year++;
+                }
+            }
+        }
+
         private int DayInMonth( Month month )
         {
-            switch ( month )
+            return month switch
             {
-                case Month.FEBRUARY:
-                    return IsLeapYear() ? 29 : 28;
-                case Month.APRIL:
-                case Month.JANUARY:
-                case Month.SEPTEMBER:
-                case Month.NOVEMBER:
-                    return 30;
-                default:
-                    return 31;
-            }
+                Month.FEBRUARY => IsLeapYear() ? 29 : 28,
+                Month.APRIL or Month.JANUARY or Month.SEPTEMBER or Month.NOVEMBER => 30,
+                _ => 31,
+            };
         }
 
         private bool IsLeapYear()
