@@ -9,15 +9,15 @@ namespace DateTests
         [Fact]
         public void CreateDate_CorrectInput_CorrectCreate()
         {
-            Date date = new( 12, (Month)1, 2000 ); 
-            Date date1 = new( 10970 ); 
+            Date date = new( 12, (Month)4, 2222 ); 
+            Date date1 = new( 92142 ); 
 
             Assert.NotNull( date );
             Assert.True( date.IsValid() );
-            Assert.Equal( 12, date.GetDay() );
+            Assert.Equal( date1.GetDay(), date.GetDay() );
             Assert.Equal( date1.GetWeekDay(), date.GetWeekDay() );
-            Assert.Equal( Month.JANUARY, date.GetMonth() );
-            Assert.Equal( 2000, date.GetYear() );
+            Assert.Equal( date1.GetMonth(), date.GetMonth() );
+            Assert.Equal( date1.GetYear(), date.GetYear() );
         }
 
         [Fact]
