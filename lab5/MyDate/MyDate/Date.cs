@@ -4,12 +4,12 @@ namespace MyDate
 {
     public class Date
     {
-        private static readonly int  MIN_DAY = 1;
+        private static readonly int MIN_DAY = 1;
         private static readonly int MIN_MONTH = 1;
         private readonly int MAX_MONTH = 12;
         private static readonly int MIN_YEAR = 1970;
 
-        private readonly int ticks;
+        private int ticks;
         private int _day;
         private Month _month = (Month)MIN_MONTH;
         private int _year = MIN_YEAR;
@@ -30,7 +30,7 @@ namespace MyDate
 
         public Date( int day, Month month, int year )
         {
-            ticks = TicksInDate( day, month, year );
+            TicksInDate( day, month, year );
 
             AddDays( ticks );
 
@@ -57,7 +57,7 @@ namespace MyDate
             }
         }
 
-        private int TicksInDate( int day, Month month, int year )
+        private void TicksInDate( int day, Month month, int year )
         {
             while (year > MIN_YEAR)
             {
@@ -81,7 +81,7 @@ namespace MyDate
                 month--;
             }
 
-            return day;
+            ticks = day;
         }
 
         public int GetDay()
@@ -121,6 +121,7 @@ namespace MyDate
         public static Date operator ++( Date date )
         {
             date.AddDays( date.GetDay() + 1 );
+            date.TicksInDate( date.GetDay(), date.GetMonth(), date.GetYear() );
 
             return date;
         }
@@ -145,6 +146,7 @@ namespace MyDate
         public static Date operator --( Date date )
         {
             date.MinusDays( 1 );
+            date.TicksInDate( date.GetDay(), date.GetMonth(), date.GetYear() );
 
             return date;
         }
