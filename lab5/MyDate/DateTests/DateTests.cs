@@ -9,11 +9,13 @@ namespace DateTests
         [Fact]
         public void CreateDate_CorrectInput_CorrectCreate()
         {
-            Date date = new( 12, (Month)1, 2000 );
+            Date date = new( 12, (Month)1, 2000 ); 
+            Date date1 = new( 10970 ); 
 
             Assert.NotNull( date );
             Assert.True( date.IsValid() );
             Assert.Equal( 12, date.GetDay() );
+            Assert.Equal( date1.GetWeekDay(), date.GetWeekDay() );
             Assert.Equal( Month.JANUARY, date.GetMonth() );
             Assert.Equal( 2000, date.GetYear() );
         }
@@ -52,6 +54,20 @@ namespace DateTests
 
             Assert.NotNull( date );
             Assert.False( date.IsValid() );
+        }
+
+        [Fact]
+        public void CheckWeekDay_CorrectDay()
+        {
+            // Arrange
+            Date date = new();
+
+            // Act
+            WeekDay weekDay = date.GetWeekDay();
+
+            // Assert
+            Assert.NotNull( date );
+            Assert.True( date.IsValid() );
         }
 
         [Fact]
@@ -125,6 +141,24 @@ namespace DateTests
             Assert.Equal( Month.JANUARY, oldMonth );
             Assert.Equal( Month.DECEMBER, date.GetMonth() );
             Assert.Equal( 1971, oldYear );
+            Assert.Equal( 1970, date.GetYear() );
+        }
+
+        [Fact]
+        public void CheckOperandDateMinusDate_CorrectResult()
+        {
+            // Arrange
+            Date mainDate = new( 366 );
+            Date subtrahendDate = new( 22 );
+
+            // Act
+            Date date = mainDate - subtrahendDate;
+
+            // Assert
+            Assert.NotNull( mainDate );
+            Assert.True( mainDate.IsValid() );
+            Assert.Equal( 10, date.GetDay() );
+            Assert.Equal( (Month)12, date.GetMonth() );
             Assert.Equal( 1970, date.GetYear() );
         }
     }

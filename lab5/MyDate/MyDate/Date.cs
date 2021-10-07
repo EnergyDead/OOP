@@ -4,50 +4,84 @@ namespace MyDate
 {
     public class Date
     {
-        private static readonly ushort MIN_DAY = 1;
-        private static readonly ushort MIN_MONTH = 1;
-        private readonly ushort MAX_MONTH = 12;
-        private static readonly ushort MIN_YEAR = 1970;
+        private static readonly int  MIN_DAY = 1;
+        private static readonly int MIN_MONTH = 1;
+        private readonly int MAX_MONTH = 12;
+        private static readonly int MIN_YEAR = 1970;
 
-        private ushort _day;
+        private readonly int ticks;
+        private int _day;
         private Month _month = (Month)MIN_MONTH;
-        private ushort _year = MIN_YEAR;
+        private int _year = MIN_YEAR;
         private bool _isValid = true;
 
 
         public Date( int day = 0 )
         {
-            if ( day == 0 )
+            if (day == 0)
             {
                 day++;
             }
+
+            ticks = day;
 
             AddDays( day );
         }
 
         public Date( int day, Month month, int year )
         {
-            if ( year < MIN_YEAR )
+            ticks = TicksInDate( day, month, year );
+
+            AddDays( ticks );
+
+            if (year < MIN_YEAR)
             {
                 _isValid = false;
             }
 
-            if ( (ushort)month < MIN_MONTH || (ushort)month > MAX_MONTH )
+            if ((int)month < MIN_MONTH || (int)month > MAX_MONTH)
             {
                 _isValid = false;
             }
 
-            if ( day < MIN_DAY || day > DayInMonth( month ) )
+            if (day < MIN_DAY || day > DayInMonth( month ))
             {
                 _isValid = false;
             }
 
-            if ( IsValid() )
+            if (IsValid())
             {
-                _day = (ushort)day;
+                _day = day;
                 _month = month;
-                _year = (ushort)year;
+                _year = year;
             }
+        }
+
+        private int TicksInDate( int day, Month month, int year )
+        {
+            while (year > MIN_YEAR)
+            {
+                //упростить
+                if (IsLeapYear( year ))
+                {
+                    day += 366;
+                }
+                else
+                {
+                    day += 365;
+                }
+
+                year--;
+            }
+
+            while ((int)month > 1)
+            {
+                day += DayInMonth( month );
+
+                month--;
+            }
+
+            return day;
         }
 
         public int GetDay()
@@ -64,9 +98,11 @@ namespace MyDate
         {
             return _year;
         }
+
         public WeekDay GetWeekDay()
         {
-            throw new NotImplementedException();
+            int day = ticks % 7;
+            return (WeekDay)day;
         }
 
         public bool IsValid()
@@ -82,25 +118,28 @@ namespace MyDate
             return newDate;
         }
 
-        public static Date operator +( Date date, ushort day )
-        {
-            date.AddDays( day );
-
-            return date;
-        }
-
         public static Date operator ++( Date date )
         {
-            date.AddDays( 1 );
+            date.AddDays( date.GetDay() + 1 );
 
             return date;
         }
 
-        public static Date operator -( Date date, ushort day )
+        public static Date operator -( Date oldDate, int day )
         {
-            date.MinusDays( day );
+            Date newDate = new Date( oldDate._day, oldDate._month, oldDate._year );
+            newDate.MinusDays( day );
 
-            return date;
+            return newDate;
+        }
+
+        public static Date operator -( Date oldDate, Date subtrahendDate )
+        {
+            Date newDate = new Date( oldDate._day, oldDate._month, oldDate._year );
+            int days = subtrahendDate.ticks;
+            newDate.MinusDays( days );
+
+            return newDate;
         }
 
         public static Date operator --( Date date )
@@ -110,18 +149,19 @@ namespace MyDate
             return date;
         }
 
-        private void MinusDays( ushort downDay )
+        private void MinusDays( int downDay )
         {
+            //переписать
             int day = _day;
             day -= downDay;
-            while ( day < 1 )
+            while (day < 1)
             {
-                if ( (int)--_month < 1 )
+                if ((int)--_month < 1)
                 {
                     _month = Month.DECEMBER;
                     _year--;
 
-                    if ( _year < MIN_YEAR )
+                    if (_year < MIN_YEAR)
                     {
                         _isValid = false;
                     }
@@ -130,26 +170,25 @@ namespace MyDate
                 day += DayInMonth( _month );
             }
 
-            _day = (ushort)day;
+            _day = day;
         }
 
         private void AddDays( int days )
         {
-            days += _day;
             int dayInCurrentMonth;
-            while ( days > ( dayInCurrentMonth = DayInMonth( _month ) ) )
+            while (days > ( dayInCurrentMonth = DayInMonth( _month ) ))
             {
                 days -= dayInCurrentMonth;
                 CheckMonth();
 
             }
 
-            _day = (ushort)days;
+            _day = days;
         }
 
         private void CheckMonth()
         {
-            if ( (int)++_month > 12 )
+            if ((int)++_month > 12)
             {
                 _month = Month.JANUARY;
 
@@ -161,7 +200,7 @@ namespace MyDate
         {
             _year++;
 
-            if ( _year > 9999 )
+            if (_year > 9999)
             {
                 _isValid = false;
             }
@@ -171,15 +210,15 @@ namespace MyDate
         {
             return month switch
             {
-                Month.FEBRUARY => IsLeapYear() ? 29 : 28,
+                Month.FEBRUARY => IsLeapYear( _year ) ? 29 : 28,
                 Month.APRIL or Month.JANUARY or Month.SEPTEMBER or Month.NOVEMBER => 30,
                 _ => 31,
             };
         }
 
-        private bool IsLeapYear()
+        private bool IsLeapYear( int year )
         {
-            return ( ( _year % 400 == 0 ) || ( _year % 4 == 0 ) && ( _year % 100 != 0 ) );
+            return ( ( year % 400 == 0 ) || ( year % 4 == 0 ) && ( year % 100 != 0 ) );
         }
     }
 }
