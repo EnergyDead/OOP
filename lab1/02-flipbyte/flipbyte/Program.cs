@@ -22,7 +22,11 @@ namespace flipbyte
             byte result = FlipByte( number );
 
             Console.WriteLine( result );
-            File.WriteAllText( args[1], result.ToString() );
+            
+            if ( args.Length == 2 )
+            {
+                File.WriteAllText( args[ 1 ], result.ToString() );
+            }
 
             return 0;
         }
