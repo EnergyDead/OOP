@@ -10,8 +10,8 @@ namespace flipbyte
             int number;
             try
             {
-                number = IsCorrectArgument( args[0] );
-            } 
+                number = IsCorrectArgument( args[ 0 ] );
+            }
             catch ( Exception error )
             {
                 Console.WriteLine( error.Message );
@@ -35,10 +35,10 @@ namespace flipbyte
         {
             byte revert = (byte)number;
             byte result = 0;
-            for (int i = 0; i < 8; i++)
+            for ( int i = 0; i < 8; i++ )
             {
                 result <<= 1;
-                result |= (byte)(revert & 1);
+                result |= (byte)( revert & 1 );
                 revert >>= 1;
             }
 
@@ -48,7 +48,7 @@ namespace flipbyte
         private static int IsCorrectArgument( string args )
         {
             int number = Convert.ToInt32( args );
-            if ( ( 255 < number ) || ( number < 0 )  ) 
+            if ( ( 255 < number ) || ( number < 0 ) )
             {
                 throw new Exception( "Argument is not in 0..255" );
             }

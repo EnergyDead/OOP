@@ -28,7 +28,7 @@ REM If argument not secoed file, program must fail
 echo Test 4 passed
 
 REM If argument not temp file, program must fail
-%MyProgram% "%~dp0first_1.txt" "%~dp0second_1.txt"  && goto err
+%MyProgram% "%~dp0first_1.txt" "%~dp0second_1.txt" || goto err
 echo Test 5 passed
 
 REM All tests passed successfully

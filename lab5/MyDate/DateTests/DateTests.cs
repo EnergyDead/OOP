@@ -9,8 +9,8 @@ namespace DateTests
         [Fact]
         public void CreateDate_CorrectInput_CorrectCreate()
         {
-            Date date = new( 12, (Month)4, 2222 ); 
-            Date date1 = new( 92142 ); 
+            Date date = new( 12, (Month)4, 2222 );
+            Date date1 = new( 92142 );
 
             Assert.NotNull( date );
             Assert.True( date.IsValid() );
@@ -18,6 +18,26 @@ namespace DateTests
             Assert.Equal( date1.GetWeekDay(), date.GetWeekDay() );
             Assert.Equal( date1.GetMonth(), date.GetMonth() );
             Assert.Equal( date1.GetYear(), date.GetYear() );
+        }
+
+        [Fact]
+        public void CreateDate_IncorrectInput_IsNotValid()
+        {
+            Date date = new( 31, (Month)12, 9999 );
+            Date dateFaildYear = new( 12, (Month)4, 12222 );
+
+            Assert.NotNull( dateFaildYear );
+            Assert.False( dateFaildYear.IsValid() );
+
+            Date dateFaildDay = new( 111, (Month)4, 4122 );
+
+            Assert.NotNull( dateFaildDay );
+            Assert.False( dateFaildDay.IsValid() );
+
+            Date dateFaildMonth = new( 11, (Month)24, 4122 );
+
+            Assert.NotNull( dateFaildMonth );
+            Assert.False( dateFaildMonth.IsValid() );
         }
 
         [Fact]
@@ -99,6 +119,7 @@ namespace DateTests
         {
             // Arrange
             Date date = new( 366 );
+            DateTime dateTime = new( 365 );
             int oldDay = date.GetDay();
             var oldMonth = date.GetMonth();
             int oldYear = date.GetYear();
@@ -160,6 +181,17 @@ namespace DateTests
             Assert.Equal( 10, date.GetDay() );
             Assert.Equal( (Month)12, date.GetMonth() );
             Assert.Equal( 1970, date.GetYear() );
+        }
+
+        [Fact]
+        public void GetDayOfWeek_CorrectInput_CorrectResult()
+        {
+            Date date = new( 1 );
+            Date date1 = new( 8 );
+            Date date2 = new( 15 );
+
+            Assert.Equal( date.GetWeekDay(), date1.GetWeekDay() );
+            Assert.Equal( date2.GetWeekDay(), date1.GetWeekDay() );
         }
     }
 }
