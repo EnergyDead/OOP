@@ -15,7 +15,7 @@ namespace multmatrix
 
         static int Main(string[] args)
         {
-            if ( args.Length != 3 )
+            if ( args.Length < 2 )
             {
                 Console.WriteLine( "Invalid arguments count" );
                 Console.WriteLine( "Uasge: multmatrix.exe <matrix file1> <matrix file2>" );    
@@ -40,8 +40,12 @@ namespace multmatrix
             string resault = MultiplyMatrix( multiplyArg );
 
             Console.WriteLine( resault );
-            File.WriteAllText( args[2], resault );
 
+            if ( args.Length == 3 )
+            {
+                File.WriteAllText( args[ 2 ], resault );
+            }
+            
             return 0;
         }
 

@@ -8,61 +8,53 @@ namespace MyDate
         private static readonly int MIN_MONTH = 1;
         private readonly int MAX_MONTH = 12;
         private static readonly int MIN_YEAR = 1970;
+        private static readonly int MAX_YEAR = 9999;
+        private static readonly int MAX_DAYS = 2932898;
 
         private int ticks;
-        private int _day;
-        private Month _month = (Month)MIN_MONTH;
-        private int _year = MIN_YEAR;
+        // private int _day;
+        // private Month _month = (Month)MIN_MONTH;
+        // private int _year = MIN_YEAR;
         private bool _isValid = true;
 
 
         public Date( int day = 0 )
         {
-            if (day == 0)
+            if ( day > MAX_DAYS )
             {
-                day++;
+                _isValid = false;
             }
 
             ticks = day;
-
-            AddDays( day );
         }
 
         public Date( int day, Month month, int year )
         {
+
+            if ( year < MIN_YEAR || year > MAX_YEAR )
+            {
+                _isValid = false;
+            }
+
+            if ( (int)month < MIN_MONTH || (int)month > MAX_MONTH )
+            {
+                _isValid = false;
+            }
+
+            if ( day < MIN_DAY || day > DayInMonth( month, year ) )
+            {
+                _isValid = false;
+            }
+
             TicksInDate( day, month, year );
-
-            AddDays( ticks );
-
-            if (year < MIN_YEAR)
-            {
-                _isValid = false;
-            }
-
-            if ((int)month < MIN_MONTH || (int)month > MAX_MONTH)
-            {
-                _isValid = false;
-            }
-
-            if (day < MIN_DAY || day > DayInMonth( month ))
-            {
-                _isValid = false;
-            }
-
-            if (IsValid())
-            {
-                _day = day;
-                _month = month;
-                _year = year;
-            }
         }
 
         private void TicksInDate( int day, Month month, int year )
         {
-            while (year > MIN_YEAR)
+            while ( year > MIN_YEAR )
             {
                 //упростить
-                if (IsLeapYear( year ))
+                if ( IsLeapYear( year ) )
                 {
                     day += 366;
                 }
@@ -74,9 +66,9 @@ namespace MyDate
                 year--;
             }
 
-            while ((int)month > 1)
+            while ( (int)month > 1 )
             {
-                day += DayInMonth( month );
+                day += DayInMonth( month, year );
 
                 month--;
             }
@@ -86,22 +78,74 @@ namespace MyDate
 
         public int GetDay()
         {
-            return _day;
+            var days = ticks;
+            var month = Month.JANUARY;
+            int dayInCurrentMonth;
+            int year = MIN_YEAR;
+            while ( days > ( dayInCurrentMonth = DayInMonth( month, year ) ) )
+            {
+                days -= dayInCurrentMonth;
+                if ( (int)++month > 12 )
+                {
+                    month = Month.JANUARY;
+                    year++;
+                }
+            }
+
+            if ( days == 0 )
+            {
+                return MIN_DAY;
+            }
+
+            return days;
         }
 
         public Month GetMonth()
         {
-            return _month;
+            var days = ticks;
+            var month = Month.JANUARY;
+            int dayInCurrentMonth;
+            int year = MIN_YEAR;
+            while ( days > ( dayInCurrentMonth = DayInMonth( month, year ) ) )
+            {
+                days -= dayInCurrentMonth;
+                if ( (int)++month > 12 )
+                {
+                    month = Month.JANUARY;
+                    year++;
+                }
+            }
+
+            return month;
         }
 
         public int GetYear()
         {
-            return _year;
+            var days = ticks;
+            var year = 1970;
+            while ( days > dayInYear( year ) )
+            {
+                days -= dayInYear( year );
+                year++;
+            }
+
+            return year;
+        }
+
+        private int dayInYear( int year )
+        {
+            if ( IsLeapYear( year ) )
+            {
+                return 366;
+            }
+
+            return 365;
         }
 
         public WeekDay GetWeekDay()
         {
-            int day = ticks % 7;
+            int day = ( ticks + 3 ) % 7;
+
             return (WeekDay)day;
         }
 
@@ -112,7 +156,7 @@ namespace MyDate
 
         public static Date operator +( Date oldDate, int days )
         {
-            Date newDate = new Date( oldDate._day, oldDate._month, oldDate._year );
+            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
             newDate.AddDays( days );
 
             return newDate;
@@ -120,15 +164,14 @@ namespace MyDate
 
         public static Date operator ++( Date date )
         {
-            date.AddDays( date.GetDay() + 1 );
-            date.TicksInDate( date.GetDay(), date.GetMonth(), date.GetYear() );
+            date.AddDays( 1 );
 
             return date;
         }
 
         public static Date operator -( Date oldDate, int day )
         {
-            Date newDate = new Date( oldDate._day, oldDate._month, oldDate._year );
+            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
             newDate.MinusDays( day );
 
             return newDate;
@@ -136,7 +179,7 @@ namespace MyDate
 
         public static Date operator -( Date oldDate, Date subtrahendDate )
         {
-            Date newDate = new Date( oldDate._day, oldDate._month, oldDate._year );
+            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
             int days = subtrahendDate.ticks;
             newDate.MinusDays( days );
 
@@ -146,73 +189,39 @@ namespace MyDate
         public static Date operator --( Date date )
         {
             date.MinusDays( 1 );
-            date.TicksInDate( date.GetDay(), date.GetMonth(), date.GetYear() );
 
             return date;
         }
 
         private void MinusDays( int downDay )
         {
-            //переписать
-            int day = _day;
-            day -= downDay;
-            while (day < 1)
+            // переписать, поставить проверку на MAXTiCKs и менять isvalid если переселкло значение
+            if ( ticks < downDay )
             {
-                if ((int)--_month < 1)
-                {
-                    _month = Month.DECEMBER;
-                    _year--;
+                _isValid = false;
 
-                    if (_year < MIN_YEAR)
-                    {
-                        _isValid = false;
-                    }
-                }
-
-                day += DayInMonth( _month );
+                return;
             }
 
-            _day = day;
+            ticks -= downDay;
         }
 
         private void AddDays( int days )
         {
-            int dayInCurrentMonth;
-            while (days > ( dayInCurrentMonth = DayInMonth( _month ) ))
-            {
-                days -= dayInCurrentMonth;
-                CheckMonth();
+            ticks += days;
 
-            }
-
-            _day = days;
-        }
-
-        private void CheckMonth()
-        {
-            if ((int)++_month > 12)
-            {
-                _month = Month.JANUARY;
-
-                CheckYear();
-            }
-        }
-
-        private void CheckYear()
-        {
-            _year++;
-
-            if (_year > 9999)
+            if ( ticks > MAX_DAYS )
             {
                 _isValid = false;
             }
+            // переписать, поставить проверку на MAXTiCKs и менять isvalid если переселкло значение
         }
 
-        private int DayInMonth( Month month )
+        private int DayInMonth( Month month, int year )
         {
             return month switch
             {
-                Month.FEBRUARY => IsLeapYear( _year ) ? 29 : 28,
+                Month.FEBRUARY => IsLeapYear( year ) ? 29 : 28,
                 Month.APRIL or Month.JANUARY or Month.SEPTEMBER or Month.NOVEMBER => 30,
                 _ => 31,
             };
