@@ -11,27 +11,27 @@
         private static readonly int MIN_DAYS = 0;
         private static readonly int MAX_DAYS = 2932898;
 
-        private int _days;
+        private int _days = 0;
         private bool _isValid = true;
 
         public Date( int day = 0 )
         {
-            _days = day;
+            AddDays( day );
         }
 
         public Date( int day, Month month, int year )
         {
-            if (year < MIN_YEAR || year > MAX_YEAR)
+            if ( year < MIN_YEAR || year > MAX_YEAR )
             {
                 _isValid = false;
             }
 
-            if ((int)month < MIN_MONTH || (int)month > MAX_MONTH)
+            if ( (int)month < MIN_MONTH || (int)month > MAX_MONTH )
             {
                 _isValid = false;
             }
 
-            if (day < MIN_DAY || day > DayInMonth( month, year ))
+            if ( day < MIN_DAY || day > DayInMonth( month, year ) )
             {
                 _isValid = false;
             }
@@ -39,105 +39,9 @@
             DaysInDate( day, month, year );
         }
 
-        private void DaysInDate( int day, Month month, int year )
-        {
-            while (year > MIN_YEAR)
-            {
-                if (IsLeapYear( year ))
-                {
-                    day += 366;
-                }
-                else
-                {
-                    day += 365;
-                }
-
-                year--;
-            }
-
-            while ((int)month > 1)
-            {
-                day += DayInMonth( month, year );
-
-                month--;
-            }
-
-            _days = day;
-        }
-
-        public int GetDay()
-        {
-            var days = _days;
-            var month = Month.JANUARY;
-            Counter( ref days, ref month );
-
-            if (days == 0)
-            {
-                return MIN_DAY;
-            }
-
-            return days;
-        }
-
-        public Month GetMonth()
-        {
-            var days = _days;
-            var month = Month.JANUARY;
-            Counter( ref days, ref month );
-
-            return month;
-        }
-
-        public int GetYear()
-        {
-            var days = _days;
-            var year = MIN_YEAR;
-
-            while (days > dayInYear( year ))
-            {
-                days -= dayInYear( year );
-                year++;
-            }
-
-            return year;
-        }
-
-        private void Counter( ref int days, ref Month month )
-        {
-            int dayInCurrentMonth;
-            int year = MIN_YEAR;
-
-            while (days > ( dayInCurrentMonth = DayInMonth( month, year ) ))
-            {
-                days -= dayInCurrentMonth;
-                if ((int)++month > MAX_MONTH)
-                {
-                    month = Month.JANUARY;
-                    year++;
-                }
-            }
-        }
-
-        private int dayInYear( int year )
-        {
-            return IsLeapYear( year ) ? 366 : 365;
-        }
-
-        public WeekDay GetWeekDay()
-        {
-            int day = ( _days + 3 ) % 7;
-
-            return (WeekDay)day;
-        }
-
-        public bool IsValid()
-        {
-            return ( _days < MAX_DAYS ) && ( _days >= MIN_DAYS ) && _isValid;
-        }
-
         public static Date operator +( Date oldDate, int days )
         {
-            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
+            Date newDate = new( oldDate._days );
             newDate.AddDays( days );
 
             return newDate;
@@ -152,7 +56,7 @@
 
         public static Date operator -( Date oldDate, int day )
         {
-            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
+            Date newDate = new( oldDate._days );
             newDate.MinusDays( day );
 
             return newDate;
@@ -160,9 +64,8 @@
 
         public static Date operator -( Date oldDate, Date subtrahendDate )
         {
-            Date newDate = new Date( oldDate.GetDay(), oldDate.GetMonth(), oldDate.GetYear() );
-            int days = subtrahendDate._days;
-            newDate.MinusDays( days );
+            Date newDate = new( oldDate._days );
+            newDate.MinusDays( subtrahendDate._days );
 
             return newDate;
         }
@@ -174,14 +77,109 @@
             return date;
         }
 
-        private void MinusDays( int downDay )
+        public static bool operator !=( Date date, Date date1 )
         {
-            _days -= downDay;
+            return !date.Equals( date1 );
         }
 
-        private void AddDays( int days )
+        public static bool operator ==( Date date, Date date1 )
         {
-            this._days += days;
+            return date.Equals( date1 );
+        }
+
+        public static bool operator >( Date date, Date date1 )
+        {
+            return date._days > date1._days;
+        }
+
+        public static bool operator <( Date date, Date date1 )
+        {
+            return date._days < date1._days;
+        }
+
+        public static bool operator <=( Date date, Date date1 )
+        {
+            return date._days <= date1._days;
+        }
+
+        public static bool operator >=( Date date, Date date1 )
+        {
+            return date._days >= date1._days;
+        }
+
+        public int GetDay()
+        {
+            var days = _days;
+            var month = Month.JANUARY;
+            CounterDaysAndMonth( ref days, ref month );
+
+            if ( days == 0 )
+            {
+                return MIN_DAY;
+            }
+
+            return days + 1;
+        }
+
+        public Month GetMonth()
+        {
+            var days = _days;
+            var month = Month.JANUARY;
+            CounterDaysAndMonth( ref days, ref month );
+
+            return month;
+        }
+
+        public int GetYear()
+        {
+            var days = _days;
+            var year = MIN_YEAR;
+
+            while ( days > DayInYear( year ) )
+            {
+                days -= DayInYear( year );
+                year++;
+            }
+
+            return year;
+        }
+
+        public WeekDay GetWeekDay()
+        {
+            int day = ( _days + 3 ) % 7;
+
+            return (WeekDay)day;
+        }
+
+        public bool IsValid()
+        {
+            return ( _days < MAX_DAYS ) && ( _days >= MIN_DAYS ) && _isValid;
+        }
+
+        private void DaysInDate( int day, Month month, int year )
+        {
+            while ( year > MIN_YEAR )
+            {
+                if ( IsLeapYear( year ) )
+                {
+                    day += 366;
+                }
+                else
+                {
+                    day += 365;
+                }
+
+                year--;
+            }
+
+            while ( (int)month > 1 )
+            {
+                day += DayInMonth( month, year );
+
+                month--;
+            }
+
+            AddDays( day );
         }
 
         private int DayInMonth( Month month, int year )
@@ -194,9 +192,60 @@
             };
         }
 
-        private bool IsLeapYear( int year )
+        private int DayInYear( int year )
+        {
+            return IsLeapYear( year ) ? 366 : 365;
+        }
+
+        private void CounterDaysAndMonth( ref int days, ref Month month )
+        {
+            int dayInCurrentMonth;
+            int year = MIN_YEAR;
+
+            while ( days > ( dayInCurrentMonth = DayInMonth( month, year ) ) )
+            {
+                days -= dayInCurrentMonth;
+                if ( (int)++month > MAX_MONTH )
+                {
+                    month = Month.JANUARY;
+                    year++;
+                }
+            }
+        }
+
+        private void MinusDays( int days )
+        {
+            _days -= days;
+        }
+
+        private void AddDays( int days )
+        {
+            _days += days;
+        }
+
+        private static bool IsLeapYear( int year )
         {
             return ( ( year % 400 == 0 ) || ( year % 4 == 0 ) && ( year % 100 != 0 ) );
+        }
+
+        public override bool Equals( object obj )
+        {
+            if ( ReferenceEquals( this, obj ) )
+            {
+                return true;
+            }
+
+            if ( ReferenceEquals( obj, null ) )
+            {
+                return false;
+            }
+
+            throw new System.NotImplementedException();
+        }
+
+        public override int GetHashCode()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

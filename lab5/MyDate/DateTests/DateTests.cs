@@ -107,7 +107,7 @@ namespace DateTests
             Assert.True( date.IsValid() );
 
             Assert.Equal( 1, date.GetDay() );
-            Assert.Equal( 30, oldDay );
+            Assert.Equal( 31, oldDay );
 
             Assert.Equal( Month.JANUARY, oldMonth );
             Assert.Equal( Month.FEBRUARY, date.GetMonth() );
@@ -148,6 +148,7 @@ namespace DateTests
             int oldDay = date.GetDay();
             var oldMonth = date.GetMonth();
             int oldYear = date.GetYear();
+            var weekDay = date.GetWeekDay();
 
             // Act
             date -= 12;
@@ -156,7 +157,7 @@ namespace DateTests
             Assert.NotNull( date );
             Assert.True( date.IsValid() );
 
-            Assert.Equal( 20, date.GetDay() );
+            Assert.Equal( 23, date.GetDay() );
             Assert.Equal( 1, oldDay );
 
             Assert.Equal( Month.JANUARY, oldMonth );
@@ -178,7 +179,7 @@ namespace DateTests
             // Assert
             Assert.NotNull( mainDate );
             Assert.True( mainDate.IsValid() );
-            Assert.Equal( 10, date.GetDay() );
+            Assert.Equal( 11, date.GetDay() );
             Assert.Equal( (Month)12, date.GetMonth() );
             Assert.Equal( 1970, date.GetYear() );
         }
@@ -192,6 +193,17 @@ namespace DateTests
 
             Assert.Equal( date.GetWeekDay(), date1.GetWeekDay() );
             Assert.Equal( date2.GetWeekDay(), date1.GetWeekDay() );
+        }
+
+        [Fact]
+        public void CheckOperandPlasDays_CorrectDate()
+        {
+            Date date = new( 2 );
+            var a = date.GetDay();
+            var newDate = date + 12;
+
+            Assert.Equal( 15, newDate.GetDay() );
+            Assert.Equal( 1, date.GetDay() );
         }
     }
 }
