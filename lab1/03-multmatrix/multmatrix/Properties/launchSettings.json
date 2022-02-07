@@ -2,7 +2,7 @@
   "profiles": {
     "multmatrix": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\solutions\\oop\\03\\multmatrix\\multmatrix\\First.txt\" \"C:\\solutions\\oop\\03\\multmatrix\\multmatrix\\Second.txt\""
+      "commandLineArgs": "\"C:\\solutions\\OOP\\lab1\\03-multmatrix\\multmatrix\\first_0.txt\" \"C:\\solutions\\OOP\\lab1\\03-multmatrix\\multmatrix\\second_0.txt\""
     }
   }
 }

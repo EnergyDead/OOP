@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace multmatrix
 {
@@ -9,16 +10,16 @@ namespace multmatrix
     {
         private struct Multiply
         {
-            public double[][] firstMatrix;
-            public double[][] secondMatrix;            
+            public decimal[][] firstMatrix;
+            public decimal[][] secondMatrix;
         }
 
-        static int Main(string[] args)
+        static int Main( string[] args )
         {
             if ( args.Length < 2 )
             {
                 Console.WriteLine( "Invalid arguments count" );
-                Console.WriteLine( "Uasge: multmatrix.exe <matrix file1> <matrix file2>" );    
+                Console.WriteLine( "Uasge: multmatrix.exe <matrix file1> <matrix file2>" );
 
                 return 1;
             }
@@ -27,13 +28,13 @@ namespace multmatrix
 
             try
             {
-                multiplyArg.firstMatrix = ReadMatrix( args[0] );
-                multiplyArg.secondMatrix = ReadMatrix( args[1] );
+                multiplyArg.firstMatrix = ReadMatrix( args[ 0 ] );
+                multiplyArg.secondMatrix = ReadMatrix( args[ 1 ] );
             }
             catch ( Exception error )
             {
                 Console.WriteLine( error.Message );
-                
+
                 return 1;
             }
 
@@ -45,19 +46,23 @@ namespace multmatrix
             {
                 File.WriteAllText( args[ 2 ], resault );
             }
-            
+
             return 0;
         }
 
-        static double[][] ReadMatrix( string pathToMatrix )
+        static decimal[][] ReadMatrix( string pathToMatrix )
         {
+            var numberStyles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
+            var provider = new CultureInfo( "en-US" );
+            decimal[][] resultMatrix = new decimal[ 3 ][];
+
             string matrix = File.ReadAllText( pathToMatrix );
-            double[][] resultMatrix = new double[3][];
-            int i = 0;
             matrix = DeleteSpasceInMatrix( matrix );
-            foreach ( string row in matrix.Trim().Split( '\n' ) )
+
+            int i = 0;
+            foreach ( string row in matrix.Trim().Split( "\r\n" ) )
             {
-                resultMatrix[i] = row.Trim().Split( ' ' ).Select( Convert.ToDouble ).ToArray();
+                resultMatrix[ i ] = row.Trim().Split( ' ' ).Select( value => Decimal.Parse( value, numberStyles, provider ) ).ToArray();
                 i++;
             }
 
@@ -66,34 +71,35 @@ namespace multmatrix
 
         static string MultiplyMatrix( Multiply multiplyArg )
         {
-            double[][] resultMatrix = new double[3][];
-            for (int i = 0; i < 3; ++i)
+            decimal[][] resultMatrix = new decimal[ 3 ][];
+            for ( int i = 0; i < 3; ++i )
             {
-                resultMatrix[i] = new double[3];
+                resultMatrix[ i ] = new decimal[ 3 ];
             }
 
-            Parallel.For(0, multiplyArg.firstMatrix.Length, i =>
+            for ( int i = 0; i < 3; i++ )
             {
-                for (int j = 0; j < 3; ++j)
+                for ( int j = 0; j < 3; j++ )
                 {
-                    for (int k = 0; k < 3; ++k)
+                    resultMatrix[ i ][ j ] = 0;
+                    for ( int k = 0; k < 3; k++ )
                     {
-                        resultMatrix[i][j] += multiplyArg.firstMatrix[i][k] * multiplyArg.secondMatrix[k][j];
+                        resultMatrix[ i ][ j ] = resultMatrix[ i ][ j ] + multiplyArg.firstMatrix[ i ][ k ] * multiplyArg.secondMatrix[ k ][ j ];
                     }
                 }
-            });
+            }
 
-            return MatrixAsString(resultMatrix);
+            return MatrixAsString( resultMatrix );
         }
 
-        static string MatrixAsString( double[][] matrix )
+        static string MatrixAsString( decimal[][] matrix )
         {
             string result = String.Empty;
             for ( int i = 0; i < matrix.Length; ++i )
             {
                 for ( int j = 0; j < matrix[ i ].Length; ++j )
                 {
-                    result += matrix[i][j].ToString( "F3" ).PadLeft(8) + " ";
+                    result += matrix[ i ][ j ].ToString( "F3" ).PadLeft( 9 );
                 }
                 result += Environment.NewLine;
             }
@@ -102,7 +108,7 @@ namespace multmatrix
         }
 
         static string DeleteSpasceInMatrix( string matrix )
-        {            
+        {
             while ( matrix.Contains( "  " ) )
             {
                 matrix = matrix.Replace( "  ", " " );
