@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "labyrinth": {
-      "commandName": "Project",
-      "commandLineArgs": "C:\\solutions\\OOP\\lab1\\05\\labyrinth\\labyrinth\\labyrinth\\correct_field.txt C:\\solutions\\OOP\\lab1\\05\\labyrinth\\labyrinth\\labyrinth\\result.txt"
-    }
-  }
-}

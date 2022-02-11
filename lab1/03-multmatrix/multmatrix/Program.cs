@@ -8,12 +8,6 @@ namespace multmatrix
 {
     class Program
     {
-        private struct Multiply
-        {
-            public decimal[][] firstMatrix;
-            public decimal[][] secondMatrix;
-        }
-
         static int Main( string[] args )
         {
             if ( args.Length < 2 )
@@ -24,12 +18,12 @@ namespace multmatrix
                 return 1;
             }
 
-            Multiply multiplyArg;
+            decimal[][] firstMatrix, secondMatrix;
 
             try
             {
-                multiplyArg.firstMatrix = ReadMatrix( args[ 0 ] );
-                multiplyArg.secondMatrix = ReadMatrix( args[ 1 ] );
+                firstMatrix = ReadMatrix( args[ 0 ] );
+                secondMatrix = ReadMatrix( args[ 1 ] );
             }
             catch ( Exception error )
             {
@@ -38,11 +32,12 @@ namespace multmatrix
                 return 1;
             }
 
-            string resault = MultiplyMatrix( multiplyArg );
+            string resault = MultiplyMatrix( firstMatrix, secondMatrix );
 
             Console.WriteLine( resault );
 
-            if ( args.Length == 3 )
+            // with autotests
+            if ( args.Length == 3 ) 
             {
                 File.WriteAllText( args[ 2 ], resault );
             }
@@ -50,13 +45,14 @@ namespace multmatrix
             return 0;
         }
 
-        static decimal[][] ReadMatrix( string pathToMatrix )
+        static decimal[][] ReadMatrix( string fileName )
         {
             var numberStyles = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
             var provider = new CultureInfo( "en-US" );
+
             decimal[][] resultMatrix = new decimal[ 3 ][];
 
-            string matrix = File.ReadAllText( pathToMatrix );
+            string matrix = ReadFile( fileName );
             matrix = DeleteSpasceInMatrix( matrix );
 
             int i = 0;
@@ -69,7 +65,7 @@ namespace multmatrix
             return resultMatrix;
         }
 
-        static string MultiplyMatrix( Multiply multiplyArg )
+        static string MultiplyMatrix( decimal[][] firstMatrix, decimal[][] secondMatrix )
         {
             decimal[][] resultMatrix = new decimal[ 3 ][];
             for ( int i = 0; i < 3; ++i )
@@ -84,7 +80,7 @@ namespace multmatrix
                     resultMatrix[ i ][ j ] = 0;
                     for ( int k = 0; k < 3; k++ )
                     {
-                        resultMatrix[ i ][ j ] = resultMatrix[ i ][ j ] + multiplyArg.firstMatrix[ i ][ k ] * multiplyArg.secondMatrix[ k ][ j ];
+                        resultMatrix[ i ][ j ] = resultMatrix[ i ][ j ] + firstMatrix[ i ][ k ] * secondMatrix[ k ][ j ];
                     }
                 }
             }
@@ -115,6 +111,15 @@ namespace multmatrix
             }
 
             return matrix;
+        }
+
+        static string ReadFile( string fileName )
+        {
+            string pathToWorkDirectory = Directory.GetCurrentDirectory();
+            string pathToProgram = Directory.GetParent( pathToWorkDirectory ).Parent.Parent.FullName;
+            string inputFilePath = Path.Combine( pathToProgram, fileName );
+
+            return File.ReadAllText( inputFilePath );
         }
     }
 }

@@ -2,7 +2,8 @@
   "profiles": {
     "multmatrix": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\solutions\\OOP\\lab1\\03-multmatrix\\multmatrix\\first_0.txt\" \"C:\\solutions\\OOP\\lab1\\03-multmatrix\\multmatrix\\second_0.txt\""
+      "commandLineArgs": "first_0.txt second_0.txt",
+      "sqlDebugging": true
     }
   }
 }

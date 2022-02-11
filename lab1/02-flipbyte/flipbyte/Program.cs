@@ -7,22 +7,21 @@ namespace flipbyte
     {
         public static int Main( string[] args )
         {
-            int number;
-            try
+            if ( !int.TryParse( args[ 0 ], out int number ) )
             {
-                number = IsCorrectArgument( args[ 0 ] );
-            }
-            catch ( Exception error )
-            {
-                Console.WriteLine( error.Message );
+                Console.WriteLine( "Expected number atgument." );
 
+                return 1;
+            }
+            if ( !NumberInRange( number ) )
+            {
                 return 1;
             }
 
             byte result = FlipByte( number );
 
             Console.WriteLine( result );
-            
+
             if ( args.Length == 2 )
             {
                 File.WriteAllText( args[ 1 ], result.ToString() );
@@ -45,15 +44,16 @@ namespace flipbyte
             return result;
         }
 
-        private static int IsCorrectArgument( string args )
+        private static bool NumberInRange( int number )
         {
-            int number = Convert.ToInt32( args );
             if ( ( 255 < number ) || ( number < 0 ) )
             {
-                throw new Exception( "Argument is not in 0..255" );
+                Console.WriteLine( "Argument is not in 0..255" );
+
+                return false;
             }
 
-            return number;
+            return true;
         }
     }
 }
