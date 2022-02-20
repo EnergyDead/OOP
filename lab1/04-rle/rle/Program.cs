@@ -101,27 +101,13 @@ namespace rle
                     countByte++;
                     continue;
                 }
-                if ( countByte > byte.MaxValue )
-                {
-                    AddRange( result, ch, ref countByte );
-                }
-                AddPair( result, Convert.ToByte( countByte ), ch );
+                AddRange( result, ch, ref countByte );
                 ch = value[ i ];
                 countByte = 1;
             }
-            if ( countByte > byte.MaxValue )
-            {
-                AddRange( result, ch, ref countByte );
-            }
-            AddPair( result, Convert.ToByte( countByte ), ch );
+            AddRange( result, ch, ref countByte );
 
             return result.ToArray();
-        }
-
-        static void AddPair( List<byte> value, byte first, byte second )
-        {
-            value.Add( first );
-            value.Add( second );
         }
 
         static void AddRange( List<byte> value, byte ch, ref int count )
@@ -131,6 +117,12 @@ namespace rle
                 AddPair( value, Convert.ToByte( byte.MaxValue ), ch );
                 count -= byte.MaxValue;
             }
+            AddPair( value, Convert.ToByte( count ), ch );
+        }
+        static void AddPair( List<byte> value, byte first, byte second )
+        {
+            value.Add( first );
+            value.Add( second );
         }
     }
 }
