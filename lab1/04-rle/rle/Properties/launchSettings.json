@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "rle": {
+      "commandName": "Project",
+      "commandLineArgs": "pack input_1000_replaceByte output_zeroSize"
+    }
+  }
+}
