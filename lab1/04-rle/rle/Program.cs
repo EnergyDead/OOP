@@ -31,12 +31,6 @@ namespace rle
                 return 1;
             }
             byte[] input = File.ReadAllBytes( inputFileName );
-
-            if ( input.Length == 0 )
-            {
-                return 0;
-            }
-
             byte[] result;
 
             switch ( typeWork )
@@ -53,7 +47,7 @@ namespace rle
                     return 1;
             }
 
-            if ( !File.Exists( outputFileName ) )
+            if ( result != null && !File.Exists( outputFileName ) )
             {
                 Console.WriteLine( "Error. Output file exist." );
 
