@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "RemoveExtraSpaces": {
-      "commandName": "Project",
-      "commandLineArgs": "\"lasd a a          aldkla          al ladl alla a    \""
-    }
-  }
-}
