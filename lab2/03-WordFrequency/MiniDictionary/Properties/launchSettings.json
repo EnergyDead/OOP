@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MiniDictionary": {
+      "commandName": "Project",
+      "commandLineArgs": "default.txt"
+    }
+  }
+}
