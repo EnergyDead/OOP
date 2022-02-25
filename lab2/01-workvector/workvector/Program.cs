@@ -7,50 +7,71 @@ namespace workvector
 {
     public class Program
     {
+        public static List<string> errors = new List<string>();
+
         public static int Main( string[] args )
         {
-            if ( args.Length != 1 )
-            {
-                Console.WriteLine("Invalid args. Use workvector.exe <array float args>");
 
-                return 1;
+            var input = Console.ReadLine().Trim();
+            List<double> list = ReadList( input );
+
+            if ( errors.Count != 0 )
+            {
+                Console.WriteLine( string.Join( "\n", errors ) );
+                return 0;
             }
 
-            List<float> result = ReadList( args[ 0 ] );
-            result = SplitElementsByMax( result );
-            WriteList( result );
+            MultiplicationListByMin( list );
+
+            list.Sort();
+            PrintList( list );
 
             return 0;
         }
 
-        public static List<float> ReadList( string arg )
+        public static void PrintList( List<double> list )
         {
-            return arg.Split( ' ' ).Select( float.Parse ).ToList();
+            Console.WriteLine( String.Join( " ", list ) );
         }
 
-        public static List<float> SplitElementsByMax( List<float> args )
+        public static void MultiplicationListByMin( List<double> list )
         {
-            return args.Select( arg => arg / ( CheckMaxArg( args ) / 2 ) ).ToList();
-        } 
+            double min = list.Min();
 
-        public static float CheckMaxArg( List<float> args )
-        {
-            float max = 0;
-            foreach ( float arg in args )
+            for ( int i = 0; i < list.Count; i++ )
             {
-                if ( arg > max ) 
+                list[ i ] = Math.Round( list[ i ] * min, 3 );
+            }
+        }
+
+        public static List<double> ReadList( string input )
+        {
+            var result = new List<double>();
+            if ( input == Empty )
+            {
+                return result;
+            }
+
+            var content = input.Split( " " );
+
+            foreach ( var item in content )
+            {
+                if ( item == Empty )
                 {
-                    max = arg;
+                    continue;
+                }
+                if ( double.TryParse( item, out double element ) )
+                {
+                    result.Add( element );
+                }
+                else
+                {
+                    errors.Add( $"Error argument. {item} is not float." );
                 }
             }
 
-            return max;
+            return result;
         }
 
-        public static void WriteList( List<float> args )
-        {
-            List<string> result = args.OrderBy( arg => arg ).Select( arg => arg.ToString( "0.000" ) ).ToList();
-            Console.WriteLine( Join( " ", result ) );
-        }
     }
 }
