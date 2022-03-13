@@ -1,17 +1,10 @@
-﻿public struct Url
+﻿namespace ParseUrl
 {
-    public string url;
-    public Protocol protocol;
-    public int port;
-    public string host;
-    public string document;
-
-    public Url( Protocol protocol, string url, int port, string host, string document ) : this()
+    public class Url
     {
-        this.protocol = protocol;
-        this.url = url;
-        this.port = port;
-        this.host = host;
-        this.document = document;
+        public Protocol Protocol { get; set; }
+        public int Port { get; set; }
+        public string Host { get; set; }
+        public string Document { get; set; }
     }
 }

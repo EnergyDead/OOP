@@ -6,7 +6,10 @@ string urlValue = Console.ReadLine();
 Url url = new();
 if ( ToolUrl.ParseURL( urlValue, url ) )
 {
-    Console.WriteLine( "yes" );
+    Console.WriteLine( urlValue );
+    Console.WriteLine( $"HOST: {url.Host}" );
+    Console.WriteLine( $"PORT: {url.Port}" );
+    Console.WriteLine( $"DOC: {url.Document}" );
 }
 else
 {

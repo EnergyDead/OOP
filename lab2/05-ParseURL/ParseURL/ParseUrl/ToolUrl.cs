@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ParseUrl
+﻿namespace ParseUrl
 {
     public static class ToolUrl
     {
+        readonly static char EndPassword = '@';
+        readonly static char SeparatorLoginAndPassword = ':';
+        readonly static char Separator = '/';
+
+        readonly static int DefaultPortFTP = 21;
+        readonly static int DefaultPortHTTP = 80;
+        readonly static int DefaultPortHTTPS = 443;
+
         public static bool ParseURL( string? urlValue, Url url )
         {
             if ( urlValue == null )
             {
                 return false;
             }
-            if ( !TryParseProtocol( urlValue, url ) )
+            if ( !TryParseProtocol( ref urlValue, url ) )
             {
                 return false;
             }
-            if ( !TryParseHost( urlValue, url ) )
+            if ( !TryParseAll( urlValue, url ) )
             {
                 return false;
             }
@@ -26,21 +28,90 @@ namespace ParseUrl
             return true;
         }
 
-        private static bool TryParseHost( string urlValue, Url url )
+        private static bool TryParseAll( string urlValue, Url url )
         {
 
+            if ( url.Protocol == Protocol.FTP )
+            {
+                RemoveLoginAndPassword( ref urlValue );
+            }
+            bool hasDoc = urlValue.Contains( Separator );
+            bool hasPort = urlValue.Contains( SeparatorLoginAndPassword );
 
-            throw new NotImplementedException();
+            url.Host = GetHost( urlValue, hasDoc, hasPort );
+
+            if ( !TryParsePort( url, urlValue, hasDoc, hasPort ) )
+            {
+                return false;
+            }
+
+            url.Document = GetDocument( urlValue, hasDoc );
+
+            return true;
         }
 
-        private static bool TryParseProtocol( string urlValue, Url url )
+        private static bool TryParsePort( Url url, string urlValue, bool hasDoc, bool hasPort )
+        {
+            if ( !hasPort )
+            {
+                if ( url.Protocol == Protocol.FTP )
+                {
+                    url.Port = DefaultPortFTP;
+                    return true;
+                }
+                if ( url.Protocol == Protocol.HTTP )
+                {
+                    url.Port = DefaultPortHTTP;
+                    return true;
+                }
+                if ( url.Protocol == Protocol.HTTPS )
+                {
+                    url.Port = DefaultPortHTTPS;
+                    return true;
+                }
+            }
+            string portStr;
+            if ( hasDoc )
+            {
+                portStr = urlValue[ GetStartParseHost( urlValue, SeparatorLoginAndPassword )..urlValue.IndexOf( Separator ) ];
+            }
+            else
+            {
+                portStr = urlValue[ GetStartParseHost( urlValue, SeparatorLoginAndPassword ).. ];
+            }
+
+            if ( !int.TryParse( portStr, out int port ) )
+            {
+                return false;
+            }
+
+            url.Port = port;
+            return true;
+        }
+
+        private static string GetHost( string urlValue, bool hasDoc, bool hasPort )
+        {
+            if ( hasPort )
+            {
+                return urlValue[ ..urlValue.IndexOf( SeparatorLoginAndPassword ) ];
+            }
+            else if ( hasDoc )
+            {
+                return urlValue[ ..urlValue.IndexOf( Separator ) ];
+            }
+            else
+            {
+                return urlValue;
+            }
+        }
+
+        private static bool TryParseProtocol( ref string urlValue, Url url )
         {
             string separator = "://";
             string HTTP = "HTTP";
             string HTTPS = "HTTPS";
             string FTP = "FTP";
 
-            // TODO: проверить - может без проверки будет работать
             if ( !urlValue.Contains( separator ) )
             {
                 return false;
@@ -48,23 +119,50 @@ namespace ParseUrl
 
             string protocol = urlValue[ ..urlValue.IndexOf( separator ) ];
 
+            urlValue = urlValue[ GetStartParseHost( urlValue, separator ).. ];
+
             if ( protocol.ToUpper() == HTTP )
             {
-                url.protocol = Protocol.HTTP;
+                url.Protocol = Protocol.HTTP;
                 return true;
             }
             if ( protocol.ToUpper() == HTTPS )
             {
-                url.protocol = Protocol.HTTPS;
+                url.Protocol = Protocol.HTTPS;
                 return true;
             }
             if ( protocol.ToUpper() == FTP )
             {
-                url.protocol = Protocol.FTP;
+                url.Protocol = Protocol.FTP;
                 return true;
             }
 
             return false;
+        }
+
+        private static void RemoveLoginAndPassword( ref string urlValue )
+        {
+            bool hasLoginAndPassword = urlValue.Contains( EndPassword ) && urlValue.LastIndexOf( EndPassword ) < urlValue.IndexOf( Separator );
+            if ( hasLoginAndPassword )
+            {
+                urlValue = urlValue[ GetStartParseHost( urlValue, EndPassword ).. ];
+            }
+        }
+
+        private static string GetDocument( string urlValue, bool hasDoc )
+        {
+            return hasDoc ? urlValue[ GetStartParseHost( urlValue, Separator ).. ] : string.Empty;
+        }
+
+        private static int GetStartParseHost( string urlValue, string separator )
+        {
+            return urlValue.IndexOf( separator, StringComparison.OrdinalIgnoreCase ) + separator.Length;
+        }
+
+        private static int GetStartParseHost( string urlValue, char separator )
+        {
+            int charLength = 1;
+            return urlValue.IndexOf( separator, StringComparison.OrdinalIgnoreCase ) + charLength;
         }
     }
 }
