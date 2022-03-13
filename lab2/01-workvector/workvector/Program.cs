@@ -1,41 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.String;
 
 namespace workvector
 {
     public class Program
     {
-        public static List<string> errors = new List<string>();
-
-        public static int Main( string[] args )
+        public static void Main()
         {
-
             var input = Console.ReadLine().Trim();
-            List<double> list = ReadList( input );
+            List<double> list = new List<double>();
 
-            if ( errors.Count != 0 )
+            bool isRead = TryCovertStringToListDouble( input, list );
+
+            if ( !isRead )
             {
-                Console.WriteLine( string.Join( "\n", errors ) );
-                return 0;
+                Console.WriteLine( "Failed convert input array." );
+
+                return;
             }
 
             MultiplicationListByMin( list );
 
             list.Sort();
+
             PrintList( list );
-
-            return 0;
-        }
-
-        public static void PrintList( List<double> list )
-        {
-            Console.WriteLine( String.Join( " ", list ) );
         }
 
         public static void MultiplicationListByMin( List<double> list )
         {
+            if ( list.Count == 0 )
+            {
+                return;
+            }
+
             double min = list.Min();
 
             for ( int i = 0; i < list.Count; i++ )
@@ -44,33 +42,28 @@ namespace workvector
             }
         }
 
-        public static List<double> ReadList( string input )
+        public static bool TryCovertStringToListDouble( string input, List<double> list )
         {
-            var result = new List<double>();
-            if ( input == Empty )
+            foreach ( var item in input.Split( " " ) )
             {
-                return result;
-            }
-
-            var content = input.Split( " " );
-
-            foreach ( var item in content )
-            {
-                if ( item == Empty )
+                if ( item == string.Empty )
                 {
                     continue;
                 }
-                if ( double.TryParse( item, out double element ) )
-                {
-                    result.Add( element );
-                }
-                else
-                {
-                    errors.Add( $"Error argument. {item} is not float." );
-                }
-            }
 
-            return result;
+                if ( !double.TryParse( item, out double digit ) )
+                {
+                    return false;
+                }
+
+                list.Add( digit );
+            }
+            return true;
+        }
+
+        private static void PrintList( List<double> list )
+        {
+            Console.WriteLine( String.Join( " ", list ) );
         }
 
     }

@@ -2,7 +2,7 @@
   "profiles": {
     "MiniDictionary": {
       "commandName": "Project",
-      "commandLineArgs": "default.txt"
+      "commandLineArgs": "vocabulary.txt"
     }
   }
 }
