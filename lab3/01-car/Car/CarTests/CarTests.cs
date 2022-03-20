@@ -372,7 +372,7 @@ namespace CarTests
         }
 
         [Fact]
-        public void Car_SetGearBackwardWhanCarDirectionForward_ResultFalse()
+        public void Car_SetGearBackwardWhanCarDirectionForward_ResultTrue()
         {
             //arrange
             Car car = GetCarThatGearReverseAndMove();
@@ -386,6 +386,23 @@ namespace CarTests
             Assert.Equal( Gear.Reverse, car.Gear );
             Assert.True( car.IsEngineRunning, "авто заведено." );
             Assert.True( car.Direction == Direction.Backward, "После переключения передачи саму на себя, движение авто не изменится." );
+        }
+
+        [Fact]
+        public void Car_SetGearNeutralWhanCarDirectionBackward_ResultTrue()
+        {
+            //arrange
+            Car car = GetCarThatGearReverseAndMove();
+
+            //act
+            bool result = car.SetGear( 0 );
+
+            //assert
+            Assert.True( result );
+            Assert.Equal( 10, car.Speed );
+            Assert.Equal( Gear.Neutral, car.Gear );
+            Assert.True( car.IsEngineRunning, "авто заведено." );
+            Assert.True( car.Direction == Direction.Backward, "После переключения передачи на нейтральную, движение авто не изменится." );
         }
 
         #region CarFactory

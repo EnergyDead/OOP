@@ -61,11 +61,6 @@
                 return true;
             }
 
-            if ( _direction == Direction.Backward )
-            {
-                return false;
-            }
-
             if ( !_isEngineRunning )
             {
                 return (Gear)gear == Gear.Neutral;
@@ -77,6 +72,12 @@
 
                 return true;
             }
+
+            if ( _direction == Direction.Backward )
+            {
+                return false;
+            }
+
             if ( (Gear)gear == Gear.First )
             {
                 if ( _speed >= _minFirstSpeed && _speed <= _maxFirstSpeed )
@@ -86,6 +87,7 @@
                     return true;
                 }
             }
+
             if ( (Gear)gear == Gear.Second )
             {
                 if ( _speed >= _minSecondSpeed && _speed <= _maxSecondSpeed )
@@ -95,6 +97,7 @@
                     return true;
                 }
             }
+
             if ( (Gear)gear == Gear.Third )
             {
                 if ( _speed >= _minThirdSpeed && _speed <= _maxThirdSpeed )
@@ -104,6 +107,7 @@
                     return true;
                 }
             }
+
             if ( (Gear)gear == Gear.Fourth )
             {
                 if ( _speed >= _minFourthSpeed && _speed <= _maxFourthSpeed )

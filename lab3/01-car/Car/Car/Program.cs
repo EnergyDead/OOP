@@ -13,8 +13,9 @@ Car car = new();
 ICarSimulator carSimulator = new CarSimulator.CarSimulator( car );
 
 string command = string.Empty;
-while ( command != "Closed" )
+while ( command != "closed" )
 {
+    Console.WriteLine();
     Console.Write( "Введите команду: " );
 
     string[] arguments = Console.ReadLine().Split( ' ' );
@@ -23,14 +24,14 @@ while ( command != "Closed" )
         continue;
     }
 
-    command = arguments.First();
+    command = arguments.First().ToLower();
 
-    if ( command == "Info" )
+    if ( command == "info" )
     {
         carSimulator.Info();
     }
 
-    if ( command == "EngineOn" )
+    if ( command == "engineon" )
     {
         if ( carSimulator.EngineOn() )
         {
@@ -40,7 +41,7 @@ while ( command != "Closed" )
         Console.WriteLine( "Ошибка." );
     }
 
-    if ( command == "EngineOff" )
+    if ( command == "engineoff" )
     {
         if ( carSimulator.EngineOff() )
         {
@@ -50,7 +51,7 @@ while ( command != "Closed" )
         Console.WriteLine( "Ошибка." );
     }
 
-    if ( command == "SetGear" )
+    if ( command == "setgear" )
     {
         if ( int.TryParse( arguments[ 1 ], out int value ) )
         {
@@ -63,7 +64,7 @@ while ( command != "Closed" )
         Console.WriteLine( "Ошибка." );
     }
 
-    if ( command == "SetSpeed" )
+    if ( command == "setspeed" )
     {
         if ( int.TryParse( arguments[ 1 ], out int value ) )
         {
