@@ -11,15 +11,15 @@ namespace WorkVectorTests
         {
             //Arrange
             string inputValue = "1 2 3 4 -1 4, ,2 2,2";
+            var resultList = new List<double>();
 
             //Act
-            var result = Program.ReadList( inputValue );
-            var errors = Program.errors;
+            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
 
             //Assert
-            Assert.NotNull( result );
-            Assert.Empty( errors );
-            Assert.Equal( 8, result.Count );
+            Assert.True( isRead );
+            Assert.NotEmpty( resultList );
+            Assert.Equal( 8, resultList.Count );
         }
 
         [Fact]
@@ -27,16 +27,13 @@ namespace WorkVectorTests
         {
             //Arrange
             string inputValue = "1 2 3 4 -1 4, ,2 2,2dc";
-            string errorMessage = "Error argument. 2,2dc is not float.";
+            var resultList = new List<double>();
 
             //Act
-            var result = Program.ReadList( inputValue );
-            var errors = Program.errors;
+            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
 
             //Assert
-            Assert.NotEmpty( result );
-            Assert.Single( errors );
-            Assert.Equal( errorMessage, errors[ 0 ] );
+            Assert.False( isRead );
         }
 
         [Fact]
@@ -44,19 +41,18 @@ namespace WorkVectorTests
         {
             //Arrange
             var inputValue = string.Empty;
+            var resultList = new List<double>();
 
             //Act
-            var result = Program.ReadList( inputValue );
-            var errors = Program.errors;
+            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
 
             //Assert
-            Assert.NotNull( result );
-            Assert.Empty( result );
-            Assert.Empty( errors );
+            Assert.True( isRead );
+            Assert.Empty( resultList );
         }
 
         [Fact]
-        public void MultiplicationListByMin()
+        public void MultiplicationListByMin_CorrectInput()
         {
             //Arrange
             var inputList = new List<double> { 1, 2, 3, 3.2, 0.1 };
@@ -64,15 +60,26 @@ namespace WorkVectorTests
 
             //Act
             Program.MultiplicationListByMin( inputList );
-            var errors = Program.errors;
 
             //Assert
-            Assert.Empty( errors );
             Assert.Equal( result.Count, inputList.Count );
             for ( int i = 0; i < inputList.Count; i++ )
             {
                 Assert.Equal( result[ i ], inputList[ i ] );
             }
+        }
+
+        [Fact]
+        public void MultiplicationListByMin_EmptyInput()
+        {
+            //Arrange
+            var inputList = new List<double>();
+
+            //Act
+            Program.MultiplicationListByMin( inputList );
+
+            //Assert
+            Assert.Empty( inputList );
         }
     }
 }
