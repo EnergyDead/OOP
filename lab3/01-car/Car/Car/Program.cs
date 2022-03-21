@@ -15,6 +15,7 @@ ICarSimulator carSimulator = new CarSimulator.CarSimulator( car );
 string command = string.Empty;
 while ( command != "closed" )
 {
+    // больше информации об ошибке.
     Console.WriteLine();
     Console.Write( "Введите команду: " );
 
@@ -38,7 +39,7 @@ while ( command != "closed" )
             Console.WriteLine( "Успешно! Автомобиль заведен." );
             continue;
         }
-        Console.WriteLine( "Ошибка." );
+        Console.WriteLine( "Ошибка. Не удалось завести авто." );
     }
 
     if ( command == "engineoff" )
@@ -48,7 +49,7 @@ while ( command != "closed" )
             Console.WriteLine( "Успешно! Автомобиль выключен." );
             continue;
         }
-        Console.WriteLine( "Ошибка." );
+        Console.WriteLine( "Ошибка. Не удалось заглушить авто." );
     }
 
     if ( command == "setgear" )
@@ -61,7 +62,7 @@ while ( command != "closed" )
                 continue;
             }
         }
-        Console.WriteLine( "Ошибка." );
+        Console.WriteLine( "Ошибка. Не удалось установить передачу." );
     }
 
     if ( command == "setspeed" )
@@ -74,6 +75,6 @@ while ( command != "closed" )
                 continue;
             }
         }
-        Console.WriteLine( "Ошибка." );
+        Console.WriteLine( "Ошибка.Не удалось установить скорость." );
     }
 }

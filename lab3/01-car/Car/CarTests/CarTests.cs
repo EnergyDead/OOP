@@ -405,6 +405,24 @@ namespace CarTests
             Assert.True( car.Direction == Direction.Backward, "После переключения передачи на нейтральную, движение авто не изменится." );
         }
 
+        [Fact]
+        public void Car_SetSpeedLowerWhthCarDirectionBackwardAndGearNeutral()
+        {
+            //arrange
+            Car car = GetCarThatGearReverseAndMove();
+            car.SetGear( 0 );
+
+            //act
+            bool result = car.SetSpeed( 5 );
+
+            //assert
+            Assert.True( result );
+            Assert.Equal( 5, car.Speed );
+            Assert.Equal( Gear.Neutral, car.Gear );
+            Assert.True( car.IsEngineRunning, "авто заведено." );
+            Assert.True( car.Direction == Direction.Backward, "После переключения передачи на нейтральную и уменьшения скорости, движение авто не изменится." );
+        }
+
         #region CarFactory
         private static Car GetTurnOnEngineCar()
         {

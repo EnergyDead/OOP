@@ -20,6 +20,7 @@
             {
                 return false;
             }
+            // разделить All
             if ( !TryParseAll( urlValue, url ) )
             {
                 return false;
@@ -37,15 +38,18 @@
             }
             bool hasDoc = urlValue.Contains( Separator );
             bool hasPort = urlValue.Contains( SeparatorLoginAndPassword );
-
+            
+            // не нужно hasDoc и hasPort
             url.Host = GetHost( urlValue, hasDoc, hasPort );
 
+            // не нужно hasDoc и hasPort
             if ( !TryParsePort( url, urlValue, hasDoc, hasPort ) )
             {
                 return false;
             }
 
-            url.Document = GetDocument( urlValue, hasDoc );
+            // вынести проверку на hasDoc
+            url.Document = hasDoc ? GetDocument( urlValue, hasDoc ) : string.Empty;
 
             return true;
         }
@@ -73,12 +77,12 @@
             string portStr;
             if ( hasDoc )
             {
-                portStr = urlValue[ GetStartParseHost( urlValue, SeparatorLoginAndPassword )..urlValue.IndexOf( Separator ) ];
+                portStr = urlValue[ GetStartParseIndex( urlValue, SeparatorLoginAndPassword )..urlValue.IndexOf( Separator ) ];
             }
             else
             {
-                portStr = urlValue[ GetStartParseHost( urlValue, SeparatorLoginAndPassword ).. ];
-            }
+                portStr = urlValue[ GetStartParseIndex( urlValue, SeparatorLoginAndPassword ).. ];
+            } 
 
             if ( !int.TryParse( portStr, out int port ) )
             {
@@ -119,7 +123,7 @@
 
             string protocol = urlValue[ ..urlValue.IndexOf( separator ) ];
 
-            urlValue = urlValue[ GetStartParseHost( urlValue, separator ).. ];
+            urlValue = urlValue[ GetStartParseIndex( urlValue, separator ).. ];
 
             if ( protocol.ToUpper() == HTTP )
             {
@@ -145,21 +149,21 @@
             bool hasLoginAndPassword = urlValue.Contains( EndPassword ) && urlValue.LastIndexOf( EndPassword ) < urlValue.IndexOf( Separator );
             if ( hasLoginAndPassword )
             {
-                urlValue = urlValue[ GetStartParseHost( urlValue, EndPassword ).. ];
+                urlValue = urlValue[ GetStartParseIndex( urlValue, EndPassword ).. ];
             }
         }
 
         private static string GetDocument( string urlValue, bool hasDoc )
         {
-            return hasDoc ? urlValue[ GetStartParseHost( urlValue, Separator ).. ] : string.Empty;
+            return hasDoc ? urlValue[ GetStartParseIndex( urlValue, Separator ).. ] : string.Empty;
         }
 
-        private static int GetStartParseHost( string urlValue, string separator )
+        private static int GetStartParseIndex( string urlValue, string separator )
         {
             return urlValue.IndexOf( separator, StringComparison.OrdinalIgnoreCase ) + separator.Length;
         }
 
-        private static int GetStartParseHost( string urlValue, char separator )
+        private static int GetStartParseIndex( string urlValue, char separator )
         {
             int charLength = 1;
             return urlValue.IndexOf( separator, StringComparison.OrdinalIgnoreCase ) + charLength;

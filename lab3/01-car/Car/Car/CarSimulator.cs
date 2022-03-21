@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CarSimulator
+﻿namespace CarSimulator
 {
     public class CarSimulator : ICarSimulator
     {
@@ -26,7 +20,6 @@ namespace CarSimulator
 
         public void Info()
         {
-            // todo: сделать по нормальному
             Console.WriteLine( "Информация о машине." );
             Console.WriteLine( $"Состояние двигателя: {_car.IsEngineRunning}" );
             Console.WriteLine( $"Направление движения: {_car.Direction}" );
