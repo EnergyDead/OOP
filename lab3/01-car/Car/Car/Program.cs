@@ -27,54 +27,78 @@ while ( command != "closed" )
 
     command = arguments.First().ToLower();
 
-    if ( command == "info" )
+    switch ( command )
     {
-        carSimulator.Info();
-    }
+        case "info":
+            carSimulator.Info();
+            break;
+        case "engineon":
+            EngineOn();
+            break;
+        case "engineoff":
+            EngineOff();
+            break;
+        case "setgear":
+            SetGear( arguments[ 1 ] );
+            break;
 
-    if ( command == "engineon" )
+        case "setspeed":
+            SetSpeed( arguments[ 1 ] );
+            break;
+        default:
+            Console.WriteLine( "Ошибка. Неизвестная команда." );
+            break;
+    }
+}
+
+#region command
+
+void EngineOn()
+{
+    if ( carSimulator.EngineOn() )
     {
-        if ( carSimulator.EngineOn() )
-        {
-            Console.WriteLine( "Успешно! Автомобиль заведен." );
-            continue;
-        }
+        Console.WriteLine( "Успешно! Автомобиль заведен." );
+    }
+    else
+    {
         Console.WriteLine( "Ошибка. Не удалось завести авто." );
     }
+}
 
-    if ( command == "engineoff" )
+void EngineOff()
+{
+    if ( carSimulator.EngineOff() )
     {
-        if ( carSimulator.EngineOff() )
-        {
-            Console.WriteLine( "Успешно! Автомобиль выключен." );
-            continue;
-        }
+        Console.WriteLine( "Успешно! Автомобиль выключен." );
+    }
+    else
+    {
         Console.WriteLine( "Ошибка. Не удалось заглушить авто." );
     }
+}
 
-    if ( command == "setgear" )
+void SetGear( string newGear )
+{
+    if ( int.TryParse( newGear, out int value ) && carSimulator.SetGear( value ) )
     {
-        if ( int.TryParse( arguments[ 1 ], out int value ) )
-        {
-            if ( carSimulator.SetGear( value ) )
-            {
-                Console.WriteLine( $"Успешно! Установлена передача {value}." );
-                continue;
-            }
-        }
+        Console.WriteLine( $"Успешно! Установлена передача {value}." );
+    }
+    else
+    {
         Console.WriteLine( "Ошибка. Не удалось установить передачу." );
     }
+}
 
-    if ( command == "setspeed" )
+void SetSpeed( string newSpeed )
+{
+    if ( int.TryParse( newSpeed, out int value ) && carSimulator.SetSpeed( value ) )
     {
-        if ( int.TryParse( arguments[ 1 ], out int value ) )
-        {
-            if ( carSimulator.SetSpeed( value ) )
-            {
-                Console.WriteLine( $"Успешно! Установлена скорость {value}." );
-                continue;
-            }
-        }
+        Console.WriteLine( $"Успешно! Установлена скорость {value}." );
+    }
+    else
+    {
         Console.WriteLine( "Ошибка.Не удалось установить скорость." );
     }
 }
+
+#endregion command

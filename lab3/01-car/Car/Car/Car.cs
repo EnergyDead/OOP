@@ -111,7 +111,7 @@
                 return false;
             }
 
-            if (_gear == Gear.Neutral && speed >= _speed)
+            if ( _gear == Gear.Neutral && speed >= _speed )
             {
                 return false;
             }
@@ -134,16 +134,16 @@
 
         private static Dictionary<Gear, (int, int)> SetGears()
         {
-            var result = new Dictionary<Gear, (int, int)>();
-            result.Add( Gear.Reverse, (0, 20) );
-            result.Add( Gear.First, (0, 30) );
-            result.Add( Gear.Second, (20, 50) );
-            result.Add( Gear.Third, (30, 60) );
-            result.Add( Gear.Fourth, (40, 90) );
-            result.Add( Gear.Fifth, (50, 150) );
-            result.Add( Gear.Neutral, (0, 150) );
-
-            return result;
+            return new()
+            {
+                { Gear.Reverse, (0, 20) },
+                { Gear.First, (0, 30) },
+                { Gear.Second, (20, 50) },
+                { Gear.Third, (30, 60) },
+                { Gear.Fourth, (40, 90) },
+                { Gear.Fifth, (50, 150) },
+                { Gear.Neutral, (0, 150) }
+            };
         }
 
         private void SetDirection( int speed )
@@ -152,16 +152,15 @@
             if ( speed == 0 )
             {
                 _direction = Direction.OnPlace;
-                return;
             }
-
-            if ( _direction == Direction.Backward || _gear == Gear.Reverse )
+            else if ( _direction == Direction.Backward || _gear == Gear.Reverse )
             {
                 _direction = Direction.Backward;
-                return;
             }
-
-            _direction = Direction.Forward;
+            else
+            {
+                _direction = Direction.Forward;
+            }
         }
     }
 }
