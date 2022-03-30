@@ -1,26 +1,18 @@
-﻿using System;
-
-namespace ThreeDimensionalBody.figures
+﻿namespace ThreeDimensionalBody
 {
-    public class Body
+    public abstract class Body
     {
-        protected double _density;
-
         public virtual double GetDensity()
         {
             throw new NotImplementedException();
         }
-
         public virtual double GetVolume()
         {
             throw new NotImplementedException();
         }
-
         public virtual double GetMass()
         {
             throw new NotImplementedException();
         }
-
-
     }
 }
