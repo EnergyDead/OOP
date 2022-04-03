@@ -1,4 +1,6 @@
-﻿using ThreeDimensionalBody;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ThreeDimensionalBody;
 using Xunit;
 
 namespace BodyTests
@@ -64,13 +66,12 @@ namespace BodyTests
             var body = new Compound();
             var compoundBody = GetCompoundBody();
             var sphere = new Sphere( 1, 2 );
+            compoundBody.AddChildBody( sphere );
 
             //act
-            var resultAddSphere = body.AddChildBody( sphere );
             var resultAddCompoundBody = body.AddChildBody( compoundBody );
 
             //assert
-            Assert.True( resultAddSphere );
             Assert.True( resultAddCompoundBody );
             Assert.Equal( 580.148, body.GetVolume() );
             Assert.Equal( 2783.453, body.GetMass() );
@@ -82,16 +83,50 @@ namespace BodyTests
         {
             //arrange
             var body = GetCompoundBody();
-            var compoundBody = GetCompoundBody();
             var sphere = new Sphere( 1, 2 );
 
             //act
             var resultAddSphere = body.AddChildBody( sphere );
-            var resultAddCompoundBody = body.AddChildBody( compoundBody );
+            var resultAddCompoundBody = body.AddChildBody( body );
 
             //assert
             Assert.True( resultAddSphere );
             Assert.False( resultAddCompoundBody, "Нельзя добавить в составное тело само себя." );
+        }
+
+        [Fact]
+        public void Compound_AddCompoundWithCompoundBody_ReturnFalse()
+        {
+            //arrange
+            var body = new Compound();
+            var compoundBody = GetCompoundBody();
+            var sphere = new Sphere( 1, 2 );
+            body.AddChildBody( sphere );
+            body.AddChildBody( compoundBody );
+
+            //act
+            var resultAddCompoundBody = compoundBody.AddChildBody( body );
+
+            //assert
+            Assert.False( resultAddCompoundBody, "Нельзя добавить в составное тело само себя." );
+        }
+
+        [Fact]
+        public void Compound_AddCompoundWithCompoundBody2_ReturnFalse()
+        {
+            //arrange
+            Compound compoundBody = new();
+            Compound intermediateContainer = new();
+            Compound intermediateContainer2 = new();
+            Compound compound = compoundBody;
+            intermediateContainer.AddChildBody( compound );
+            intermediateContainer2.AddChildBody( intermediateContainer );
+
+            //act            
+            var result = compoundBody.AddChildBody( intermediateContainer2 );
+
+            //assert            
+            Assert.False( result, "Нельзя добавить в составное тело само себя." );
         }
 
         #region BodyFactory

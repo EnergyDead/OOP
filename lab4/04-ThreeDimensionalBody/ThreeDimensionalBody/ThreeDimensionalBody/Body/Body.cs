@@ -14,5 +14,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return $"Плотность: {GetDensity()}, Обьем: {GetVolume()}, Масса: {GetMass()}";
+        }
     }
 }

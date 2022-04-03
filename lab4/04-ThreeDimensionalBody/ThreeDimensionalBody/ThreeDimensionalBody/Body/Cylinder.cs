@@ -28,5 +28,10 @@
         {
             return Math.PI * Math.Pow( BaseRadius, 2 ) * Heigth;
         }
+
+        public override string ToString()
+        {
+            return $"Цилиндор. Радиус: {BaseRadius}, Высота: {Heigth}, {base.ToString()}";
+        }
     }
 }

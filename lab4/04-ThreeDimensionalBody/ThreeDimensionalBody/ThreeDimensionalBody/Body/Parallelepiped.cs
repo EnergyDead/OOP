@@ -32,5 +32,10 @@
         {
             return Width * Heigth * Depth;
         }
+
+        public override string ToString()
+        {
+            return $"Параллелепипед. Ширина: {Width}, Высота: {Heigth}, Глубина: {Depth}, {base.ToString()}";
+        }
     }
 }

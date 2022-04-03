@@ -28,5 +28,10 @@
         {
             return  ( Math.PI * Math.Pow( BaseRadius, 2 ) * Heigth ) / 3;
         }
+
+        public override string ToString()
+        {
+            return $"Конус. Радиус: {BaseRadius}, Высота: {Heigth}, {base.ToString()}";
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ThreeDimensionalBody
+﻿using System.Text;
+
+namespace ThreeDimensionalBody
 {
     public class Compound : Body
     {
@@ -17,6 +19,11 @@
             }
 
             if ( Equals( body ) )
+            {
+                return false;
+            }
+
+            if ( HasEquals( body ) )
             {
                 return false;
             }
@@ -45,6 +52,7 @@
             var volumes = _bodies.Sum( c => c.GetVolume() );
             return Math.Round( volumes, 3 );
         }
+
         public override double GetDensity()
         {
             if ( _bodies.Count == 0 )
@@ -53,6 +61,29 @@
             }
             var densitys = GetMass() / GetVolume();
             return Math.Round( densitys, 3 );
+        }
+
+        public bool Contains( Body body )
+        {
+            return _bodies.Contains( body );
+        }
+
+        public bool HasEquals( Body body )
+        {
+            if ( body is Compound )
+            {
+                if ( ( body as Compound ).Contains( this ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return $"Составное тело. {base.ToString()}[{string.Join(", ", _bodies )}]";
         }
     }
 }

@@ -23,5 +23,10 @@
         {
             return ( 4.0 / 3 ) * Math.PI * Math.Pow( Radius, 3 );
         }
+
+        public override string ToString()
+        {
+            return $"Сфера. Радиус: {Radius}, {base.ToString()}";
+        }
     }
 }
