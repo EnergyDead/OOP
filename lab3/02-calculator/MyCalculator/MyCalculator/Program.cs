@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Calculator;
+﻿using Calculator;
 
 Console.WriteLine( "Првиет, это умный калькулятор!" );
 Console.WriteLine( "Чтобы создать переменную введи var (название переменной)." );
@@ -20,7 +19,7 @@ while ( command != "end" )
         var res = calc.PrintVars();
         Console.WriteLine( res );
     }
-    else if ( command == "printfns" )
+    else if ( command == "printfns" ) 
     {
         var res = calc.PrintFns();
         Console.WriteLine( res );

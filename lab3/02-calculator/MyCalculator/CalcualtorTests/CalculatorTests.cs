@@ -343,7 +343,7 @@ namespace CalculatorTests
             //arrange
             ICalculator calc = new Calculator.Calculator();
             string nameLet1 = "first";
-            string commandCreateLet1 = $"let {nameLet1}=21.112";
+            string commandCreateLet1 = $"let {nameLet1}=21,112";
             calc.CreateOrChangeArgument( commandCreateLet1 );
             string nameLet2 = "nameLet";
             string commandCreateLet = $"let {nameLet2}={nameLet1}";
@@ -359,7 +359,11 @@ namespace CalculatorTests
             var resultFnsPrint = calc.PrintFns();
 
             //assert
-            Assert.Equal( "newFn:445.72\r\nnewFn2:198666.32\r\n", resultFnsPrint );
+            Assert.Equal( "newFn:445,72\r\nnewFn2:198666,32\r\n", resultFnsPrint );
         }
+
+        // todo: добавить тест CreateFnWithUncknownLet()
+        // todo: добавить тесты на проверку (fn foo=x+Y+z)
+        // todo: добавить тесты на проверку (fn foo=x!+y)
     }
 }

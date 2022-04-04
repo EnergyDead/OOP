@@ -23,7 +23,8 @@
             _value = v;
         }
 
-
+        // todo: Удалить и удалить тесты
+        // todo: прочитать про диспетчиризацию
         public static double? operator +( Variable var1, Variable var2 )
         {
             return var1._value + var2._value;
@@ -40,7 +41,8 @@
         {
             return var1._value * var2._value;
         }
-
+        
+        // todo: использовать в ToValue()
         public override string ToString()
         {
             if ( _value == null )

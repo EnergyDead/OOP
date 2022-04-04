@@ -1,6 +1,6 @@
 ﻿namespace Calculator
 {
-    public abstract class Argument
+    public abstract class Argument // todo: переименовать в symbol
     {
         public string Name { get; private set; }
 

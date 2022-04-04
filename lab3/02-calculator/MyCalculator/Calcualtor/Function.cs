@@ -50,6 +50,8 @@
             return null;
         }
 
+
+        // todo: использовать в ToValue()
         public override string ToString()
         {
             if ( GetValue() == null )

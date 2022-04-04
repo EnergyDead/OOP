@@ -8,6 +8,7 @@ namespace Calculator
 {
     public class Calculator : ICalculator
     {
+        // todo: использовать Словарь<Name, Symbol>
         private static List<Argument> _args;
 
         public Calculator()
@@ -97,6 +98,7 @@ namespace Calculator
 
         private static bool CreateFn( string command )
         {
+            // todo: использовать правильную токенизацию
             var args = command.Split( '=' );
             if ( args.Length != 2 )
             {
@@ -165,6 +167,7 @@ namespace Calculator
             var letName = args[ 0 ];
             var letValue = args[ 1 ];
 
+            // todo: если переменной нет то создать, обновлять всегда
             if ( HasArgName( letName ) )
             {
                 return UpdateVariable( letName, letValue );

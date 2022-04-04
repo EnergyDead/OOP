@@ -10,7 +10,7 @@ Console.WriteLine( "SetSpeed скорость. Устанавливает ука
 Console.WriteLine( "Closed для выхода." );
 
 Car car = new();
-ICarSimulator carSimulator = new CarSimulator.CarSimulator( car );
+var carSimulator = new CarSimulator.CarSimulator( car );
 
 string command = string.Empty;
 while ( command != "closed" )
@@ -27,6 +27,7 @@ while ( command != "closed" )
 
     command = arguments.First().ToLower();
 
+    // todo: перенести в CarSimulator
     switch ( command )
     {
         case "info":
@@ -51,6 +52,7 @@ while ( command != "closed" )
     }
 }
 
+// todo: перенести в CarSimulator
 #region command
 
 void EngineOn()

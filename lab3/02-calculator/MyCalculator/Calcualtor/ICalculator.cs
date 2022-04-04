@@ -1,5 +1,6 @@
 ﻿namespace Calculator
 {
+    // todo: убрать ICalculator
     public interface ICalculator
     {
         public bool CreateOrChangeArgument( string value );
