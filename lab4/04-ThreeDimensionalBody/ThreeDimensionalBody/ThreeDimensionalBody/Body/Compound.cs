@@ -1,11 +1,8 @@
-﻿using System.Text;
-
-namespace ThreeDimensionalBody
+﻿namespace ThreeDimensionalBody
 {
     public class Compound : Body
     {
-        private List<Body> _bodies;
-
+        private readonly List<Body> _bodies;
         public Compound()
         {
             _bodies = new List<Body>();
@@ -13,22 +10,13 @@ namespace ThreeDimensionalBody
 
         public bool AddChildBody( Body body )
         {
-            if ( body == null )
-            {
-                return false;
-            }
-
-            if ( Equals( body ) )
-            {
-                return false;
-            }
-
-            if ( HasEquals( body ) )
+            if ( HasParent(body) )
             {
                 return false;
             }
 
             _bodies.Add( body );
+            SetRerent( body, this );
 
             return true;
         }
@@ -63,27 +51,33 @@ namespace ThreeDimensionalBody
             return Math.Round( densitys, 3 );
         }
 
-        private bool Contains( Body body )
+        private bool HasParent( Body body )
         {
-            return _bodies.Contains( body );
-        }
-
-        private bool HasEquals( Body body )
-        {
-            if ( body is Compound )
+            if ( body == null )
             {
-                if ( ( body as Compound ).Contains( this ) )
+                return true;
+            }
+
+            if ( Equals( body ) )
+            {
+                return true;
+            }
+
+            Compound? parent = Parent;
+            while ( parent != null )
+            {
+                if ( ReferenceEquals( parent, body ) )
                 {
                     return true;
                 }
+                parent = parent.Parent;
             }
-
             return false;
         }
 
         public override string ToString()
         {
-            return $"Составное тело. {base.ToString()}[{string.Join(", ", _bodies )}]";
+            return $"Составное тело. {base.ToString()}[{string.Join( ", ", _bodies )}]";
         }
     }
 }

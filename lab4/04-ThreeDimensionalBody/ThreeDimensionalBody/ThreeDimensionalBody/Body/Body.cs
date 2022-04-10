@@ -19,5 +19,11 @@
         {
             return $"Плотность: {GetDensity()}, Обьем: {GetVolume()}, Масса: {GetMass()}";
         }
+
+        protected Compound? Parent { get; set; } = null;
+        protected virtual void SetRerent( Body body, Compound compound )
+        {
+            body.Parent = compound;
+        }
     }
 }
