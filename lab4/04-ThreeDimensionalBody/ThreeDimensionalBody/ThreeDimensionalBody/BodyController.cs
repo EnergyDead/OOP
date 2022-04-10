@@ -14,6 +14,7 @@
 
                 return new Sphere( radius, density );
             }
+            // todo: сделать несколько catch
             catch ( Exception ex )
             {
                 if ( ex is not ArgumentOutOfRangeException )

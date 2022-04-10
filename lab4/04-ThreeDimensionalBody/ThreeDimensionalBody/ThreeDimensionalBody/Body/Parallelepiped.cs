@@ -2,6 +2,7 @@
 {
     public class Parallelepiped : SolidBody
     {
+        // todo: readonly
         public double Width { get; private set; }
         public double Heigth { get; private set; }
         public double Depth { get; private set; }

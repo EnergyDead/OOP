@@ -116,14 +116,14 @@ namespace BodyTests
         {
             //arrange
             Compound compoundBody = new();
-            Compound intermediateContainer = new();
-            Compound intermediateContainer2 = new();
+            Compound Container = new();
+            Compound Container2 = new();
             Compound compound = compoundBody;
-            intermediateContainer.AddChildBody( compound );
-            intermediateContainer2.AddChildBody( intermediateContainer );
+            Container.AddChildBody( compound );
+            Container2.AddChildBody( Container );
 
             //act            
-            var result = compoundBody.AddChildBody( intermediateContainer2 );
+            var result = compoundBody.AddChildBody( Container2 );
 
             //assert            
             Assert.False( result, "Нельзя добавить в составное тело само себя." );

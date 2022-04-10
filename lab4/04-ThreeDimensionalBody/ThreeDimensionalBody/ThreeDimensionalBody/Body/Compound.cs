@@ -63,12 +63,12 @@ namespace ThreeDimensionalBody
             return Math.Round( densitys, 3 );
         }
 
-        public bool Contains( Body body )
+        private bool Contains( Body body )
         {
             return _bodies.Contains( body );
         }
 
-        public bool HasEquals( Body body )
+        private bool HasEquals( Body body )
         {
             if ( body is Compound )
             {
