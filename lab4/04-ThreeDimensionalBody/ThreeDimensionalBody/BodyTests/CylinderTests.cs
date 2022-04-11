@@ -19,9 +19,9 @@ namespace BodyTests
             body = new Cylinder( radius, heigth, density );
 
             //assert
-            Assert.Equal( 0, body.GetVolume() );
-            Assert.Equal( 0, body.GetMass() );
-            Assert.Equal( 0, body.GetDensity() );
+            Assert.Equal( 0, Math.Round( body.GetVolume(), 3 ) );
+            Assert.Equal( 0, Math.Round( body.GetMass(), 3 ) );
+            Assert.Equal( 0, Math.Round( body.GetDensity(), 3 ) );
         }
 
         [Fact]
@@ -37,9 +37,9 @@ namespace BodyTests
             body = new Cylinder( radius, heigth, density );
 
             //assert
-            Assert.Equal( 25.133, body.GetVolume() );
-            Assert.Equal( 50.266, body.GetMass() );
-            Assert.Equal( 2, body.GetDensity() );
+            Assert.Equal( 25.133,  Math.Round( body.GetVolume(), 3 ) );
+            Assert.Equal( 50.265, Math.Round( body.GetMass(), 3 ) );
+            Assert.Equal( 2, Math.Round( body.GetDensity(), 3 ) );
         }
 
         [Fact]

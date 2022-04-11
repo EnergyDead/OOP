@@ -19,9 +19,9 @@ namespace BodyTests
             body = new Cone( radius, heigth, density );
 
             //assert
-            Assert.Equal( 0, body.GetVolume() );
-            Assert.Equal( 0, body.GetMass() );
-            Assert.Equal( 0, body.GetDensity() );
+            Assert.Equal( 0, Math.Round( body.GetVolume(), 3 ) );
+            Assert.Equal( 0, Math.Round( body.GetMass(), 3 ) );
+            Assert.Equal( 0, Math.Round( body.GetDensity(), 3 ) );
         }
 
         [Fact]
@@ -37,9 +37,9 @@ namespace BodyTests
             body = new Cone( radius, heigth, density );
 
             //assert
-            Assert.Equal( 8.378, body.GetVolume() );
-            Assert.Equal( 16.756, body.GetMass() );
-            Assert.Equal( 2, body.GetDensity() );
+            Assert.Equal( 8.378, Math.Round( body.GetVolume(), 3 ) );
+            Assert.Equal( 16.755, Math.Round( body.GetMass(), 3 ) );
+            Assert.Equal( 2, Math.Round( body.GetDensity(), 3 ) );
         }
 
         [Fact]

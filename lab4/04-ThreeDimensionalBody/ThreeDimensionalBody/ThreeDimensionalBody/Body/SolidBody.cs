@@ -15,11 +15,11 @@ public class SolidBody : Body
 
     public override double GetDensity()
     {
-        return Math.Round( _density, 3 );
+        return _density;
     }
 
     public override double GetMass()
     {
-        return Math.Round( _density * GetVolume(), 3 );
+        return  _density * GetVolume();
     }
 }

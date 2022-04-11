@@ -31,9 +31,14 @@ internal static class BodyController
         return body;
     }
 
-    public static void AddBody( List<Body> bodies, Body? body )
+    public static bool TryAddBody( List<Body> bodies, Body? body )
     {
-        if ( body != null ) bodies.Add( body );
+        if ( body == null )
+        {
+            return false;
+        }
+        bodies.Add( body );
+        return true;
     }
 
     public static void Print( List<Body> bodies )

@@ -35,8 +35,8 @@ namespace BodyTests
             body = new Sphere( radius, density );
 
             //assert
-            Assert.Equal( 4.189, body.GetVolume() );
-            Assert.Equal( 8.378, body.GetMass() );
+            Assert.Equal( 4.189, Math.Round( body.GetVolume(), 3 ) );
+            Assert.Equal( 8.378, Math.Round( body.GetMass(), 3 ) );
             Assert.Equal( 2, body.GetDensity() );
         }
 

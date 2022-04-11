@@ -20,7 +20,7 @@ public class Cone : SolidBody
 
     public override double GetVolume()
     {
-        return Math.Round( VolumeFormula(), 3 );
+        return VolumeFormula();
     }
 
 

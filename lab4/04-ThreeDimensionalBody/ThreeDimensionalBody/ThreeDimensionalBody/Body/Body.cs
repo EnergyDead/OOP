@@ -17,12 +17,12 @@ public abstract class Body
 
     public override string ToString()
     {
-        return $"Плотность: {GetDensity()}, Обьем: {GetVolume()}, Масса: {GetMass()}";
+        return $"Плотность: {GetDensity()}, Обьем: {Math.Round( GetVolume(), 3 )}, Масса: {Math.Round( GetMass(), 3 )}";
     }
 
-    protected Compound? Parent { get; set; } = null;
+    protected List<Compound> Parent { get; set; } = new();
     protected virtual void SetRerent( Body body, Compound compound )
     {
-        body.Parent = compound;
+        body.Parent.Add( compound );
     }
 }

@@ -21,7 +21,10 @@ while ( command != Exit )
         Console.WriteLine( "Неизвестная комманда." );
         continue;
     }
-    BodyController.AddBody( _bodies, BodyController.CreateBody( command ) );
+    if ( BodyController.TryAddBody( _bodies, BodyController.CreateBody( command ) ) )
+    {
+        Console.WriteLine( "Успешно!." );
+    }
 }
 
 BodyController.Print( _bodies );

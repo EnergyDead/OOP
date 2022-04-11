@@ -16,6 +16,7 @@ public class Compound : Body
         }
 
         _bodies.Add( body );
+        // добавить возможность иметь несколько родителей.
         SetRerent( body, this );
 
         return true;
@@ -28,7 +29,7 @@ public class Compound : Body
             return 0;
         }
         double mass = _bodies.Sum( c => c.GetMass() );
-        return Math.Round( mass, 3 );
+        return mass;
     }
 
     public override double GetVolume()
@@ -37,8 +38,8 @@ public class Compound : Body
         {
             return 0;
         }
-        var volumes = _bodies.Sum( c => c.GetVolume() );
-        return Math.Round( volumes, 3 );
+        var volume = _bodies.Sum( c => c.GetVolume() );
+        return volume;
     }
 
     public override double GetDensity()
@@ -47,8 +48,8 @@ public class Compound : Body
         {
             return 0;
         }
-        var densitys = GetMass() / GetVolume();
-        return Math.Round( densitys, 3 );
+        var density = GetMass() / GetVolume();
+        return density;
     }
 
     private bool HasParent( Body body )
@@ -58,19 +59,25 @@ public class Compound : Body
             return true;
         }
 
-        if ( Equals( body ) )
+        // изменить на ReferenceEquals
+        if ( ReferenceEquals( this, body ) )
         {
             return true;
         }
 
-        Compound? parent = Parent;
-        while ( parent != null )
+        Queue<Compound> parents = new();
+        parents.Enqueue( this );
+        while ( parents.Count > 0 )
         {
+            Compound? parent = parents.Dequeue();
             if ( ReferenceEquals( parent, body ) )
             {
                 return true;
             }
-            parent = parent.Parent;
+            parent.Parent.ForEach( p =>
+            {
+                parents.Enqueue( p );
+            } );
         }
         return false;
     }

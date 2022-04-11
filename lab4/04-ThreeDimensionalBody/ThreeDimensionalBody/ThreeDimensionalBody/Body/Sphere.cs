@@ -16,7 +16,7 @@ public class Sphere : SolidBody
 
     public override double GetVolume()
     {
-        return Math.Round( VolumeFormula(), 3 );
+        return VolumeFormula();
     }
 
     private double VolumeFormula()
