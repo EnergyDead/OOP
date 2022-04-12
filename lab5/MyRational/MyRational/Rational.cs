@@ -7,7 +7,7 @@ public class Rational
     // Возвращает знаменатель (натуральное число)
     public int Denominator { get; private set; }
     // Возвращает отношение числителя и знаменателя в виде числа double
-    public double Value => (double) Numerator /  Denominator;
+    public double Value => (double) Numerator / Denominator;
     public Rational()
     {
         Numerator = 0;
@@ -28,19 +28,63 @@ public class Rational
     // либо должно быть выброшено исключение std::invalid_argument.
     public Rational( int numerator, int denominator )
     {
-        Numerator = numerator;
         if ( denominator <= 0 )
         {
             throw new ArgumentException( "The denominator must be a natural number." );
         }
-        Denominator = denominator;
+        int gcd;
+        if ( numerator > 0 )
+        {
+            gcd = GreatestCommonDivisor( (uint) numerator, (uint) denominator );
+        }
+        else
+        {
+            gcd = GreatestCommonDivisor( (uint) -numerator, (uint) denominator );
+        }
+
+        Numerator = numerator / gcd;
+        Denominator = denominator / gcd;
     }
 
     // Прочие операторы согласно заданию
+    public static Rational operator +( Rational rational )
+    {
+        return rational;
+    }
+    public static Rational operator -( Rational rational )
+    {
+        rational.Numerator *= -1;
+        return rational;
+    }
 
+    public static Rational operator +( Rational first, Rational second )
+    {
+        var numerator = first.Numerator * second.Denominator + second.Numerator * first.Denominator;
+        var denominator = first.Denominator * second.Denominator;
+
+        return new Rational( numerator, denominator );
+    }
+
+    private static int GreatestCommonDivisor( uint first, uint second )
+    {
+        uint min = Math.Min( first, second );
+        uint C = Math.Max( first, second ) % min;
+        if ( C == 0 ) return (int) min;
+        return GreatestCommonDivisor( min, C );
+    }
 }
 
 #if false
+
+    public static uint GCD( uint A, uint B )
+    {
+        uint C = A;
+        A = A > B ? A : B;
+        B = C > B ? B : C;
+        C = A % B;
+        if ( C == 0 ) return B;
+        return GCD( B, C );
+    }
 public struct RationalNumber
 {
     public int Numerator { get; private set; }
