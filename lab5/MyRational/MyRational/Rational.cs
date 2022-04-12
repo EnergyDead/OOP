@@ -2,8 +2,11 @@
 
 public class Rational
 {
+    // Возвращает числитель
     public int Numerator { get; private set; }
+    // Возвращает знаменатель (натуральное число)
     public int Denominator { get; private set; }
+    // Возвращает отношение числителя и знаменателя в виде числа double
     public double Value => (double) Numerator /  Denominator;
     public Rational()
     {
@@ -28,27 +31,9 @@ public class Rational
         Numerator = numerator;
         if ( denominator <= 0 )
         {
-            throw new ArgumentException();
+            throw new ArgumentException( "The denominator must be a natural number." );
         }
         Denominator = denominator;
-    }
-
-    // Возвращает числитель
-    public int GetNumerator()
-    {
-        throw new NotImplementedException();
-    }
-
-    // Возвращает знаменатель (натуральное число)
-    public int GetDenominator()
-    {
-        throw new NotImplementedException();
-    }
-
-    // Возвращает отношение числителя и знаменателя в виде числа double
-    public double ToDouble()
-    {
-        throw new NotImplementedException();
     }
 
     // Прочие операторы согласно заданию
