@@ -47,6 +47,9 @@ public class Rational
     }
 
     // Прочие операторы согласно заданию
+
+    public static implicit operator Rational( int value ) => new( value );
+
     public static Rational operator +( Rational rational )
     {
         return rational;
@@ -57,6 +60,12 @@ public class Rational
         return rational;
     }
 
+    public override string ToString()
+    {
+        return $"{Numerator} / {Denominator}";
+    }
+
+    #region Arithmetic operator
     public static Rational operator +( Rational first, Rational second )
     {
         var numerator = first.Numerator * second.Denominator + second.Numerator * first.Denominator;
@@ -64,6 +73,50 @@ public class Rational
 
         return new Rational( numerator, denominator );
     }
+
+    public static Rational operator -( Rational first, Rational second )
+    {
+        return first + ( -second );
+    }
+
+    public static Rational operator *( Rational first, Rational second )
+    {
+        var numerator = first.Numerator * second.Numerator;
+        var denominator = first.Denominator * second.Denominator;
+
+        return new Rational( numerator, denominator );
+    }
+
+    public static Rational operator /( Rational first, Rational second )
+    {
+        var numerator = first.Numerator * second.Denominator;
+        var denominator = first.Denominator * second.Numerator;
+
+        return new Rational( numerator, denominator );
+    }
+    #endregion
+
+    #region Comparison operator
+    public static bool operator >( Rational first, Rational second )
+    {
+        return first.Value > second.Value;
+    }
+
+    public static bool operator <( Rational first, Rational second )
+    {
+        return first.Value < second.Value;
+    }
+
+    public static bool operator ==( Rational first, Rational second )
+    {
+        return first.Value == second.Value;
+    }
+
+    public static bool operator !=( Rational first, Rational second )
+    {
+        return first.Value != second.Value;
+    }
+    #endregion
 
     private static int GreatestCommonDivisor( uint first, uint second )
     {
@@ -73,78 +126,3 @@ public class Rational
         return GreatestCommonDivisor( min, C );
     }
 }
-
-#if false
-
-    public static uint GCD( uint A, uint B )
-    {
-        uint C = A;
-        A = A > B ? A : B;
-        B = C > B ? B : C;
-        C = A % B;
-        if ( C == 0 ) return B;
-        return GCD( B, C );
-    }
-public struct RationalNumber
-{
-    public int Numerator { get; private set; }
-    public uint Denominator { get; private set; }
-    public double Rational => ( (double) Numerator ) / ( (double) Denominator );
-    public RationalNumber( int Numerator, uint Denominator )
-    {
-        uint gcd = 1;
-        if ( Numerator == 0 )
-        {
-            this.Numerator = 0;
-            this.Denominator = 1;
-            return;
-        }
-        if ( Numerator > 0 )
-            gcd = GCD( (uint) Numerator, Denominator );
-        else
-            gcd = GCD( (uint) -Numerator, Denominator );
-        this.Numerator = Numerator / ( (int) gcd );
-        this.Denominator = Denominator / gcd;
-    }
-
-    public static implicit operator double( RationalNumber r1 ) => r1.Rational;
-    public static implicit operator RationalNumber( int r1 ) => new RationalNumber( r1, 1 );
-
-    public static RationalNumber operator +( RationalNumber r1, RationalNumber r2 )
-    {
-        return new RationalNumber
-            (
-                (int) ( r1.Numerator * r2.Denominator + r2.Numerator * r1.Denominator ),
-                r1.Denominator * r2.Denominator
-            );
-    }
-    public static RationalNumber operator *( RationalNumber r1, RationalNumber r2 )
-    {
-        return new RationalNumber
-            (
-                (int) ( r1.Numerator * r2.Numerator ),
-                 (uint) ( r1.Denominator * r2.Denominator )
-            );
-    }
-    public static RationalNumber operator -( RationalNumber r1, RationalNumber r2 )
-    {
-        return r1 + ( -1 * r2 );
-    }
-    public static RationalNumber operator /( RationalNumber r1, RationalNumber r2 )
-    {
-        return r1 * r2.Numerator < 0
-            ? new RationalNumber( (int) -r2.Denominator, (uint) -r2.Numerator )
-            : new RationalNumber( (int) r2.Denominator, (uint) r2.Numerator );
-    }
-
-    public static uint GCD( uint A, uint B )
-    {
-        uint C = A;
-        A = A > B ? A : B;
-        B = C > B ? B : C;
-        C = A % B;
-        if ( C == 0 ) return B;
-        return GCD( B, C );
-    }
-}
-#endif

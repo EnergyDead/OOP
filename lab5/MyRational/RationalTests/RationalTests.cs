@@ -179,6 +179,38 @@ public class RationalTests
     }
 
     [Fact]
+    public void SumShort_TwoRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( 4, 7 );
+
+        //act
+        rational += rational2;
+
+        //assert
+        Assert.Equal( 1.24, rational.Value, 2 );
+        Assert.Equal( 26, rational.Numerator );
+        Assert.Equal( 21, rational.Denominator );
+    }
+
+    [Fact]
+    public void MinusShort_TwoRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( 4, 7 );
+
+        //act
+        rational -= rational2;
+
+        //assert
+        Assert.Equal( 0.1, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 2, rational.Numerator );
+        Assert.Equal( 21, rational.Denominator );
+    }
+
+    [Fact]
     public void Sum_TwoNurmalRational_ValidReturn()
     {
         //arrange
@@ -204,8 +236,7 @@ public class RationalTests
         //act
         Rational result = rational + rational2;
 
-        //assert
-        Assert.True( Math.Round( result.Value, 2 ) == -1.89, "Сумма равна -1.88." );
+        //assert98." );
         Assert.True( result.Numerator == -17, "Числитель равен -17." );
         Assert.True( result.Denominator == 9, "Знаменатель 9." );
     }
@@ -221,8 +252,231 @@ public class RationalTests
         Rational result = rational + numb;
 
         //assert
-        Assert.True( Math.Round( result.Value, 2 ) == 1.24, "Сумма равна 1.23." );
-        Assert.True( result.Numerator == 26, "Числитель равен 26." );
-        Assert.True( result.Denominator == 21, "Знаменатель 21." );
+        Assert.True( Math.Round( result.Value, 2 ) == 2.67, "Сумма равна 2.67." );
+        Assert.True( result.Numerator == 8, "Числитель равен 8." );
+        Assert.True( result.Denominator == 3, "Знаменатель 3." );
+    }
+
+    [Fact]
+    public void Sum_IntAndNurmalRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 2;
+
+        //act
+        Rational result = numb + rational;
+
+        //assert
+        Assert.True( Math.Round( result.Value, 2 ) == 2.67, "Сумма равна 2.67." );
+        Assert.True( result.Numerator == 8, "Числитель равен 8." );
+        Assert.True( result.Denominator == 3, "Знаменатель 3." );
+    }
+
+    [Fact]
+    public void Sum_TwoInt_ValidReturn()
+    {
+        //arrange
+        int numb = 2;
+
+        //act
+        Rational result = numb + numb;
+
+        //assert
+        Assert.True( result.Value == 4, "Сумма равна 4." );
+        Assert.True( result.Numerator == 4, "Числитель равен 4." );
+        Assert.True( result.Denominator == 1, "Знаменатель 1." );
+    }
+
+    [Fact]
+    public void Minus_TwoNurmalRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( 4, 9 );
+
+        //act
+        Rational result = rational - rational2;
+
+        //assert
+        Assert.Equal( 0.22, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, result.Numerator );
+        Assert.Equal( 9, result.Denominator );
+    }
+
+    [Fact]
+    public void Minus_TwoNurmalRationalOneNegative_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( -4, 9 );
+
+        //act
+        Rational result = rational - rational2;
+
+        //assert
+        Assert.Equal( 1.11, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 10, result.Numerator );
+        Assert.Equal( 9, result.Denominator );
+    }
+
+    [Fact]
+    public void Minus_NurmalRationalAndNumber_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 3;
+
+        //act
+        Rational result = rational - numb;
+
+        //assert
+        Assert.Equal( -2.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( -7, result.Numerator );
+        Assert.Equal( 3, result.Denominator );
+    }
+    
+    [Fact]
+    public void Minus_NumberAndNurmalRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 3;
+
+        //act
+        Rational result = numb - rational;
+
+        //assert
+        Assert.Equal( 2.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 7, result.Numerator );
+        Assert.Equal( 3, result.Denominator );
+    }
+
+    [Fact]
+    public void Minus_TwoNumber_ValidReturn()
+    {
+        //arrange
+        int numb = 3;
+        int numb2 = 5;
+
+        //act
+        Rational result = numb2 - numb;
+
+        //assert
+        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, result.Numerator );
+        Assert.Equal( 1, result.Denominator );
+    }
+
+    [Fact]
+    public void Multiply_TwoRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( 5, 4 );
+
+        //act
+        Rational result = rational * rational2;
+
+        //assert
+        Assert.Equal( 0.83, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 5, result.Numerator );
+        Assert.Equal( 6, result.Denominator );
+    }
+
+    [Fact]
+    public void Multiply_RationalAndNumber_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 3;
+
+        //act
+        Rational result = rational * numb;
+
+        //assert
+        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, result.Numerator );
+        Assert.Equal( 1, result.Denominator );
+    }
+
+    [Fact]
+    public void MultiplyShort_RationalAndNumber_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 3;
+
+        //act
+       rational *= numb;
+
+        //assert
+        Assert.Equal( 2, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 2, rational.Numerator );
+        Assert.Equal( 1, rational.Denominator );
+    }
+
+    [Fact]
+    public void Multiply_NumberAndRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 3;
+
+        //act
+        Rational result = numb * rational;
+
+        //assert
+        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, result.Numerator );
+        Assert.Equal( 1, result.Denominator );
+    }
+
+    [Fact]
+    public void Division_TwoRational_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        Rational rational2 = new( 2, 3 );
+
+        //act
+        Rational result = rational / rational2;
+
+        //assert
+        Assert.Equal( 1, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 1, result.Numerator );
+        Assert.Equal( 1, result.Denominator );
+    }
+
+    [Fact]
+    public void Division_RationalAndNumber_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 2;
+
+        //act
+        Rational result = rational / numb;
+
+        //assert
+        Assert.Equal( 0.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 1, result.Numerator );
+        Assert.Equal( 3, result.Denominator );
+    }
+
+    [Fact]
+    public void DivisionShort_RationalAndNumber_ValidReturn()
+    {
+        //arrange
+        Rational rational = new( 2, 3 );
+        int numb = 2;
+
+        //act
+         rational /= numb;
+
+        //assert
+        Assert.Equal( 0.33, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 1, rational.Numerator );
+        Assert.Equal( 3, rational.Denominator );
     }
 }
