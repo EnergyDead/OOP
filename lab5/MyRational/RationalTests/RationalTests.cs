@@ -591,4 +591,35 @@ public class RationalTests
         //assert
         Assert.False( result );
     }
+
+    [Fact]
+    public void MixedShot_Correct()
+    {
+        //arrange
+        var first = new Rational( 9, 4 );
+        var rational = new Rational( 1, 4 );
+
+        //act
+        var result = first.ToCompoundFraction();
+
+        //assert
+        Assert.Equal( 2, result.Item1 );
+        Assert.Equal( rational, result.Item2 );
+    }
+
+    [Fact]
+    public void MixedShot_Integer_Correct()
+    {
+        //arrange
+        var first = new Rational( 6, 2 );
+        var rational = new Rational( 0 );
+
+        //act
+        var result = first.ToCompoundFraction();
+
+        //assert
+        Assert.Equal(3, result.Item1);
+        Assert.Equal( rational, result.Item2);
+    }
+
 }

@@ -25,12 +25,12 @@ public class Rational
         {
             throw new ArgumentException( "The denominator must be a natural number." );
         }
-        int gcd;
+        int gcd = 1;
         if ( numerator > 0 )
         {
             gcd = GreatestCommonDivisor( (uint) numerator, (uint) denominator );
         }
-        else
+        else if (numerator < 0 )
         {
             gcd = GreatestCommonDivisor( (uint) -numerator, (uint) denominator );
         }
@@ -41,16 +41,13 @@ public class Rational
 
     public static implicit operator Rational( int value ) => new( value );
 
-    public static Rational operator +( Rational rational )
+    public (int, Rational) ToCompoundFraction()
     {
-        return rational;
+        int wholPart = Numerator / Denominator;
+        return ( wholPart, this - wholPart );
     }
+
     
-    public static Rational operator -( Rational rational )
-    {
-        rational.Numerator *= -1;
-        return rational;
-    }
 
     public override string ToString()
     {
@@ -58,6 +55,17 @@ public class Rational
     }
 
     #region Arithmetic operator
+    public static Rational operator +( Rational rational )
+    {
+        return rational;
+    }
+
+    public static Rational operator -( Rational rational )
+    {
+        rational.Numerator *= -1;
+        return rational;
+    }
+
     public static Rational operator +( Rational first, Rational second )
     {
         var numerator = first.Numerator * second.Denominator + second.Numerator * first.Denominator;
@@ -135,12 +143,12 @@ public class Rational
             return true;
         }
 
-        if ( ReferenceEquals( obj, null ) )
+        if ( obj is null )
         {
             return false;
         }
 
-        throw new NotImplementedException();
+        return this == (Rational)obj;
     }
 
     public override int GetHashCode()
