@@ -2,11 +2,10 @@
 
 public class Rational
 {
-    // Возвращает числитель
     public int Numerator { get; private set; }
-    // Возвращает знаменатель (натуральное число)
+
     public int Denominator { get; private set; }
-    // Возвращает отношение числителя и знаменателя в виде числа double
+
     public double Value => (double) Numerator / Denominator;
     public Rational()
     {
@@ -14,18 +13,12 @@ public class Rational
         Denominator = 1;
     }
 
-    // Конструирует рациональное число, равное value (value/1)
     public Rational( int value )
     {
         Numerator = value;
         Denominator = 1;
     }
-    // Конструирует рациональное число, равное numerator/denominator
-    // Рациональное число должно храниться в нормализованном виде:
-    //	знаменатель положительный (числитель может быть отрицательным)
-    //	числитель и знаменатель не имеют общиз делителей (6/8 => 3/4 и т.п.)
-    // Если знаменатель равен нулю, должно сконструироваться рациональное число, равное нулю,
-    // либо должно быть выброшено исключение std::invalid_argument.
+    
     public Rational( int numerator, int denominator )
     {
         if ( denominator <= 0 )
@@ -46,14 +39,13 @@ public class Rational
         Denominator = denominator / gcd;
     }
 
-    // Прочие операторы согласно заданию
-
     public static implicit operator Rational( int value ) => new( value );
 
     public static Rational operator +( Rational rational )
     {
         return rational;
     }
+    
     public static Rational operator -( Rational rational )
     {
         rational.Numerator *= -1;
@@ -116,6 +108,16 @@ public class Rational
     {
         return first.Value != second.Value;
     }
+
+    public static bool operator >=( Rational first, Rational second )
+    {
+        return first.Value >= second.Value;
+    }
+
+    public static bool operator <=( Rational first, Rational second )
+    {
+        return first.Value <= second.Value;
+    }
     #endregion
 
     private static int GreatestCommonDivisor( uint first, uint second )
@@ -124,5 +126,25 @@ public class Rational
         uint C = Math.Max( first, second ) % min;
         if ( C == 0 ) return (int) min;
         return GreatestCommonDivisor( min, C );
+    }
+
+    public override bool Equals( object obj )
+    {
+        if ( ReferenceEquals( this, obj ) )
+        {
+            return true;
+        }
+
+        if ( ReferenceEquals( obj, null ) )
+        {
+            return false;
+        }
+
+        throw new NotImplementedException();
+    }
+
+    public override int GetHashCode()
+    {
+        throw new NotImplementedException();
     }
 }

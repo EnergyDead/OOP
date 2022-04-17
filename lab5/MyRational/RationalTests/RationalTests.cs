@@ -335,7 +335,7 @@ public class RationalTests
         Assert.Equal( -7, result.Numerator );
         Assert.Equal( 3, result.Denominator );
     }
-    
+
     [Fact]
     public void Minus_NumberAndNurmalRational_ValidReturn()
     {
@@ -408,7 +408,7 @@ public class RationalTests
         int numb = 3;
 
         //act
-       rational *= numb;
+        rational *= numb;
 
         //assert
         Assert.Equal( 2, Math.Round( rational.Value, 2 ) );
@@ -472,11 +472,123 @@ public class RationalTests
         int numb = 2;
 
         //act
-         rational /= numb;
+        rational /= numb;
 
         //assert
         Assert.Equal( 0.33, Math.Round( rational.Value, 2 ) );
         Assert.Equal( 1, rational.Numerator );
         Assert.Equal( 3, rational.Denominator );
+    }
+
+    [Fact]
+    public void Compare_TwoRational_Equal()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = new Rational( 2, 3 );
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void Compare_TwoRational_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = new Rational( 4, 3 );
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void Compare_RationalAndNumber_Equal()
+    {
+        //arrange
+        var first = new Rational( 2 );
+        var second = 2;
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void Compare_RationalAndNumber_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = 3;
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void Compare_NumberAndRational_Equal()
+    {
+        //arrange
+        var second = new Rational( 2 );
+        var first = 2;
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void Compare_NumberAndRational_NotEqual()
+    {
+        //arrange
+        var second = new Rational( 2, 3 );
+        var first = 3;
+
+        //act
+        var result = first == second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void CompareToNotEqual_NumberAndRational_NotEqual()
+    {
+        //arrange
+        var second = new Rational( 2, 3 );
+        var first = 3;
+
+        //act
+        var result = first != second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void CompareToNotEqual_RationalAndNumber_Equal()
+    {
+        //arrange
+        var first  = new Rational( 6, 2 );
+        var second = 3;
+
+        //act
+        var result = first != second;
+
+        //assert
+        Assert.False( result );
     }
 }
