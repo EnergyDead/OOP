@@ -16,7 +16,7 @@ public class RationalTests
         rational = new();
 
         //assert
-        Assert.True( rational.Value == 0, "Инициализируем число 0/1" );
+        Assert.True( rational.ToDouble() == 0, "Инициализируем число 0/1" );
         Assert.True( rational.Numerator == 0, "знаменатель равен 0" );
         Assert.True( rational.Denominator == 1, "числитель равен 1" );
     }
@@ -31,7 +31,7 @@ public class RationalTests
         rational = new( 5 );
 
         //assert
-        Assert.True( rational.Value == 5, "Инициализируем число 5/1" );
+        Assert.True( rational.ToDouble() == 5, "Инициализируем число 5/1" );
         Assert.True( rational.Numerator == 5, "знаменатель равен 5" );
         Assert.True( rational.Denominator == 1, "числитель равен 1" );
     }
@@ -46,7 +46,7 @@ public class RationalTests
         rational = new( -5 );
 
         //assert
-        Assert.True( rational.Value == -5, "Инициализируем число -5/1" );
+        Assert.True( rational.ToDouble() == -5, "Инициализируем число -5/1" );
         Assert.True( rational.Numerator == -5, "знаменатель равен -5" );
         Assert.True( rational.Denominator == 1, "числитель равен 1" );
     }
@@ -61,7 +61,7 @@ public class RationalTests
         rational = new( 5, 2 );
 
         //assert
-        Assert.True( rational.Value == 2.5, "Инициализируем число 5/2" );
+        Assert.True( rational.ToDouble() == 2.5, "Инициализируем число 5/2" );
         Assert.True( rational.Numerator == 5, "знаменатель равен 5" );
         Assert.True( rational.Denominator == 2, "числитель равен 2" );
     }
@@ -76,7 +76,7 @@ public class RationalTests
         rational = new( -5, 2 );
 
         //assert
-        Assert.True( rational.Value == -2.5, "Инициализируем число -5/2" );
+        Assert.True( rational.ToDouble() == -2.5, "Инициализируем число -5/2" );
         Assert.True( rational.Numerator == -5, "знаменатель равен -5" );
         Assert.True( rational.Denominator == 2, "числитель равен 2" );
     }
@@ -119,7 +119,7 @@ public class RationalTests
         rational = new( 50, 5 );
 
         //assert
-        Assert.True( rational.Value == 10, "Инициализируем число 10/1" );
+        Assert.True( rational.ToDouble() == 10, "Инициализируем число 10/1" );
         Assert.True( rational.Numerator == 10, "знаменатель равен 10" );
         Assert.True( rational.Denominator == 1, "числитель равен 1" );
     }
@@ -134,7 +134,7 @@ public class RationalTests
         rational = new( -50, 5300 );
 
         //assert
-        Assert.True( Math.Round( rational.Value, 3 ) == -0.009, "Инициализируем число -0.009" );
+        Assert.True( Math.Round( rational.ToDouble(), 3 ) == -0.009, "Инициализируем число -0.009" );
         Assert.True( rational.Numerator == -1, "знаменатель равен -1" );
         Assert.True( rational.Denominator == 106, "числитель равен 106" );
     }
@@ -149,7 +149,7 @@ public class RationalTests
         _ = +rational;
 
         //assert
-        Assert.True( rational.Value == 2, "Унарный плюс. Без именений." );
+        Assert.True( rational.ToDouble() == 2, "Унарный плюс. Без именений." );
     }
 
     [Fact]
@@ -162,7 +162,7 @@ public class RationalTests
         _ = -rational;
 
         //assert
-        Assert.True( rational.Value == -2, "Унарный минус. Изменился знак." );
+        Assert.True( rational.ToDouble() == -2, "Унарный минус. Изменился знак." );
     }
 
     [Fact]
@@ -175,7 +175,7 @@ public class RationalTests
         _ = -rational;
 
         //assert
-        Assert.True( rational.Value == 2, "Унарный минус. Изменился знак." );
+        Assert.True( rational.ToDouble() == 2, "Унарный минус. Изменился знак." );
     }
 
     [Fact]
@@ -189,7 +189,7 @@ public class RationalTests
         rational += rational2;
 
         //assert
-        Assert.Equal( 1.24, rational.Value, 2 );
+        Assert.Equal( 1.24, rational.ToDouble(), 2 );
         Assert.Equal( 26, rational.Numerator );
         Assert.Equal( 21, rational.Denominator );
     }
@@ -205,7 +205,7 @@ public class RationalTests
         rational -= rational2;
 
         //assert
-        Assert.Equal( 0.1, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 0.1, Math.Round( rational.ToDouble(), 2 ) );
         Assert.Equal( 2, rational.Numerator );
         Assert.Equal( 21, rational.Denominator );
     }
@@ -221,7 +221,7 @@ public class RationalTests
         Rational result = rational + rational2;
 
         //assert
-        Assert.True( Math.Round( result.Value, 2 ) == 1.24, "Сумма равна 1.23." );
+        Assert.True( Math.Round( result.ToDouble(), 2 ) == 1.24, "Сумма равна 1.23." );
         Assert.True( result.Numerator == 26, "Числитель равен 26." );
         Assert.True( result.Denominator == 21, "Знаменатель 21." );
     }
@@ -252,7 +252,7 @@ public class RationalTests
         Rational result = rational + numb;
 
         //assert
-        Assert.True( Math.Round( result.Value, 2 ) == 2.67, "Сумма равна 2.67." );
+        Assert.True( Math.Round( result.ToDouble(), 2 ) == 2.67, "Сумма равна 2.67." );
         Assert.True( result.Numerator == 8, "Числитель равен 8." );
         Assert.True( result.Denominator == 3, "Знаменатель 3." );
     }
@@ -268,7 +268,7 @@ public class RationalTests
         Rational result = numb + rational;
 
         //assert
-        Assert.True( Math.Round( result.Value, 2 ) == 2.67, "Сумма равна 2.67." );
+        Assert.True( Math.Round( result.ToDouble(), 2 ) == 2.67, "Сумма равна 2.67." );
         Assert.True( result.Numerator == 8, "Числитель равен 8." );
         Assert.True( result.Denominator == 3, "Знаменатель 3." );
     }
@@ -283,7 +283,7 @@ public class RationalTests
         Rational result = numb + numb;
 
         //assert
-        Assert.True( result.Value == 4, "Сумма равна 4." );
+        Assert.True( result.ToDouble() == 4, "Сумма равна 4." );
         Assert.True( result.Numerator == 4, "Числитель равен 4." );
         Assert.True( result.Denominator == 1, "Знаменатель 1." );
     }
@@ -299,7 +299,7 @@ public class RationalTests
         Rational result = rational - rational2;
 
         //assert
-        Assert.Equal( 0.22, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 0.22, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 2, result.Numerator );
         Assert.Equal( 9, result.Denominator );
     }
@@ -315,7 +315,7 @@ public class RationalTests
         Rational result = rational - rational2;
 
         //assert
-        Assert.Equal( 1.11, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 1.11, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 10, result.Numerator );
         Assert.Equal( 9, result.Denominator );
     }
@@ -331,7 +331,7 @@ public class RationalTests
         Rational result = rational - numb;
 
         //assert
-        Assert.Equal( -2.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( -2.33, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( -7, result.Numerator );
         Assert.Equal( 3, result.Denominator );
     }
@@ -347,7 +347,7 @@ public class RationalTests
         Rational result = numb - rational;
 
         //assert
-        Assert.Equal( 2.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2.33, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 7, result.Numerator );
         Assert.Equal( 3, result.Denominator );
     }
@@ -363,7 +363,7 @@ public class RationalTests
         Rational result = numb2 - numb;
 
         //assert
-        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 2, result.Numerator );
         Assert.Equal( 1, result.Denominator );
     }
@@ -379,7 +379,7 @@ public class RationalTests
         Rational result = rational * rational2;
 
         //assert
-        Assert.Equal( 0.83, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 0.83, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 5, result.Numerator );
         Assert.Equal( 6, result.Denominator );
     }
@@ -395,7 +395,7 @@ public class RationalTests
         Rational result = rational * numb;
 
         //assert
-        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 2, result.Numerator );
         Assert.Equal( 1, result.Denominator );
     }
@@ -411,7 +411,7 @@ public class RationalTests
         rational *= numb;
 
         //assert
-        Assert.Equal( 2, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 2, Math.Round( rational.ToDouble(), 2 ) );
         Assert.Equal( 2, rational.Numerator );
         Assert.Equal( 1, rational.Denominator );
     }
@@ -427,7 +427,7 @@ public class RationalTests
         Rational result = numb * rational;
 
         //assert
-        Assert.Equal( 2, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 2, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 2, result.Numerator );
         Assert.Equal( 1, result.Denominator );
     }
@@ -443,7 +443,7 @@ public class RationalTests
         Rational result = rational / rational2;
 
         //assert
-        Assert.Equal( 1, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 1, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 1, result.Numerator );
         Assert.Equal( 1, result.Denominator );
     }
@@ -459,7 +459,7 @@ public class RationalTests
         Rational result = rational / numb;
 
         //assert
-        Assert.Equal( 0.33, Math.Round( result.Value, 2 ) );
+        Assert.Equal( 0.33, Math.Round( result.ToDouble(), 2 ) );
         Assert.Equal( 1, result.Numerator );
         Assert.Equal( 3, result.Denominator );
     }
@@ -475,7 +475,7 @@ public class RationalTests
         rational /= numb;
 
         //assert
-        Assert.Equal( 0.33, Math.Round( rational.Value, 2 ) );
+        Assert.Equal( 0.33, Math.Round( rational.ToDouble(), 2 ) );
         Assert.Equal( 1, rational.Numerator );
         Assert.Equal( 3, rational.Denominator );
     }
@@ -582,7 +582,7 @@ public class RationalTests
     public void CompareToNotEqual_RationalAndNumber_Equal()
     {
         //arrange
-        var first  = new Rational( 6, 2 );
+        var first = new Rational( 6, 2 );
         var second = 3;
 
         //act
@@ -618,8 +618,85 @@ public class RationalTests
         var result = first.ToCompoundFraction();
 
         //assert
-        Assert.Equal(3, result.Item1);
-        Assert.Equal( rational, result.Item2);
+        Assert.Equal( 3, result.Item1 );
+        Assert.Equal( rational, result.Item2 );
+    }
+    // todo: Добавить тесты для ToCompoundFraction: -1/4, -5/4, 0
+
+    [Fact]
+    public void MixedShot_Zero_Correct()
+    {
+        //arrange
+        var first = new Rational( 0 );
+        var rational = new Rational( 0 );
+
+        //act
+        var result = first.ToCompoundFraction();
+
+        //assert
+        Assert.Equal( 0, result.Item1 );
+        Assert.Equal( rational, result.Item2 );
     }
 
+    [Fact]
+    public void MixedShot_NegativeMixed_Correct()
+    {
+        //arrange
+        var first = new Rational( -1, 4 );
+        var rational = new Rational( -1, 4 );
+
+        //act
+        var result = first.ToCompoundFraction();
+
+        //assert
+        Assert.Equal( 0, result.Item1 );
+        Assert.Equal( rational, result.Item2 );
+    }
+
+    [Fact]
+    public void MixedShot_NegativeNoMixed_Correct()
+    {
+        //arrange
+        var first = new Rational( -5, 4 );
+        var rational = new Rational( -1, 4 );
+
+        //act
+        var result = first.ToCompoundFraction();
+
+        //assert
+        Assert.Equal( -1, result.Item1 );
+        Assert.Equal( rational, result.Item2 );
+    }
+
+    [Fact]
+    public void Multiply_RationalAndNumber_Overflow()
+    {
+        //arrange
+        Rational rational = new( 4, 3 );
+        int numb = int.MinValue;
+        Rational result;
+        //act
+
+        void act() => result = rational * numb;
+
+        //assert
+        OverflowException exception = Assert.Throws<OverflowException>( act );
+        Assert.Equal( "Arithmetic operation resulted in an overflow.", exception.Message );
+    }
+
+    [Fact]
+    public void Division_RationalAndNumber_Overflow()
+    {
+        //arrange
+        Rational rational = new( 4, 3 );
+        int numb = int.MinValue;
+        Rational result;
+        //act
+
+        void act() => result = rational / numb;
+
+        //assert
+        OverflowException exception = Assert.Throws<OverflowException>( act );
+        Assert.Equal( "Arithmetic operation resulted in an overflow.", exception.Message );
+    }
 }
