@@ -21,7 +21,7 @@ public abstract class Body
     }
 
     protected List<Compound> Parent { get; set; } = new();
-    protected virtual void SetRerent( Body body, Compound compound )
+    protected void SetParent( Body body, Compound compound )
     {
         body.Parent.Add( compound );
     }

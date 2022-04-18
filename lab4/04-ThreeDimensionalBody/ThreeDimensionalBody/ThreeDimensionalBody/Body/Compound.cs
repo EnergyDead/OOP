@@ -17,7 +17,7 @@ public class Compound : Body
 
         _bodies.Add( body );
         // добавить возможность иметь несколько родителей.
-        SetRerent( body, this );
+        SetParent( body, this );
 
         return true;
     }
