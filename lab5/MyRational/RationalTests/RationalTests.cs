@@ -159,10 +159,11 @@ public class RationalTests
         Rational rational = new( 2 );
 
         //act
-        _ = -rational;
+        var result = -rational;
 
         //assert
-        Assert.True( rational.ToDouble() == -2, "Унарный минус. Изменился знак." );
+        Assert.True( rational.ToDouble() == 2, "Унарный минус. Не изменяет исходное число." );
+        Assert.True( result.ToDouble() == -2, "Унарный минус. Изменился знак." );
     }
 
     [Fact]
@@ -172,10 +173,11 @@ public class RationalTests
         Rational rational = new( -2 );
 
         //act
-        _ = -rational;
+        var result = -rational;
 
         //assert
-        Assert.True( rational.ToDouble() == 2, "Унарный минус. Изменился знак." );
+        Assert.True( rational.ToDouble() == -2, "Унарный минус. Не изменяет исходное число." );
+        Assert.True( result.ToDouble() == 2, "Унарный минус. Изменился знак." );
     }
 
     [Fact]
@@ -698,5 +700,117 @@ public class RationalTests
         //assert
         OverflowException exception = Assert.Throws<OverflowException>( act );
         Assert.Equal( "Arithmetic operation resulted in an overflow.", exception.Message );
+    }
+
+    [Fact]
+    public void More_TwoRational_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = new Rational( 4, 3 );
+
+        //act
+        var result = first >= second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void More_RationalAndNumber_Equal()
+    {
+        //arrange
+        var first = new Rational( 2 );
+        var second = 2;
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void More_RationalAndNumber_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = 3;
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void More_NumberAndRational_Equal()
+    {
+        //arrange
+        var second = new Rational( 2 );
+        var first = 2;
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void More_NumberAndRational_NotEqual()
+    {
+        //arrange
+        var second = new Rational( 2, 3 );
+        var first = 3;
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void Less_RationalAndNumber_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = 3;
+
+        //act
+        var result = first < second;
+
+        //assert
+        Assert.True( result );
+    }
+
+    [Fact]
+    public void Less_NumberAndRational_Equal()
+    {
+        //arrange
+        var second = new Rational( 2 );
+        var first = 2;
+
+        //act
+        var result = first < second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void Less_NumberAndRational_NotEqual()
+    {
+        //arrange
+        var second = new Rational( 2, 3 );
+        var first = 3;
+
+        //act
+        var result = first < second;
+
+        //assert
+        Assert.False( result );
     }
 }

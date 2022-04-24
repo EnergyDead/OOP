@@ -1,13 +1,13 @@
 ﻿namespace MyRational;
 
-// todo: изменить на значимый тип
-public class Rational
+// todo: изменить на значимый тип +
+public struct Rational
 {
     public int Numerator { get; private set; }
 
     public int Denominator { get; private set; }
 
-    // todo: сделать toDouble() вместо value
+    // todo: сделать toDouble() вместо value +
     public double ToDouble()
     {
         return (double) Numerator / Denominator;
@@ -49,9 +49,9 @@ public class Rational
 
     public (int, Rational) ToCompoundFraction()
     {
-        // todo: переиминовать
-        int wholPart = Numerator / Denominator;
-        return (wholPart, this - wholPart);
+        // todo: переиминовать +
+        int wholePart = Numerator / Denominator;
+        return (wholePart, this - wholePart);
     }
 
     public override string ToString()
@@ -63,27 +63,27 @@ public class Rational
     #region Arithmetic operator
     public static Rational operator +( Rational rational )
     {
-        // todo: возвращать новый Rational
-        return rational;
+        // todo: возвращать новый Rational +
+        return new( rational.Numerator, rational.Denominator );
     }
 
     public static Rational operator -( Rational rational )
     {
-        // todo: возвращать новый Rational
-        rational.Numerator *= -1;
-        return rational;
+        // todo: возвращать новый Rational -
+        return new( -rational.Numerator, rational.Denominator );
     }
 
-    // todo: добавить проверку на переполнение
+    // todo: добавить проверку на переполнение +
     public static Rational operator +( Rational first, Rational second )
     {
-        // todo: добавить denominator
+        // todo: добавить denominator +
         var numerator = 0;
+        var denominator = 0;
         checked
         {
             numerator = first.Numerator * second.Denominator + second.Numerator * first.Denominator;
+            denominator = first.Denominator * second.Denominator;
         }
-        var denominator = first.Denominator * second.Denominator;
 
         return new Rational( numerator, denominator );
     }
@@ -105,7 +105,7 @@ public class Rational
         return new Rational( numerator, denominator );
     }
 
-    // todo: передавать в denominator только положительные значения
+    // todo: передавать в denominator только положительные значения +
     public static Rational operator /( Rational first, Rational second )
     {
         var numerator = 0;
@@ -124,7 +124,7 @@ public class Rational
     }
     #endregion
 
-    // todo: добавить тесты
+    // todo: добавить тесты +
     #region Comparison operator
     public static bool operator >( Rational first, Rational second )
     {
@@ -137,7 +137,7 @@ public class Rational
         return result;
     }
 
-    // todo: добавить тесты
+    // todo: добавить тесты +
     public static bool operator <( Rational first, Rational second )
     {
         int gcd = GreatestCommonDivisor( first.Denominator, second.Denominator );
@@ -174,7 +174,7 @@ public class Rational
     {
         int min = Math.Min( first, second );
         int remainderOfDivision = Math.Max( first, second ) % min;
-        if ( remainderOfDivision == 0 ) return (int) min;
+        if ( remainderOfDivision == 0 ) return min;
         return GreatestCommonDivisor( min, remainderOfDivision );
     }
 
