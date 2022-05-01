@@ -59,7 +59,6 @@ public struct Rational
         return $"{Numerator} / {Denominator}";
     }
 
-    // todo: реализовать через сравнение Numerator и Denominator
     #region Arithmetic operator
     public static Rational operator +( Rational rational )
     {
@@ -125,14 +124,16 @@ public struct Rational
     #endregion
 
     // todo: добавить тесты +
+    // todo: реализовать через сравнение Numerator и Denominator +
     #region Comparison operator
     public static bool operator >( Rational first, Rational second )
     {
-        int gcd = GreatestCommonDivisor( first.Denominator, second.Denominator );
+        // todo:
+        int smallestCommonMultiple = ( first.Denominator * second.Denominator ) / GreatestCommonDivisor( first.Denominator, second.Denominator );
         bool result;
         checked
         {
-            result = first.Numerator * gcd > second.Numerator * gcd;
+            result = first.Numerator * ( smallestCommonMultiple / first.Denominator ) > second.Numerator * ( smallestCommonMultiple / second.Denominator );
         }
         return result;
     }
@@ -140,11 +141,11 @@ public struct Rational
     // todo: добавить тесты +
     public static bool operator <( Rational first, Rational second )
     {
-        int gcd = GreatestCommonDivisor( first.Denominator, second.Denominator );
+        int smallestCommonMultiple = ( first.Denominator * second.Denominator ) / GreatestCommonDivisor( first.Denominator, second.Denominator );
         bool result;
         checked
         {
-            result = first.Numerator * gcd < second.Numerator * gcd;
+            result = first.Numerator * ( smallestCommonMultiple / first.Denominator ) < second.Numerator * ( smallestCommonMultiple / second.Denominator );
         }
         return result;
     }
@@ -174,7 +175,11 @@ public struct Rational
     {
         int min = Math.Min( first, second );
         int remainderOfDivision = Math.Max( first, second ) % min;
-        if ( remainderOfDivision == 0 ) return min;
+        if ( remainderOfDivision == 0 )
+        {
+            return min;
+        }
+
         return GreatestCommonDivisor( min, remainderOfDivision );
     }
 

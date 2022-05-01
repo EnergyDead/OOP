@@ -773,6 +773,35 @@ public class RationalTests
     }
 
     [Fact]
+    public void More_RationalAndRational_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = new Rational( 5, 6 );
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.False( result );
+    }
+
+    [Fact]
+    public void More_RationalAndRational2_NotEqual()
+    {
+        //arrange
+        var first = new Rational( 2, 3 );
+        var second = new Rational( 5, 4 );
+
+        //act
+        var result = first > second;
+
+        //assert
+        Assert.False( result );
+    }
+
+
+    [Fact]
     public void Less_RationalAndNumber_NotEqual()
     {
         //arrange
