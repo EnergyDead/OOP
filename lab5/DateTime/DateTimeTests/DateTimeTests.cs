@@ -14,4 +14,20 @@ public class DateTimeTests
         Assert.Equal( 1, dateTime.Minute );
         Assert.Equal( 17, dateTime.Hour );
     }
+
+    [Fact]
+    public void CreateSecond()
+    {
+        DateTime dateTime = new( 61 );
+
+        Assert.Equal( 1, dateTime.Second );
+    }
+
+    [Fact]
+    public void GetDay()
+    {
+        DateTime dateTime = new( 661283 );
+
+        Assert.Equal( 8, dateTime.Day );
+    }
 }
