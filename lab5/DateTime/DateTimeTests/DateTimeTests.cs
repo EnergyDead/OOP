@@ -26,8 +26,8 @@ public class DateTimeTests
     [Fact]
     public void GetDay()
     {
-        DateTime dateTime = new( 661283 );
+        DateTime dateTime = new( 6656767561283 );
 
-        Assert.Equal( 8, dateTime.Day );
+        Assert.Equal( 26, dateTime.Day );
     }
 }
