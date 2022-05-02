@@ -10,11 +10,11 @@ namespace WorkVectorTests
         public void ReadList_CorrectInputElements_CorrectListElements()
         {
             //Arrange
-            string inputValue = "1 2 3 4 -1 4, ,2 2,2";
+            string inputValue = "1 2 3 4 -1 4, 0,2 2,2";
             var resultList = new List<double>();
 
             //Act
-            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
+            var isRead = Program.TryParseStringToListDouble( inputValue, resultList );
 
             //Assert
             Assert.True( isRead );
@@ -30,7 +30,7 @@ namespace WorkVectorTests
             var resultList = new List<double>();
 
             //Act
-            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
+            var isRead = Program.TryParseStringToListDouble( inputValue, resultList );
 
             //Assert
             Assert.False( isRead );
@@ -44,7 +44,7 @@ namespace WorkVectorTests
             var resultList = new List<double>();
 
             //Act
-            var isRead = Program.TryCovertStringToListDouble( inputValue, resultList );
+            var isRead = Program.TryParseStringToListDouble( inputValue, resultList );
 
             //Assert
             Assert.True( isRead );

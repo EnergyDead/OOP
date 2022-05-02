@@ -11,9 +11,9 @@ namespace workvector
             var input = Console.ReadLine().Trim();
             List<double> list = new List<double>();
 
-            bool isRead = TryCovertStringToListDouble( input, list );
+            bool isCorrectParse = TryParseStringToListDouble( input, list );
 
-            if ( !isRead )
+            if ( !isCorrectParse )
             {
                 Console.WriteLine( "Failed convert input array." );
 
@@ -42,7 +42,7 @@ namespace workvector
             }
         }
 
-        public static bool TryCovertStringToListDouble( string input, List<double> list )
+        public static bool TryParseStringToListDouble( string input, List<double> list )
         {
             foreach ( var item in input.Split( " " ) )
             {
