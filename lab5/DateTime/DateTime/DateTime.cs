@@ -94,12 +94,13 @@ public struct DateTime
 
     public override string ToString()
     {
-        return $"{Day}/{Month}/{Year} {Hour}:{Minute}:{Second} {GetShorhWeekDay()}";
+        return $"{Day:00}/{Month:00}/{Year:0000} {Hour:00}:{Minute:00}:{Second:00} {GetShorhWeekDay()}";
     }
 
     private WeekDay GetWeekDay()
     {
-        throw new NotImplementedException();
+        var dayOfWeek = (int) ( _timeStamp / perDay + 1 ) % 7;
+        return (WeekDay) dayOfWeek;
     }
 
     private int GetDay()
@@ -132,36 +133,51 @@ public struct DateTime
 
     private int GetMonth()
     {
-        throw new NotImplementedException();
+        var days = (int) ( _timeStamp / perDay );
+        int countYear400 = days / daysPer400Years;
+        days -= countYear400 * daysPer400Years;
+
+        int countYear100 = days / daysPer100Years;
+        if ( countYear100 == 4 ) countYear100 = 3;
+        days -= countYear100 * daysPer100Years;
+
+        int countYear4 = days / daysPer4Years;
+        days -= countYear4 * daysPer4Years;
+
+        int countYear1 = days / daysPerYear;
+        if ( countYear1 == 4 ) countYear1 = 3;
+        days -= countYear1 * daysPerYear;
+
+        bool leapYear = countYear1 == 3 && ( countYear4 != 24 || countYear100 == 3 );
+        int[] daysM = leapYear ? s_daysToMonth366 : s_daysToMonth365;
+        int m = 0;
+        while ( days >= daysM[ m ] )
+        {
+            m++;
+        }
+        return m;
     }
 
     private int GetYear()
     {
-        throw new NotImplementedException();
+        var days = (int) ( _timeStamp / perDay );
+        int countYear400 = days / daysPer400Years;
+        days -= countYear400 * daysPer400Years;
+
+        int countYear100 = days / daysPer100Years;
+        if ( countYear100 == 4 ) countYear100 = 3;
+        days -= countYear100 * daysPer100Years;
+
+        int countYear4 = days / daysPer4Years;
+        days -= countYear4 * daysPer4Years;
+
+        int countYear1 = days / daysPerYear;
+        if ( countYear1 == 4 ) countYear1 = 3;
+        return (int) ( countYear400 * 400 + countYear100 * 100 + countYear4 * 4 + countYear1 + 1 );
     }
 
     private string GetShorhWeekDay()
     {
-        throw new NotImplementedException();
-    }
-
-    private int CountDaysLeapYear( int days )
-    {
-        int y400 = days / daysPer400Years;
-        days -= y400 * daysPer400Years;
-        int y100 = days / daysPer100Years;
-        if ( y100 == 4 ) y100 = 3;
-        days -= y100 * daysPer100Years;
-        int y4 = days / daysPer4Years;
-        days -= y4 * daysPer4Years;
-        int y1 = days / daysPerYear;
-        if ( y1 == 4 ) y1 = 3;
-        days -= y1 * daysPerYear;
-        bool leapYear = y1 == 3 && ( y4 != 24 || y100 == 3 );
-        int m = ( days >> 5 ) + 1;
-        int[] daysM = leapYear ? s_daysToMonth366 : s_daysToMonth365;
-        while ( days >= daysM[ m ] ) m++;
-
-        return days - daysM[ m - 1 ] + 1;
+        return $"{GetWeekDay().ToString()[ ..3 ]}";
     }
 }
