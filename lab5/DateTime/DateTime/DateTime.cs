@@ -4,13 +4,14 @@ namespace MyDateTime;
 
 public struct DateTime
 {
+    // todo: static
     private const int perMinute = 60;
     private const int perHour = perMinute * 60;
     private const int perDay = perHour * 24;
     private const int daysPerYear = 365;
-    private const int daysPer4Years = 1461;
-    private const int daysPer100Years = 36524;
-    private const int daysPer400Years = 146097;
+    private const int daysPer4Years = daysPerYear * 4 + 1;
+    private const int daysPer100Years = daysPer4Years * 25 - 1;
+    private const int daysPer400Years = daysPer100Years * 4 + 1;
 
     private static readonly int[] s_daysToMonth365 = {
             0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
