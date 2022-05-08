@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyHttpUrl", "MyHttpUrl\MyHttpUrl.csproj", "{61CF5D8E-A75D-4210-8746-D42982E9ECF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHttpUrlTests", "MyHttpUrlTests\MyHttpUrlTests.csproj", "{2BC63110-167D-4FF6-9C70-1BAE53F96392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyHttpUrlTests", "MyHttpUrlTests\MyHttpUrlTests.csproj", "{2BC63110-167D-4FF6-9C70-1BAE53F96392}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpUrlAnalyzer", "HttpUrlAnalyzer\HttpUrlAnalyzer.csproj", "{C0FB9290-86C1-4280-B769-24E475A3CBF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2BC63110-167D-4FF6-9C70-1BAE53F96392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BC63110-167D-4FF6-9C70-1BAE53F96392}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BC63110-167D-4FF6-9C70-1BAE53F96392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FB9290-86C1-4280-B769-24E475A3CBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FB9290-86C1-4280-B769-24E475A3CBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FB9290-86C1-4280-B769-24E475A3CBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FB9290-86C1-4280-B769-24E475A3CBF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
