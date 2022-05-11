@@ -14,6 +14,7 @@ public class StringListTests
         stringList.AddLast( "second" );
         stringList.AddLast( "Last" );
 
+        Assert.False( stringList.Any() );
         Assert.Equal( 3, stringList.Count );
     }
 
@@ -25,6 +26,7 @@ public class StringListTests
         stringList.AddFirst( "first" );
         stringList.AddFirst( "second" );
 
+        Assert.False( stringList.Any() );
         Assert.Equal( 2, stringList.Count );
         Assert.Equal( "second", stringList.First );
         Assert.Equal( "first", stringList.Last );
@@ -65,5 +67,25 @@ public class StringListTests
         Assert.Equal( "foo", list.First );
         Assert.Equal( "first", list.First.Next );
         Assert.Equal( "last", list.First.Previous );
+    }
+
+    [Fact]
+    public void List_CreateEmptyList()
+    {
+        StringList stringList;
+
+        stringList = new();
+
+        Assert.True( stringList.Any() );
+    }
+
+    [Fact]
+    public void List_Errors()
+    {
+        StringList list = new( new string[] { "first" } );
+
+        list.AddBefore( list.First, list.First );
+
+        Assert.Equal( 2, list.Count );
     }
 }
