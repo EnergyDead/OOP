@@ -18,7 +18,7 @@ public class StringNode : IEnumerable<char>
         _value = value;
     }
 
-    public static implicit operator StringNode( string value ) => new( value );
+    // public static implicit operator StringNode( string value ) => new( value );
 
     public IEnumerator<char> GetEnumerator()
     {

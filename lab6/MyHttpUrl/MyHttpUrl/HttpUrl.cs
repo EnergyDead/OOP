@@ -67,7 +67,7 @@ public class HttpUrl
         {
             throw new UrlParsingError( "Incorrect domain." );
         }
-        if ( string.IsNullOrEmpty( document ) || document.Trim()[0] != slash )
+        if ( string.IsNullOrEmpty( document ) || document.Trim()[ 0 ] != slash )
         {
             document = $"/{document}";
         }
@@ -75,7 +75,7 @@ public class HttpUrl
         Domain = domain.Trim();
         _document = document.Trim();
         Protocol = protocol;
-        Port = GetPort(protocol);
+        Port = GetPort( protocol );
     }
 
     public HttpUrl( string domain, string document, Protocol protocol, ushort port )
@@ -144,7 +144,7 @@ public class HttpUrl
         }
     }
 
-    private ushort GetPort(Protocol protocol)
+    private ushort GetPort( Protocol protocol )
     {
         return protocol switch
         {
@@ -169,6 +169,12 @@ public class HttpUrl
     private string GetDomein( string strUrl )
     {
         string authority = GetAuthority( strUrl );
+
+        if ( authority == string.Empty || authority.Contains( ' ' ) )
+        {
+            throw new UrlParsingError( "Incorrect domein." );
+        }
+
         if ( authority.Contains( portSeparator ) )
         {
             return authority[ ..authority.IndexOf( portSeparator ) ];
@@ -191,10 +197,5 @@ public class HttpUrl
             return shortUri.Split( slash )[ 0 ];
         }
         return shortUri;
-    }
-
-    private string GetUrlWithoutDefaultPort( string strUrl )
-    {
-        return strUrl;
     }
 }

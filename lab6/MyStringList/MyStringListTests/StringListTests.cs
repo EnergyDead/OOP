@@ -80,12 +80,39 @@ public class StringListTests
     }
 
     [Fact]
-    public void List_Errors()
+    public void List_AddAfter()
     {
-        StringList list = new( new string[] { "first" } );
+        StringList list = new( new string[] { "first", "second", "last" } );
 
-        list.AddBefore( list.First, list.First );
+        list.AddAfter( list.First, "foo" );
 
-        Assert.Equal( 2, list.Count );
+        Assert.Equal( 4, list.Count );
+        Assert.Equal( "first", list.First );
+        Assert.Equal( "foo", list.First.Next );
+        Assert.Equal( "last", list.First.Previous );
+    }
+
+    [Fact]
+    public void List_Empty()
+    {
+        StringList list;
+
+        list = new();
+
+        Assert.True( list.Any() );
+        Assert.Equal( 0, list.Count );
+        Assert.Null( list.First );
+    }
+
+    [Fact]
+    public void List_CreateWithLIst()
+    {
+        StringList list;
+
+            list = new( new string[] { "first", "second", "last" } );
+
+        Assert.Equal( 3, list.Count );
+        Assert.Equal( "first", list.First );
+        Assert.False( list.Any() );
     }
 }

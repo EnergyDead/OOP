@@ -67,6 +67,22 @@ public class MyHttpUrlTests
     }
 
     [Fact]
+    public void CreateUrl_DomeinExp()
+    {
+        //Arrange
+        HttpUrl url;
+        string strUrl = @"http://";
+
+        //Act
+        void action() => url = new( strUrl );
+
+
+        //Assert
+        Assert.Throws<UrlParsingError>( action );
+
+    }
+
+    [Fact]
     public void CreateUrl_IncorrectPort_PortExp()
     {
         //Arrange

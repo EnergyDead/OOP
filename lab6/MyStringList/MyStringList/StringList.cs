@@ -1,6 +1,8 @@
-﻿namespace MyStringList;
+﻿using System.Collections;
 
-public class StringList
+namespace MyStringList;
+
+public class StringList : IEnumerable<string>
 {
     private StringNode _head = null;
     private int _count = 0;
@@ -26,7 +28,7 @@ public class StringList
     {
         var node = new StringNode( item );
 
-        throw new NotImplementedException();
+        AddNodeBefore( current.Next, node );
     }
 
     public void AddBefore( StringNode current, string item )
@@ -81,6 +83,7 @@ public class StringList
         _count = 0;
     }
 
+    // TODO: переиминовать
     public bool Any()
     {
         return _count == 0;
@@ -101,5 +104,15 @@ public class StringList
         before.Previous.Next = node;
         before.Previous = node;
         _count++;
+    }
+
+    public IEnumerator<string> GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
