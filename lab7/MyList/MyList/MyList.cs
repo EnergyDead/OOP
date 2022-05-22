@@ -7,6 +7,8 @@ public class MyList<T> : IEnumerable<T>
     internal ListNode<T> _head = null;
     private int _count = 0;
 
+    public int Count { get { return _count; } }
+
     public ListNode<T> this[int index]
     {
         get
