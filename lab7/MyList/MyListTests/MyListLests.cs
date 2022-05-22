@@ -183,4 +183,12 @@ public class MyListLests
         Assert.Equal(1, list[0]);
         Assert.Equal(3, list[1]);
     }
+
+    [Fact]
+    public void RemoveElementByEmptyList()
+    {
+        var list = new MyList<int>();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(0));
+    }
 }
