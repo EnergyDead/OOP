@@ -9,35 +9,30 @@ public class MyList<T> : IEnumerable<T>
 
     public int Count { get { return _count; } }
 
+    public MyList()
+    {
+    }
+
+    public MyList(IEnumerable<T> list)
+    {
+        var enumerator = list.GetEnumerator();
+
+        while (enumerator.MoveNext())
+        {
+            Add(enumerator.Current);
+        }
+    }
+
     public T this[int index]
     {
         get
         {
-            if (index < 0 || index >= _count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-
-            var curr = _head;
-            for (int i = 0; i < index; i++)
-            {
-                curr = curr!.Next;
-            }
-            return curr!.Value;
+            return GetNodeByIndex(index).Value;
         }
-
         set
         {
-            if (index < 0 || index > _count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index));
-            }
-            var curr = _head;
-            for (int i = 0; i < index; i++)
-            {
-                curr = curr!.Next;
-            }
-            curr!.Value = value;
+            var node = GetNodeByIndex(index);
+            node!.Value = value;
         }
     }
 
@@ -68,6 +63,26 @@ public class MyList<T> : IEnumerable<T>
         }
     }
 
+    public void Insert(int index, T value)
+    {
+        if (index == 0)
+        {
+            AddFirst(value);
+        }
+        else
+        {
+            var node = new ListNode<T>(this, value);
+            var before = GetNodeByIndex(index);
+            AddNodeBefore(before, node);
+        }
+    }
+
+    public void RemoveAt(int index)
+    {
+        var node = GetNodeByIndex(index);
+        RemoveNode(node);
+    }
+
     private void InitList(ListNode<T> node)
     {
         node._next = node;
@@ -85,6 +100,21 @@ public class MyList<T> : IEnumerable<T>
         _count++;
     }
 
+    private ListNode<T> GetNodeByIndex(int index)
+    {
+        if (index < 0 || index >= _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
+        var curr = _head;
+        for (int i = 0; i < index; i++)
+        {
+            curr = curr!.Next;
+        }
+        return curr!;
+    }
+
     private void RemoveNode(ListNode<T> node)
     {
         if (node._list != this)
@@ -95,6 +125,27 @@ public class MyList<T> : IEnumerable<T>
         {
             throw new InvalidOperationException("An attempt to remove an item that is not in the list.");
         }
+
+        if (_count == 1)
+        {
+            _head = null;
+        }
+
+        else
+        {
+            if (_head == node)
+            {
+                _head = node._next;
+            }
+            node._prev!._next = node._next;
+            node._next!._prev = node._prev;
+        }
+
+        node._list = null;
+        node._next = null;
+        node._prev = null;
+
+        _count--;
     }
 
     #region IEnumerable
@@ -106,6 +157,18 @@ public class MyList<T> : IEnumerable<T>
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
         return new ListEnumerator(this);
+    }
+    public IEnumerable<T> CustomReverse()
+    {
+        if (_head != null)
+        {
+            var current = _head._prev;
+            while (current != null)
+            {
+                yield return current.Value;
+                current = current.Prev;
+            }
+        }
     }
 
     public struct ListEnumerator : IEnumerator<T>
