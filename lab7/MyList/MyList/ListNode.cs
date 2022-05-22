@@ -8,8 +8,6 @@ public class ListNode<T>
     internal T _value;
 
     public T Value { get { return _value; } set { _value = value; } }
-
-    // todo: сделать проверку на head
     public ListNode<T>? Next { get { return _next == null || _next == _list!._head ? null : _next; } }
     public ListNode<T>? Prev { get { return _prev == null || this == _list!._head ? null : _prev; } }
 

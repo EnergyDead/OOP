@@ -1,20 +1,19 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization;
 
 namespace MyList;
 
 public class MyList<T> : IEnumerable<T>
 {
-    internal ListNode<T> _head = null;
+    internal ListNode<T>? _head;
     private int _count = 0;
 
     public int Count { get { return _count; } }
 
-    public ListNode<T> this[int index]
+    public T this[int index]
     {
         get
         {
-            if (index < 0 || index > _count)
+            if (index < 0 || index >= _count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
@@ -22,9 +21,23 @@ public class MyList<T> : IEnumerable<T>
             var curr = _head;
             for (int i = 0; i < index; i++)
             {
-                curr = curr.Next;
+                curr = curr!.Next;
             }
-            return curr;
+            return curr!.Value;
+        }
+
+        set
+        {
+            if (index < 0 || index > _count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            var curr = _head;
+            for (int i = 0; i < index; i++)
+            {
+                curr = curr!.Next;
+            }
+            curr!.Value = value;
         }
     }
 
@@ -72,6 +85,19 @@ public class MyList<T> : IEnumerable<T>
         _count++;
     }
 
+    private void RemoveNode(ListNode<T> node)
+    {
+        if (node._list != this)
+        {
+            throw new InvalidOperationException("An attempt to remove an item that is not in the list.");
+        }
+        if (_head == null)
+        {
+            throw new InvalidOperationException("An attempt to remove an item that is not in the list.");
+        }
+    }
+
+    #region IEnumerable
     IEnumerator IEnumerable.GetEnumerator()
     {
         return new ListEnumerator(this);
@@ -130,4 +156,5 @@ public class MyList<T> : IEnumerable<T>
         {
         }
     }
+    #endregion
 }
